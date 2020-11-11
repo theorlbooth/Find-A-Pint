@@ -77,13 +77,58 @@ function updatePub(req, res) {
     .catch(error => res.send(error))
 }
 
-function createComment(req, res){
+function createComment(req, res) {
   const comment = req.body
   comment.user = req.currentUser
   Pubs.findById(req.params.pubId).populate('comment.user')
-  .then(pub => {
-    if (!pub)
-  })
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      pub.comments.push(comment)
+      return pub.save()
+    })
+    .then(pub => res.send(pub))
+    .catch(err => res.send(err))
+}
+
+function updateComment(req, res) {
+  Pubs.findById(req.params.pubId).populate('comment.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      if (!comment.user.equals(req.currentUser._id)) {
+        return res.status(401).send({
+          message: 'Unauthorized'
+        })
+      }
+      comment.set(req.body)
+      return pub.save()
+    })
+    .then(pub => res.send(pub))
+    .catch(err => res.send(err))
+}
+
+function deleteComment(req, res) {
+  Pubs.findById(req.params.pubId)
+    .populate('comment.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      if (!comment.user.equals(req.currentUser._id)) {
+        return res.status(401).send({
+          message: 'Unauthorized'
+        })
+      }
+      comment.remove()
+      return pub.save()
+    })
+    .then(pub => res.send(pub))
+    .catch(err => res.send(err))
 }
 
 module.exports = {
@@ -91,5 +136,8 @@ module.exports = {
   addPub,
   singlePub,
   removePub,
-  updatePub
+  updatePub,
+  createComment,
+  updateComment,
+  deleteComment
 }
