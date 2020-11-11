@@ -16,44 +16,44 @@ mongoose.connect(
     mongoose.connection.db.dropDatabase()
       .then(() => {
         return users.create([{
-            username: 'theo',
-            email: 'theorlbooth@googlemail.com',
-            name: 'Theo Booth',
-            password: 'password',
-            passwordConfirmation: 'password',
-            isLandlord: false,
-            isAdmin: true,
-            ownedPubs: '',
-            subscribedPubs: '',
-            isEmailConfirmed: true,
-            locationCoords: ''
-          },
-          {
-            username: 'lee',
-            email: 'lee.j.burgess@gmail.com',
-            name: 'Lee Burgess',
-            password: 'password',
-            passwordConfirmation: 'password',
-            isLandlord: false,
-            isAdmin: true,
-            ownedPubs: '',
-            subscribedPubs: '',
-            isEmailConfirmed: true,
-            locationCoords: ''
-          },
-          {
-            username: '',
-            email: '',
-            name: '',
-            password: 'password',
-            passwordConfirmation: 'password',
-            isLandlord: false,
-            isAdmin: true,
-            ownedPubs: '',
-            subscribedPubs: '',
-            isEmailConfirmed: true,
-            locationCoords: ''
-          }
+          username: 'theo',
+          email: 'theorlbooth@googlemail.com',
+          name: 'Theo Booth',
+          password: 'password',
+          passwordConfirmation: 'password',
+          isLandlord: false,
+          isAdmin: true,
+          ownedPubs: '',
+          subscribedPubs: '',
+          isEmailConfirmed: true,
+          locationCoords: ''
+        },
+        {
+          username: 'lee',
+          email: 'lee.j.burgess@gmail.com',
+          name: 'Lee Burgess',
+          password: 'password',
+          passwordConfirmation: 'password',
+          isLandlord: false,
+          isAdmin: true,
+          ownedPubs: '',
+          subscribedPubs: '',
+          isEmailConfirmed: true,
+          locationCoords: ''
+        },
+        {
+          username: '',
+          email: '',
+          name: '',
+          password: 'password',
+          passwordConfirmation: 'password',
+          isLandlord: false,
+          isAdmin: true,
+          ownedPubs: '',
+          subscribedPubs: '',
+          isEmailConfirmed: true,
+          locationCoords: ''
+        }
         ])
       })
       .then(users => {
@@ -74,7 +74,7 @@ mongoose.connect(
                 }
               })
                 .then(({ data }) => {
-                  cons pub = {{
+                  const pub = {
                     alias: data.alias,
                     name: data.name,
                     imageUrl: data.image_url,
@@ -84,7 +84,8 @@ mongoose.connect(
                     photos: data.photos,
                     price: data.price,
                     openingHours: data.hours.open,
-                    transaction: data.transaction
+                    transaction: data.transaction,
+                    user: users[0]
                   }
                   resolve(pub)
                 })
@@ -96,10 +97,10 @@ mongoose.connect(
       .then((pubData) => {
         return pubs.create(pubData)
       })
-      .then(pub => {
+      .then(pubs => {
         console.log(`${pubs.length} pubs have been created!`)
       })
-      .then(pub => {
+      .then(err => {
         console.log(err)
       })
       .finally(() => {
