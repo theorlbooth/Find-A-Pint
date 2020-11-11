@@ -61,7 +61,7 @@ mongoose.connect(
         return users
       })
       .then((users) => {
-        let promises = []
+        const promises = []
         const originalPubIDs = ['XroPH96BT4X2zmCX8bvSmg', 'Oo4Hcw5ReDHZ3C40l8AYlA', 'ELAlTCTL7Q6vMkmtn3w0SA', 'V1LvEwooJkj7ml7D25HKeg', 'i3dITn98pvwx1LILKlfeNg', 'ALrFfRFJOmPMqAKkCsDryQ', 'vCpDm3FJ2CH-CJCbrkWaug', 'Y0CzqNjUyfqfiF44c_dQhQ', 'PQSwt7wMh8D1e-MBPtKCgw', 'Xp13yTaOt73FyDcB6MYe4w']
 
         for (let i = 0; i < originalPubIDs.length; i++) {
