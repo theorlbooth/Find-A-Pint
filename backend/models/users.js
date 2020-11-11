@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
   ownedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
   subscribedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
   isEmailConfirmed: { type: Boolean, required: true },
-  locationCoords: { type: true }
+  locationCoords: { type: String }
 })
 
 schema.plugin(mongooseHidden({ defaultHidden: { password: true } }))

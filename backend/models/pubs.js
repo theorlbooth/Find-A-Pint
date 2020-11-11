@@ -12,11 +12,11 @@ const commentSchema = new mongoose.Schema({
 const schema = new mongoose.Schema({
 
   alias: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
-  address: { type: Object, required: true },
-  coordinates: { type: Object, required: true },
+  name: { type: String },
+  imageUrl: { type: String },
+  phoneNumber: { type: String },
+  address: { type: Object },
+  coordinates: { type: Object },
   photos: { type: [String] },
   price: { type: String },
   openingHours: { type: String },
@@ -26,7 +26,7 @@ const schema = new mongoose.Schema({
   heating: { type: Boolean },
   liveMusic: { type: Boolean },
   owner: { type: mongoose.Schema.ObjectId, ref: 'user' },
-  reviewed: { type: Boolean, required: true },
+  reviewed: { type: Boolean },
   comments: [ commentSchema ],
   subscribers: { type: mongoose.Schema.ObjectId, ref: 'user' }
 })

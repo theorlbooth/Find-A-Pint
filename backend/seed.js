@@ -23,8 +23,8 @@ mongoose.connect(
           passwordConfirmation: 'password',
           isLandlord: false,
           isAdmin: true,
-          ownedPubs: '',
-          subscribedPubs: '',
+          // ownedPubs: [],
+          // subscribedPubs: [],
           isEmailConfirmed: true,
           locationCoords: ''
         },
@@ -36,21 +36,21 @@ mongoose.connect(
           passwordConfirmation: 'password',
           isLandlord: false,
           isAdmin: true,
-          ownedPubs: '',
-          subscribedPubs: '',
+          // ownedPubs: [],
+          // subscribedPubs: [],
           isEmailConfirmed: true,
           locationCoords: ''
         },
         {
-          username: '',
-          email: '',
-          name: '',
+          username: 'adam',
+          email: 'adam@adam.com',
+          name: 'Adam Osgood',
           password: 'password',
           passwordConfirmation: 'password',
           isLandlord: false,
           isAdmin: true,
-          ownedPubs: '',
-          subscribedPubs: '',
+          // ownedPubs: [],
+          // subscribedPubs: [],
           isEmailConfirmed: true,
           locationCoords: ''
         }
@@ -83,9 +83,10 @@ mongoose.connect(
                     coordinates: data.coordinates,
                     photos: data.photos,
                     price: data.price,
-                    openingHours: data.hours.open,
+                    reviewed: true,
+                    // openingHours: data.hours.open,
                     transaction: data.transaction,
-                    user: users[0]
+                    owners: users[0]
                   }
                   resolve(pub)
                 })
