@@ -5,7 +5,7 @@ const DotEnv = require('dotenv-webpack')
 
 module.exports = env => {
   return {
-    entry: './frontend/index.js',
+    entry: './frontend/src/index.js',
     output: {
       filename: 'bundle.js',
       path: path.resolve('backend/dist'),
@@ -38,7 +38,7 @@ module.exports = env => {
       new DotEnv(),
       new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
-        template: 'frontend/index.html',
+        template: 'frontend/src/index.html',
         filename: 'index.html',
         inject: 'body'
       })
