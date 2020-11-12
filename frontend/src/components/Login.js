@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Login = (props) => {
@@ -63,6 +64,7 @@ const Login = (props) => {
       </div>
       <button>Login</button>
     </form>
+    <Link to={'/signup'}>Create account</Link>
   </div>
 }
 
