@@ -7,6 +7,7 @@ import '../styles/style.scss'
 
 import Home from './components/Home'
 import NavBar from './components/Navbar'
+import Maps from './components/Maps'
 
 const App = () => {
   return <>
@@ -14,8 +15,10 @@ const App = () => {
     <NavBar />
     <Switch>
       <Route exact path='/' component={Home} />
+      <Route exact path='/pubs/maps' component={Maps}/>
       {/* <Route exact path='/signup' component={Signup} />
       <Route exact path='login' component={Login} />
+
       <Route exact path='/pubs' component={PubList} />
       <Route exact path='/pubs/:pubId' component={SinglePub} />
       <Route exact path='/pubs/new-pub' component={CreatePub} />
