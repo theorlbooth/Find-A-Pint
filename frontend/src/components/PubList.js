@@ -17,8 +17,6 @@ const PubList = () => {
   const [liveSportTog, updateLiveSportTog] = useState(false)
 
 
-
-
   function filterPubs(pubsList) {
     let filteredPubsA
     let filteredPubsB
@@ -72,6 +70,7 @@ const PubList = () => {
   }
 
   console.log(filterPubs(examplePubs))
+  //  !! Remember to change back below!!
 
   useEffect(() => {
     axios.get('/api/pub')
@@ -116,17 +115,31 @@ const PubList = () => {
       </div>
     </div>
 
-    {pubsList.map((pub, index) => {
-      return <div key={index}>
-        <Link to={`pub/${pub._id}`}>
-          <img src={pub.imageUrl} />
-          <h2>{pub.name}</h2>
-          <p>{pub.address.address1}, {pub.address.zip_code}</p>
-          <p>Distance from:</p>
-        </Link>
+    {/* !! Change back to pubsList !! */}
+    <div className="search-results">
+      <div className="columns is-multiline is-mobile">
+        {filterPubs(examplePubs).map((pub, index) => {
+          return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+            <Link to={`pub/${pub._id}`}>
+              <div className="card">
+                <div className="card-image">
+                  <figure className="image is-square">
+                    <img src={pub.imageUrl} alt={pub.name} />
+                  </figure>
+                </div>
+                <div className="card-content">
+                  <div className="media-content">
+                    <h2 className="title is-5">{pub.name}</h2>
+                    <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
+                    <p className="subtitle is-6">Distance from:</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        })}
       </div>
-    })}
-
+    </div>
   </>
 
 }
