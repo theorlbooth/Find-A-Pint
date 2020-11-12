@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const pubController = require('./controllers/pub')
+const pubController = require('./controllers/pubs')
 const userController = require('./controllers/user')
 const secureRoute = require('./middleware/secureRoute')
 
@@ -9,7 +9,7 @@ router.route('/pub')
   .post(secureRoute, pubController.addPub)
 
 
-router.route('/pub/:name')
+router.route('/pub/:pubId')
   .get(pubController.singlePub)
   .delete(secureRoute, pubController.removePub)
   .put(secureRoute, pubController.updatePub)
@@ -21,10 +21,10 @@ router.route('/register')
 router.route('/login')
   .post(userController.loginUser)
 
-router.route('/pubs/:pubId/comments')
+router.route('/pub/:pubId/comments')
   .post(secureRoute, pubController.createComment)
 
-router.route('/pubs/:pubId/comments/:commentId')
+router.route('/pub/:pubId/comments/:commentId')
   .put(secureRoute, pubController.updateComment)
   .delete(secureRoute, pubController.deleteComment)
 

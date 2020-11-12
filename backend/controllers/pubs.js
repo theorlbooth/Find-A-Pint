@@ -16,28 +16,21 @@ function addPub(req, res) {
 }
 
 function singlePub(req, res) {
-  const name = req.params.name
+  const id = req.params.pubId
+  console.log(id)
   Pubs
-    .findOne({
-      name: {
-        $regex: name,
-        $options: 'i'
-      }
-    })
-    .populate('comments.user').then(pubs => res.send(pubs))
+    .findById(id)
+    // .populate('comments.user')
+    .then(pub => res.send(pub))
     .catch(error => res.send(error))
 }
 
 function removePub(req, res) {
-  const name = req.params.name
+  const id = req.params.pubId
   const currentUser = req.currentUser
   Pubs
-    .findOne({
-      name: {
-        $regex: name,
-        $options: 'i'
-      }
-    }).then(pub => {
+    .findById(id)
+    .then(pub => {
       if (!req.currentUser.isAdmin && !pub.user.equals(currentUser._id)) {
         return res.status(401).send({
           message: 'Unauthorized'
@@ -50,18 +43,14 @@ function removePub(req, res) {
 }
 
 function updatePub(req, res) {
-  const name = req.params.name
+  const id = req.params.pubId
   const body = req.body
   const currentUser = req.currentUser
 
   Pubs
-    .findOne({
-      name: {
-        $regex: name,
-        $options: 'i'
-      }
-    })
+    .findById(id)
     .then(pub => {
+      console.log(pub)
       if (!pub) return res.send({
         message: 'No Pub Found'
       })
@@ -71,9 +60,10 @@ function updatePub(req, res) {
         })
       }
       pub.set(body)
-      pub.save()
-      res.send(pub)
+      console.log('test')
+      return pub.save()
     })
+    .then(pub => res.send(pub))
     .catch(error => res.send(error))
 }
 

@@ -6,13 +6,12 @@ const uniqueValidator = require('mongoose-unique-validator')
 const schema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true  },
-  name: { type: String, required: true },
   password: { type: String, required: true },
   isLandlord: { type: Boolean },
   isAdmin: { type: Boolean },
   ownedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
   subscribedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
-  isEmailConfirmed: { type: Boolean, required: true },
+  isEmailConfirmed: { type: Boolean },
   locationCoords: { type: String }
 })
 
@@ -46,4 +45,4 @@ schema.methods.validatePassword = function validatePassword(password) {
   return bcrypt.compareSync(password, this.password)
 }
 
-module.exports = mongoose.model('user', schema)
+module.exports = mongoose.model('Users', schema)

@@ -1,6 +1,6 @@
 const Users = require('../models/users')
 const jwt = require('jsonwebtoken')
-const secret = 'This is our secret to be moved to another folder'
+const { secret } = require('../config/environment')
 
 function createUser(req, res) {
   const body = req.body

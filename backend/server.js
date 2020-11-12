@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const Router = require('./router')
 
 // For environment variables
-console.log(process.env.hello)
+console.log(process.env.yelp_key)
 
 
 mongoose.connect(

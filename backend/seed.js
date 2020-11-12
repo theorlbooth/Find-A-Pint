@@ -18,7 +18,6 @@ mongoose.connect(
         return users.create([{
           username: 'theo',
           email: 'theorlbooth@googlemail.com',
-          name: 'Theo Booth',
           password: 'password',
           passwordConfirmation: 'password',
           isLandlord: false,
@@ -30,8 +29,7 @@ mongoose.connect(
         },
         {
           username: 'lee',
-          email: 'lee.j.burgess@gmail.com',
-          name: 'Lee Burgess',
+          email: 'lee.j.burgess77@gmail.com',
           password: 'password',
           passwordConfirmation: 'password',
           isLandlord: false,
@@ -43,8 +41,7 @@ mongoose.connect(
         },
         {
           username: 'adam',
-          email: 'adam@adam.com',
-          name: 'Adam Osgood',
+          email: 'adamlee.osgood@gmail.com',
           password: 'password',
           passwordConfirmation: 'password',
           isLandlord: false,
@@ -86,7 +83,7 @@ mongoose.connect(
                     reviewed: true,
                     // openingHours: data.hours.open,
                     transaction: data.transaction,
-                    owners: users[0]
+                    user: users[0]
                   }
                   resolve(pub)
                 })
