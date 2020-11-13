@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import Modal from 'react-modal'
+import Icon from '@mdi/react'
+import { mdiFlagVariant } from '@mdi/js'
 
 
 import Loader from './Loader'
 import { getUserId, isCreator } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
+import Flag from './Flag'
 
 const singlePub = (props) => {
 
@@ -32,6 +36,7 @@ const singlePub = (props) => {
     axios.get(`/api/users/${getUserId()}`)
       .then(resp => {
         updateUser(resp.data)
+        console.log(resp.data)
       })
   }, [])
 
@@ -94,6 +99,41 @@ const singlePub = (props) => {
   }
 
 
+  // ! Modal ------------
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    }
+  }
+
+  const [editModalIsOpen, setEditIsOpen] = useState(false)
+  const [deleteModalIsOpen, setDeleteIsOpen] = useState(false)
+
+  function openEditModal() {
+    setEditIsOpen(true)
+  }
+
+  function closeEditModal() {
+    setEditIsOpen(false)
+  }
+
+  function openDeleteModal() {
+    setDeleteIsOpen(true)
+  }
+
+  function closeDeleteModal() {
+    setDeleteIsOpen(false)
+  }
+
+  // ! ------------
+
+
+
   if (singlePub.address === undefined || weatherInfo.daily === undefined) {
     return <>
       <Loader />
@@ -138,6 +178,24 @@ const singlePub = (props) => {
             </section>
           })}
         </div>
+        <div className="edit-delete-buttons">
+          {isCreator(singlePub.user, user) && <button className="edit-pub" onClick={openEditModal}>Edit Pub</button>}
+          <Modal isOpen={editModalIsOpen} onRequestClose={closeEditModal} style={customStyles} contentLabel="Edit Modal">
+            <p>Are you sure you want to make changes to this pub?</p>
+            <div className="modal-buttons">
+              <button onClick={closeEditModal}>cancel</button>
+              <button>confirm</button>
+            </div>
+          </Modal>
+          {isCreator(singlePub.user, user) && <button className="delete-pub" onClick={openDeleteModal}>Delete Pub</button>}
+          <Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles} contentLabel="Delete Modal">
+            <p>Are you sure you want to delete this pub?</p>
+            <div className="modal-buttons">
+              <button onClick={closeDeleteModal}>cancel</button>
+              <button>confirm</button>
+            </div>
+          </Modal>
+        </div>
       </div>
       <div className="single-right-side">
         <div className="sub-button">
@@ -160,7 +218,10 @@ const singlePub = (props) => {
               </div>
             </div>}
           </article>
-          {singlePub.comments && singlePub.comments.map(comment => {
+
+          {singlePub.comments && singlePub.comments.map((comment, index) => {
+            
+
             return <article key={comment._id} className="media">
               <div className="media-content">
                 <div className="content">
@@ -175,10 +236,11 @@ const singlePub = (props) => {
                   <p>{comment.text}</p>
                 </div>
               </div>
-              {isCreator(comment.user._id, user) && <div className="media-right">
-                <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
-                </button>
-              </div>}
+              <div className="media-right">
+                {!isCreator(comment.user._id, user) && <Flag />}
+                {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
+                </button>}
+              </div>
             </article>
           })}
         </div>

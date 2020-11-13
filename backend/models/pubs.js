@@ -27,7 +27,7 @@ const schema = new mongoose.Schema({
   heating: { type: Boolean },
   liveMusic: { type: Boolean },
   liveSport: { type: Boolean },
-  description: {type: String },
+  description: { type: String },
   reviewed: { type: Boolean },
   comments: [ commentSchema ],
   subscribers: { type: mongoose.Schema.ObjectId, ref: 'Users' },
