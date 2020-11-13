@@ -9,7 +9,6 @@ import { mdiFlagVariant } from '@mdi/js'
 import Loader from './Loader'
 import { getUserId, isCreator } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
-import Flag from './Flag'
 
 const singlePub = (props) => {
 
@@ -25,14 +24,6 @@ const singlePub = (props) => {
 
 
   useEffect(() => {
-    axios.get(`/api/pub/${id}`)
-      .then(resp => {
-        updateSinglePub(resp.data)
-        console.log(resp.data)
-      })
-  }, [])
-
-  useEffect(() => {
     axios.get(`/api/users/${getUserId()}`)
       .then(resp => {
         updateUser(resp.data)
@@ -40,19 +31,23 @@ const singlePub = (props) => {
       })
   }, [])
 
+
   useEffect(() => {
     async function fetchData() {
 
-      const { data } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${singlePub.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
-      updateLatLong([data.results[0].geometry.lat, data.results[0].geometry.lng])
+      const { data } = await axios.get(`/api/pub/${id}`)
+      updateSinglePub(data)
 
-      const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.lat}&lon=${data.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=73250291b5074399963b723e7870fafa`)
+      const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
+      updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
+
+      const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=73250291b5074399963b723e7870fafa`)
       updateWeatherInfo(weatherData)
       console.log(weatherData)
     }
 
     fetchData()
-  }, [singlePub])
+  }, [])
 
 
   function findInfo(array) {
