@@ -19,6 +19,7 @@
 .single-page {
   border: 1px solid black;
   display: flex;
+  justify-content: space-between;;
 
 .single-left-side {
   border: 1px solid black;
@@ -34,6 +35,7 @@
   .address-info-times {
     border: 1px solid black;
     display: flex;
+    justify-content: space-evenly;
 
     .address {
       border: 1px solid black;
@@ -60,23 +62,32 @@
 
   .weather {
     border: 1px solid black;
+    display: flex;
+    overflow: auto;
   }
-
 }
 
-.single-page-right {
+
+.single-right-side {
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 33vh;
 
-  .subscribe-button {
+  .sub-button {
     border: 1px solid black;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .single-map {
     border: 5px solid black;
+  }
+
+  .comments-section {
+    height: 700px;
+    overflow: auto;
   }
 
 }

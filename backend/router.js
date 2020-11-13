@@ -26,6 +26,8 @@ router.route('/users')
 
 router.route('/users/:userId')
   .get(userController.findUser)
+  .delete(secureRoute, userController.deleteUser)
+  .put(secureRoute, userController.editUser)
 
 
 router.route('/pub/:pubId/comments')

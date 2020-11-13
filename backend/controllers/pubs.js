@@ -20,7 +20,7 @@ function singlePub(req, res) {
   console.log(id)
   Pubs
     .findById(id)
-    // .populate('comments.user')
+    .populate('comments.user')
     .then(pub => res.send(pub))
     .catch(error => res.send(error))
 }
@@ -70,12 +70,14 @@ function updatePub(req, res) {
 function createComment(req, res) {
   const comment = req.body
   comment.user = req.currentUser
-  Pubs.findById(req.params.pubId).populate('comment.user')
+  Pubs.findById(req.params.pubId).populate('comments.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
-      pub.comments.push(comment)
+      pub.comments.push({
+        $each: [comment],
+        $position: 0 })
       return pub.save()
     })
     .then(pub => res.send(pub))
@@ -83,7 +85,7 @@ function createComment(req, res) {
 }
 
 function updateComment(req, res) {
-  Pubs.findById(req.params.pubId).populate('comment.user')
+  Pubs.findById(req.params.pubId).populate('comments.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
@@ -103,7 +105,7 @@ function updateComment(req, res) {
 
 function deleteComment(req, res) {
   Pubs.findById(req.params.pubId)
-    .populate('comment.user')
+    .populate('comments.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
