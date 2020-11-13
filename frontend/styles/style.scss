@@ -3,7 +3,87 @@
   margin: 30px 100px 0px 100px;
 }
 
+.marker-btn{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.marker-btn img{
+  width: 50px;
+  height: 50px;
+}
 
+
+// ! Single Page
+
+.single-page {
+  border: 1px solid black;
+  display: flex;
+
+.single-left-side {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 66vh;
+
+  .name {
+    border: 1px solid black;
+  }
+  
+  .address-info-times {
+    border: 1px solid black;
+    display: flex;
+
+    .address {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .opening-times {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .description {
+    border: 1px solid black;
+  }
+
+  .weather {
+    border: 1px solid black;
+  }
+
+}
+
+.single-page-right {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 33vh;
+
+  .subscribe-button {
+    border: 1px solid black;
+  }
+
+  .single-map {
+    border: 5px solid black;
+  }
+
+}
+
+
+
+}
 
 
 
@@ -149,6 +229,7 @@
   -webkit-box-shadow: 0px 0px 5px 5px #0099E0;
   -moz-box-shadow: 0px 0px 5px 5px #0099E0;
   box-shadow: 0px 0px 5px 5px #0099E0;
+
 }
 .marker-btn{
   background: none;
@@ -158,4 +239,5 @@
 .marker-btn img{
   width: 50px;
   height: 50px;
+
 }

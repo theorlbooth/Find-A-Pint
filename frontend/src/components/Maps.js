@@ -51,9 +51,9 @@ const DisplayMap = () => {
         setViewport(viewport)
       }}
     >
-      {pubList.map(pub => {
+      {pubList.map((pub, index) => {
         {/* {console.log(pub)} */ }
-        return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude}>
+        return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude} key={index}>
           <button className="marker-btn" onClick={(e) => {
             e.preventDefault();
             setSelectedPub(pub);

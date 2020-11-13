@@ -12,6 +12,9 @@ import Login from './components/Login'
 import PubList from './components/PubList'
 import CreatePub from './components/CreatePub'
 import Maps from './components/Maps'
+import SinglePub from './components/SinglePub'
+import Admin from './components/Admin'
+
 
 const App = () => {
   return <>
@@ -19,17 +22,15 @@ const App = () => {
     <NavBar />
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route exact path='/signup' component={Signup} />
       <Route exact path='/login' component={Login} />
-      <Route exact path='login' component={Login} /> */}
-      <Route exact path='/pubs/maps' component={Maps}/>
-      {/* <Route exact path='/signup' component={Signup} />
-      <Route exact path='login' component={Login} />
+      <Route exact path='/pubs' component={PubList} /> 
+      <Route exact path='/pubs/maps' component={Maps} />
 
       <Route exact path='/pubs' component={PubList} />
-      {/* <Route exact path='/pubs/:pubId' component={SinglePub} /> */}
+      <Route exact path='/signup' component={Signup} />
       <Route exact path='/pubs/new-pub' component={CreatePub} />
-      {/* <Route exact path='/pubs/edit-pub/:pubId' component={EditPub} /> */}
+      <Route exact path ='/pubs/:id' component={SinglePub} />
+      <Route exact path='/admin' component={Admin} />
     </Switch>
   </BrowserRouter>
   </>
