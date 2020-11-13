@@ -42,6 +42,7 @@ const singlePub = (props) => {
 
   useEffect(() => {
     async function fetchData() {
+
       const { data } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${singlePub.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
       updateLatLong([data.results[0].geometry.lat, data.results[0].geometry.lng])
 
@@ -87,6 +88,27 @@ const singlePub = (props) => {
           updateSinglePub(resp.data)
         })
     }
+  }
+
+  function handleFlag(commentId) {
+    axios.get(`/api/pub/${id}/comments/${commentId}`)
+      .then(resp => {
+        if (resp.data.flagged === false) {
+          axios.put(`/api/pub/${id}/comments/${commentId}`, { flagged: true }, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(resp => {
+              updateSinglePub(resp.data)
+            })
+        } else if (resp.data.flagged === true) {
+          axios.put(`/api/pub/${id}/comments/${commentId}`, { flagged: false }, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(resp => {
+              updateSinglePub(resp.data)
+            })
+        }
+      })
   }
 
   function handleCommentDelete(commentId) {
@@ -219,8 +241,8 @@ const singlePub = (props) => {
             </div>}
           </article>
 
-          {singlePub.comments && singlePub.comments.map((comment, index) => {
-            
+          {singlePub.comments && singlePub.comments.map(comment => {
+
 
             return <article key={comment._id} className="media">
               <div className="media-content">
@@ -237,7 +259,12 @@ const singlePub = (props) => {
                 </div>
               </div>
               <div className="media-right">
-                {!isCreator(comment.user._id, user) && <Flag />}
+                {!isCreator(comment.user._id, user) && <Icon
+                  onClick={() => handleFlag(comment._id)}
+                  path={mdiFlagVariant}
+                  size={1}
+                  color={comment.flagged === true ? 'red' : 'grey'}
+                />}
                 {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
                 </button>}
               </div>

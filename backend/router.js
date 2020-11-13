@@ -36,5 +36,6 @@ router.route('/pub/:pubId/comments')
 router.route('/pub/:pubId/comments/:commentId')
   .put(secureRoute, pubController.updateComment)
   .delete(secureRoute, pubController.deleteComment)
+  .get(pubController.findComment)
 
 module.exports = router

@@ -4,6 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const commentSchema = new mongoose.Schema({
   text: { type: String, required: true },
+  flagged: { type: Boolean },
   user: { type: mongoose.Schema.ObjectId, ref: 'Users', required: true }
 }, {
   timestamps: true

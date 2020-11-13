@@ -70,38 +70,60 @@ function updatePub(req, res) {
 function createComment(req, res) {
   const comment = req.body
   comment.user = req.currentUser
-  Pubs.findById(req.params.pubId).populate('comments.user')
+  comment.flagged = false
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
       pub.comments.push({
         $each: [comment],
-        $position: 0 })
+        $position: 0
+      })
       return pub.save()
     })
     .then(pub => res.send(pub))
     .catch(err => res.send(err))
 }
 
-function updateComment(req, res) {
-  Pubs.findById(req.params.pubId).populate('comments.user')
+function findComment(req, res) {
+  Pubs
+    .findById(req.params.pubId)
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
       const comment = pub.comments.id(req.params.commentId)
-      if (!comment.user.equals(req.currentUser._id)) {
-        return res.status(401).send({
-          message: 'Unauthorized'
-        })
-      }
+      res.send(comment)
+    })
+    .catch(err => res.send(err))
+}
+
+
+function updateComment(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      // ! - Have blanked this out for now, as we don't have an ammend comment (is it really necessary?)
+      // if (!req.currentUser.isAdmin && !comment.user.equals(req.currentUser._id)) {
+      //   return res.status(401).send({
+      //     message: 'Unauthorized'
+      //   })
+      // }
       comment.set(req.body)
       return pub.save()
     })
     .then(pub => res.send(pub))
     .catch(err => res.send(err))
 }
+
 
 function deleteComment(req, res) {
   Pubs.findById(req.params.pubId)
@@ -111,7 +133,7 @@ function deleteComment(req, res) {
         message: 'Not found'
       })
       const comment = pub.comments.id(req.params.commentId)
-      if (!comment.user.equals(req.currentUser._id)) {
+      if (!req.currentUser.isAdmin && !comment.user.equals(req.currentUser._id)) {
         return res.status(401).send({
           message: 'Unauthorized'
         })
@@ -131,5 +153,6 @@ module.exports = {
   updatePub,
   createComment,
   updateComment,
-  deleteComment
+  deleteComment,
+  findComment
 }
