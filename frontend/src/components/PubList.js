@@ -41,6 +41,7 @@ const PubList = () => {
 
 
   function filterPubs(pubsList) {
+    let filteredReview
     let filteredPubsA
     let filteredPubsB
     let filteredPubsC
@@ -49,10 +50,14 @@ const PubList = () => {
 
     const filters = [takeAwayTog, outdoorSeatingTog, heatingTog, liveMusicTog, liveSportTog]
 
+    filteredReview = pubsList.filter(pub => {
+      return pub.reviewed === true
+    })
+
     if (filters[0] === false) {
-      filteredPubsA = pubsList
+      filteredPubsA = filteredReview
     } else {
-      filteredPubsA = pubsList.filter(pub => {
+      filteredPubsA = filteredReview.filter(pub => {
         return pub.takeAway === true
       })
     }
@@ -87,7 +92,7 @@ const PubList = () => {
     return filteredPubsE
   }
 
-  //  !! console.log(filterPubs(examplePubs))
+  // console.log(filterPubs(examplePubs))
   //  !! Remember to change back below!!
 
   useEffect(() => {

@@ -30,7 +30,7 @@ const examplePubs = [{
     'longitude': -0.0114829
   },
   'price': '£',
-  'reviewed': true,
+  'reviewed': false,
   'comments': [],
   'takeAway': true,
   'outdoorSeating': false,
@@ -70,7 +70,7 @@ const examplePubs = [{
     'latitude': 51.5615728868639,
     'longitude': -0.0103787294293634
   },
-  'reviewed': true,
+  'reviewed': false,
   'comments': [],
   'takeAway': false,
   'outdoorSeating': false,
