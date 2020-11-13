@@ -1,9 +1,9 @@
 import React from 'react'
-import RingLoader from 'react-spinners/RingLoader'
+import CircleLoader from 'react-spinners/CircleLoader'
 
 const Loader = () => {
   return <div className="sweet-loading">
-    <RingLoader
+    <CircleLoader
       css={`display: block;
     margin: auto;
     border-color: red;`}
