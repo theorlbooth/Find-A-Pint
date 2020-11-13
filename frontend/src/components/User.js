@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import Loader from './Loader'
@@ -30,7 +31,7 @@ const User = (props) => {
   }
 
 
-  const inputFields = ['username', 'email', 'locationCoords', 'password', 'passwordConfirmation']
+  const inputFields = ['username', 'email', 'locationCoords']
 
   function handleChange(event) {
     const name = event.target.name
@@ -65,7 +66,7 @@ const User = (props) => {
         }
         updateUser(resp.data)
         updateEdit(false)
-        
+
       })
   }
 
@@ -80,6 +81,18 @@ const User = (props) => {
       <h2>{user.email}</h2>
       <h3>{user.locationCoords}</h3>
       <button onClick={editTrue}>Edit</button>
+
+      <div>
+        <h2>Owned Pubs</h2>
+        {user.ownedPubs.map((pub, index) => {
+          return <Link to={`/pubs/${pub._id}`} key={index}>
+            <div>
+              <h1>{pub.alias}</h1>
+              <h1>{pub.name}</h1>
+            </div>
+          </Link>
+        })}
+      </div>
     </div>
     {edit ? <div>
       <form onSubmit={handleSubmit}>

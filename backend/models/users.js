@@ -9,8 +9,8 @@ const schema = new mongoose.Schema({
   password: { type: String, required: true },
   isLandlord: { type: Boolean },
   isAdmin: { type: Boolean },
-  ownedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
-  subscribedPubs: { type: mongoose.Schema.ObjectId, ref: 'pubs' },
+  ownedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
+  subscribedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
   isEmailConfirmed: { type: Boolean },
   locationCoords: { type: String }
 })
@@ -28,7 +28,7 @@ schema
 
 schema
   .pre('validate', function checkPassword(next) {
-    if (this.password !== this._passwordConfirmation) {
+    if (this.isModified('password') && this.password !== this._passwordConfirmation) {
       this.invalidate('passwordConfirmation', 'should match password')
     }
     next()

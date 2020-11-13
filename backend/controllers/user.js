@@ -35,6 +35,7 @@ function loginUser(req, res) {
 
 function findUsers(req, res) {
   users.find()
+    .populate('ownedPubs')
     .then(users => res.send(users))
     .catch(error => res.send(error))
 }
@@ -43,6 +44,7 @@ function findUsers(req, res) {
 function findUser(req, res) {
   Users
     .findById(req.params.userId)
+    .populate('ownedPubs')
     .then(user => res.send(user))
     .catch(error => res.send(error))
 }
