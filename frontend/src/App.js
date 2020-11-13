@@ -14,6 +14,7 @@ import CreatePub from './components/CreatePub'
 import Maps from './components/Maps'
 import SinglePub from './components/SinglePub'
 import Admin from './components/Admin'
+import User from './components/User'
 
 
 const App = () => {
@@ -22,13 +23,16 @@ const App = () => {
     <NavBar />
     <Switch>
       <Route exact path='/' component={Home} />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/pubs' component={PubList} /> 
+      <Route exact path='/pubs/maps' component={Maps} />
+
       <Route exact path='/pubs' component={PubList} />
       <Route exact path='/signup' component={Signup} />
-      <Route exact path='/login' component={Login} />
-      <Route exact path='/pubs/maps' component={Maps} />
       <Route exact path='/pubs/new-pub' component={CreatePub} />
       <Route exact path ='/pubs/:id' component={SinglePub} />
       <Route exact path='/admin' component={Admin} />
+      <Route exact path='/users/:id' component={User} />
     </Switch>
   </BrowserRouter>
   </>

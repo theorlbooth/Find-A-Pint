@@ -17,3 +17,14 @@ export function isCreator(compareId, user) {
     return getUserId() === compareId
   }
 }
+
+export function isAdmin(user) {
+
+  if (user === undefined) {
+    return false
+  } else if (user.isAdmin === true) {
+    return true
+  } else {
+    return false
+  }
+}

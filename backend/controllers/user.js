@@ -47,9 +47,51 @@ function findUser(req, res) {
     .catch(error => res.send(error))
 }
 
+function  editUser(req,res){
+  const id = req.params.userId
+  const body = req.body
+  const currentUser = req.currentUser
+
+  Users
+    .findById(id)
+    .then(user => {
+      if (!user) return res.send({
+        message: 'No user Found'
+      })
+      if (!user._id.equals(currentUser._id)) {
+        return res.status(401).send({
+          message: 'Unauthorized'
+        })
+      }
+      user.set(body)
+      return user.save()
+    })
+    .then(user => res.send(user))
+    .catch(error => res.send(error))
+}
+
+
+function deleteUser(req, res) {
+  const currentUser = req.currentUser
+  Users
+    .findById(req.params.userId)
+    .then(user => {
+      if (!req.currentUser.isAdmin && !user._id.equals(currentUser._id)) {
+        return res.status(401).send({
+          message: 'Unauthorized'
+        })
+      }
+      user.deleteOne()
+      res.send(user)
+    })
+    .catch(error => res.send(error))
+}
+
 module.exports = {
   createUser,
   loginUser,
   findUser,
-  findUsers
+  findUsers,
+  deleteUser,
+  editUser
 }

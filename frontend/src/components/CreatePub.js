@@ -127,9 +127,9 @@ export default function CreatePub() {
       <p>Add image</p>
       <input name="image-input" ref={register} />
       <p>
-        <button onClick={() => append({ value: getValues('image-input') })} >
+        <a onClick={() => append({ value: getValues('image-input') })} >
           Add image
-        </button>
+        </a>
       </p>
 
       <input type="submit" />
