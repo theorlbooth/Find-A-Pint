@@ -19,6 +19,15 @@ const DisplayMap = () => {
     zoom: 10
   })
 
+  const [viewportDefault, setviewportDefault] = useState({
+    latitude: userInput[0],
+    longitude: userInput[1],
+    width: "100vw",
+    height: "100vh",
+    zoom: 10,
+    radiusPin: []
+  })
+
 
 
 
