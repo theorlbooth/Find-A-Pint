@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import moment from 'moment'
+
 
 import Loader from './Loader'
+import { getUserId, isCreator } from '../lib/auth'
+import WeatherIcons from './WeatherIcons'
 
 const singlePub = (props) => {
 
   const [singlePub, updateSinglePub] = useState([])
+  const [text, setText] = useState('')
+  const [user, updateUser] = useState({})
+
+  const [latLong, updateLatLong] = useState([])
+  const [weatherInfo, updateWeatherInfo] = useState({})
+
   const id = props.match.params.id
+  const token = localStorage.getItem('token')
 
 
   useEffect(() => {
@@ -16,6 +27,26 @@ const singlePub = (props) => {
         console.log(resp.data)
       })
   }, [])
+
+  useEffect(() => {
+    axios.get(`/api/users/${getUserId()}`)
+      .then(resp => {
+        updateUser(resp.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${singlePub.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
+      updateLatLong([data.results[0].geometry.lat, data.results[0].geometry.lng])
+
+      const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.lat}&lon=${data.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=73250291b5074399963b723e7870fafa`)
+      updateWeatherInfo(weatherData)
+      console.log(weatherData)
+    }
+
+    fetchData()
+  }, [singlePub])
 
 
   function findInfo(array) {
@@ -39,7 +70,31 @@ const singlePub = (props) => {
     return pubInfo
   }
 
-  if (singlePub.address === undefined) {
+  function handleComment() {
+    if (text === '') {
+      return
+    } else {
+      axios.post(`/api/pub/${id}/comments`, { text }, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(resp => {
+          setText('')
+          updateSinglePub(resp.data)
+        })
+    }
+  }
+
+  function handleCommentDelete(commentId) {
+    axios.delete(`/api/pub/${id}/comments/${commentId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        updateSinglePub(resp.data)
+      })
+  }
+
+
+  if (singlePub.address === undefined || weatherInfo.daily === undefined) {
     return <>
       <Loader />
     </>
@@ -68,21 +123,64 @@ const singlePub = (props) => {
             Opening Times
           </div>
         </div>
-        <div>
-          <p className="description">Description</p>
+        <div className="description">
+          <p>{singlePub.description}</p>
         </div>
-        <div>
-          <div className="weather">Weather</div>
+        <div className="weather">
+          {weatherInfo.daily.map((day, index) => {
+            return <section className="future-weather-day" key={index}>
+              <h3>{moment.unix(day.dt).format('dddd Do MMM')}</h3>
+              <img src={WeatherIcons[day.weather[0].description][0]} />
+              <section>
+                <p>{Math.round(day.temp.min * 10) / 10}°C - {Math.round(day.temp.max * 10) / 10}°C</p>
+                <p>Wind Speed: {Math.round(day.wind_speed * 22.3694) / 10} mph</p>
+              </section>
+            </section>
+          })}
         </div>
       </div>
       <div className="single-right-side">
-        <div className="subscribe-button">
+        <div className="sub-button">
           <button>Subscribe</button>
         </div>
         <div className="single-map">Map</div>
-        <div className="comments">
-          <textarea placeholder="Comments written here"></textarea>
-          <div>Display Comments</div>
+
+        <div className="comments-section">
+          <article className="media">
+            {token && <div className="media-content">
+              <div className="field">
+                <p className="control">
+                  <textarea className="textarea" placeholder="Post a comment..." onChange={event => setText(event.target.value)} value={text}>{text}</textarea>
+                </p>
+              </div>
+              <div className="field">
+                <p className="control">
+                  <button className="button is-info" onClick={handleComment}>Post</button>
+                </p>
+              </div>
+            </div>}
+          </article>
+          {singlePub.comments && singlePub.comments.map(comment => {
+            return <article key={comment._id} className="media">
+              <div className="media-content">
+                <div className="content">
+                  <div className="user-time">
+                    <p className="username">
+                      {comment.user.username}
+                    </p>
+                    <p>
+                      ({moment(comment.createdAt).fromNow()})
+                    </p>
+                  </div>
+                  <p>{comment.text}</p>
+                </div>
+              </div>
+              {isCreator(comment.user._id, user) && <div className="media-right">
+                <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
+                </button>
+              </div>}
+            </article>
+          })}
         </div>
       </div>
     </div>
