@@ -12,6 +12,7 @@ import Login from './components/Login'
 import PubList from './components/PubList'
 import CreatePub from './components/CreatePub'
 import Maps from './components/Maps'
+import Admin from './components/Admin'
 
 const App = () => {
   return <>
@@ -24,6 +25,8 @@ const App = () => {
       <Route exact path='/login' component={Login} />
       <Route exact path='/pubs/maps' component={Maps} />
       <Route exact path='/pubs/new-pub' component={CreatePub} />
+      <Route exact path='/admin' component={Admin} />
+
     </Switch>
   </BrowserRouter>
   </>
