@@ -21,6 +21,13 @@ router.route('/register')
 router.route('/login')
   .post(userController.loginUser)
 
+router.route('/users')
+  .get(userController.findUsers)
+
+router.route('/users/:userId')
+  .get(userController.findUser)
+
+
 router.route('/pub/:pubId/comments')
   .post(secureRoute, pubController.createComment)
 
