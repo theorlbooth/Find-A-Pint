@@ -14,6 +14,7 @@ import CreatePub from './components/CreatePub'
 import Maps from './components/Maps'
 import SinglePub from './components/SinglePub'
 import Admin from './components/Admin'
+import User from './components/User'
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
       <Route exact path='/pubs/new-pub' component={CreatePub} />
       <Route exact path ='/pubs/:id' component={SinglePub} />
       <Route exact path='/admin' component={Admin} />
+      <Route exact path='/users/:id' component={User} />
     </Switch>
   </BrowserRouter>
   </>
