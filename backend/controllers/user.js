@@ -1,6 +1,7 @@
 const Users = require('../models/users')
 const jwt = require('jsonwebtoken')
 const { secret } = require('../config/environment')
+const users = require('../models/users')
 
 function createUser(req, res) {
   const body = req.body
@@ -30,9 +31,25 @@ function loginUser(req, res) {
       res.status(202).send({ token, username, message: 'login successful' })
     })
     .catch(error => res.send(error))
-} 
+}
+
+function findUsers(req, res) {
+  users.find()
+    .then(users => res.send(users))
+    .catch(error => res.send(error))
+}
+
+
+function findUser(req, res) {
+  Users
+    .findById(req.params.userId)
+    .then(user => res.send(user))
+    .catch(error => res.send(error))
+}
 
 module.exports = {
   createUser,
-  loginUser
+  loginUser,
+  findUser,
+  findUsers
 }
