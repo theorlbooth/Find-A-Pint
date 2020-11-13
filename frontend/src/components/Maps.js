@@ -136,7 +136,7 @@ export default Maps
 // import MapGL from 'react-map-gl'
 // import Geocoder from 'react-map-gl-geocoder'
 
-// // Ways to set Mapbox token: https://uber.github.io/react-map-gl/#/Documentation/getting-started/about-mapbox-tokens
+
 // const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
 
 // const Example = () => {
@@ -151,7 +151,7 @@ export default Maps
   //   []
   // );
 
-//   // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
+
   // const handleGeocoderViewportChange = useCallback(
   //   (newViewport) => {
   //     const geocoderDefaultOverrides = { transitionDuration: 1000 };
