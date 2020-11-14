@@ -3,7 +3,6 @@ const {
 } = require('axios')
 const Pubs = require('../models/pubs')
 const Users = require('../models/users')
-const Comments = require('../models/pubs')
 
 const axios = require('axios')
 
@@ -168,7 +167,7 @@ function replyToComment(req, res) {
   reply.flagged = false
   Pubs
     .findById(req.params.pubId)
-    .populate('comments.user')
+    .populate('comments.replies.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
@@ -181,14 +180,11 @@ function replyToComment(req, res) {
         })
       return pub.save()
     })
+    
     .then(pub => res.send(pub.comments))
     .catch(err => res.send(err))
 }
 
-function replyToComment(req, res) {
-  console.log(findComment(req, res))
-
-}
 
 
 module.exports = {

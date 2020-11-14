@@ -48,4 +48,3 @@ const schema = new mongoose.Schema({
 schema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('pubs', schema)
-module.exports = mongoose.model('comments', schema)
