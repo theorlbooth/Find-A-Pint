@@ -28,3 +28,14 @@ export function isAdmin(user) {
     return false
   }
 }
+
+export function isUser(pubUserId, user) {
+  if (user._id === undefined || pubUserId === undefined) {
+    return false
+  } else if (pubUserId === user._id) {
+    return true
+  } else {
+    return false
+  }
+}
+

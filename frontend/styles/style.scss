@@ -69,6 +69,18 @@
 }
 
 .single-middle {
+
+  width: 300px;
+
+  .each-slide > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    height: 350px;
+  }
+
+  
   .single-map {
     border: 5px solid black;
   }
