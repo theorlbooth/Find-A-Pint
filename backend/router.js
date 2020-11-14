@@ -38,4 +38,9 @@ router.route('/pub/:pubId/comments/:commentId')
   .delete(secureRoute, pubController.deleteComment)
   .get(pubController.findComment)
 
+
+router.route('/pub/:pubId/comments/:commentId/new-reply')
+  .post(secureRoute, pubController.replyToComment)
+
+  
 module.exports = router

@@ -3,7 +3,10 @@ const {
 } = require('axios')
 const Pubs = require('../models/pubs')
 const Users = require('../models/users')
+const Comments = require('../models/pubs')
+
 const axios = require('axios')
+
 
 function getPub(req, res) {
   Pubs.find().populate('user').then(pubList => res.send(pubList))
@@ -106,12 +109,13 @@ function createComment(req, res) {
 function findComment(req, res) {
   Pubs
     .findById(req.params.pubId)
+    .populate('comments.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
       const comment = pub.comments.id(req.params.commentId)
-      res.send(comment)
+      return res.send(comment)
     })
     .catch(err => res.send(err))
 }
@@ -160,6 +164,35 @@ function deleteComment(req, res) {
     .catch(err => res.send(err))
 }
 
+function replyToComment(req, res) {
+  const reply = req.body
+  reply.user = req.currentUser
+  reply.flagged = false
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const Comment = pub.comments.id(req.params.commentId)
+      Comment
+        .replies.push({
+          $each: [reply],
+          $position: 0
+        })
+      return pub.save()
+    })
+    .then(pub => res.send(pub.comments))
+    .catch(err => res.send(err))
+}
+
+function replyToComment(req, res) {
+  console.log(findComment(req, res))
+
+}
+
+
 module.exports = {
   getPub,
   addPub,
@@ -169,5 +202,6 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
-  findComment
+  findComment,
+  replyToComment
 }
