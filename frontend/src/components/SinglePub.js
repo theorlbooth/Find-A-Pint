@@ -214,12 +214,14 @@ const singlePub = (props) => {
           </Modal>
         </div>
       </div>
+      <div className="single-middle">
+        <div className="single-map">Map</div>
+        
+      </div>
       <div className="single-right-side">
         <div className="sub-button">
           <button>Subscribe</button>
         </div>
-        <div className="single-map">Map</div>
-
         <div className="comments-section">
           <article className="media">
             {token && <div className="media-content">

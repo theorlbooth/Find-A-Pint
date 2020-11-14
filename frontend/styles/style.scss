@@ -68,6 +68,11 @@
   }
 }
 
+.single-middle {
+  .single-map {
+    border: 5px solid black;
+  }
+}
 
 .single-right-side {
   border: 1px solid black;
@@ -81,10 +86,6 @@
     border: 1px solid black;
     display: flex;
     justify-content: flex-end;
-  }
-
-  .single-map {
-    border: 5px solid black;
   }
 
   .comments-section {
