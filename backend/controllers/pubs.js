@@ -173,13 +173,12 @@ function replyToComment(req, res) {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
-      const Comment = pub.comments.id(req.params.commentId)
-      Comment
+      const comment = pub.comments.id(req.params.commentId)
+      comment
         .replies.push(reply)
-      return pub.save()
+      pub.save()
+      res.send(comment)
     })
-
-    .then(pub => res.send(pub.comments))
     .catch(err => res.send(err))
 }
 
