@@ -12,7 +12,12 @@ const schema = new mongoose.Schema({
   ownedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
   subscribedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
   isEmailConfirmed: { type: Boolean },
-  locationCoords: { type: String }
+  locationCoords: { type: String },
+  friends: {
+    requests: [String],
+    pending: [String],
+    friends: [String]
+  }
 })
 
 schema.plugin(mongooseHidden({ defaultHidden: { password: true } }))

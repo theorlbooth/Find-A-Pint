@@ -25,8 +25,6 @@ function addPub(req, res) {
         .then(pub => res.send(pub))
     })
 
-
-
     .catch(error => res.send(error))
 }
 
