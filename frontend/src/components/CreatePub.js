@@ -17,17 +17,19 @@ export default function CreatePub() {
 
 
   const onSubmit = data => {
+    console.log(data)
     const newdata = {
       ...data,
       reviewed: false,
       address: {
-        lineone: data.address,
-        postcode: data.postcode
+        address1: data.address,
+        city: data.city,
+        zip_code: data.postcode
       }
     }
-    delete newdata.postcode
 
-    const toURI = encodeURI(newdata.address.lineone + ' ' + newdata.address.postcode + '' + 'uk')
+
+    const toURI = encodeURI(newdata.address.lineone + ' ' + newdata.address.zip_code + '' + 'uk')
     const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
 
 
@@ -39,6 +41,7 @@ export default function CreatePub() {
           ...newdata,
           coordinates: (geo)
         }
+        console.log(finaldata)
         const token = localStorage.getItem('token')
         axios.post('/api/pub', finaldata, {
           headers: { Authorization: `Bearer ${token}` }
@@ -70,6 +73,9 @@ export default function CreatePub() {
       </div>
       <div>
         <input type="text" placeholder="address" name="address" ref={register({ required: true })} />
+      </div>
+      <div>
+        <input type="text" placeholder="city" name="city" ref={register({ required: true })} />
       </div>
       <div>
         <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} />

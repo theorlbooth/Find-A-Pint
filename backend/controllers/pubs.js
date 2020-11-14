@@ -2,6 +2,7 @@ const {
   default: Axios
 } = require('axios')
 const Pubs = require('../models/pubs')
+const Users = require('../models/users')
 const axios = require('axios')
 
 function getPub(req, res) {
@@ -11,7 +12,21 @@ function getPub(req, res) {
 
 function addPub(req, res) {
   req.body.user = req.currentUser
-  Pubs.create(req.body).then(pub => res.send(pub))
+  const currentUser = req.currentUser
+  Pubs
+    .create(req.body)
+    .then(pub => {
+      Users
+        .findById(currentUser._id)
+        .then(user => {
+          user.ownedPubs.push(pub._id)
+          return user.save()
+        })
+        .then(pub => res.send(pub))
+    })
+
+
+
     .catch(error => res.send(error))
 }
 
