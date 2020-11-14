@@ -167,6 +167,7 @@ function replyToComment(req, res) {
   reply.flagged = false
   Pubs
     .findById(req.params.pubId)
+    .populate('comments.user')
     .populate('comments.replies.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
@@ -180,11 +181,48 @@ function replyToComment(req, res) {
         })
       return pub.save()
     })
-    
+
     .then(pub => res.send(pub.comments))
     .catch(err => res.send(err))
 }
 
+function findReply(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      return res.send(reply)
+    })
+    .catch(err => res.send(err))
+}
+
+function updateReply(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      reply.set(req.body)
+      pub.save()
+      return res.send(reply)
+    })
+    .catch(err => res.send(err))
+}
+
+function deleteReply(req, res) {
+
+}
 
 
 module.exports = {
@@ -197,5 +235,8 @@ module.exports = {
   updateComment,
   deleteComment,
   findComment,
-  replyToComment
+  replyToComment,
+  findReply,
+  updateReply,
+  deleteReply
 }

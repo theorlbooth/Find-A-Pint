@@ -48,5 +48,8 @@ router.route('/pub/:pubId/comments/:commentId')
 router.route('/pub/:pubId/comments/:commentId/new-reply')
   .post(secureRoute, pubController.replyToComment)
 
+router.route('/pub/:pubId/comments/:commentId/reply/:replyId')
+  .get(secureRoute, pubController.findReply)
+  .put(secureRoute, pubController.updateReply)
   
 module.exports = router
