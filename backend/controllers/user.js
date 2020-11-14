@@ -49,7 +49,7 @@ function findUser(req, res) {
     .catch(error => res.send(error))
 }
 
-function  editUser(req,res){
+function editUser(req, res) {
   const id = req.params.userId
   const body = req.body
   const currentUser = req.currentUser
@@ -89,11 +89,73 @@ function deleteUser(req, res) {
     .catch(error => res.send(error))
 }
 
+function sendRequest(req, res) {
+  const currentUser = req.currentUser
+  Users
+    .findById(req.params.userId)
+    .then(recipient => {
+      Users
+        .findById(currentUser._id)
+        .then(user => {
+          if (recipient.friends.requests.indexOf(user._id) !== -1 && 
+          recipient.friends.requests.indexOf(user._id) !== -1) {
+            return res.status(401).send({
+              message: 'Unauthorized'
+            })
+          }
+          recipient.friends.requests.push(user._id)
+          user.friends.pending.push(recipient._id)
+          return user.save(), recipient.save()
+        })
+        .then(user => res.send(user))
+    })
+}
+
+function getRequest(req, res) {
+  Users
+    .findById(req.params.userId)
+    .then(user => res.send(user.friends.requests))
+    .catch(error => res.send(error))
+}
+
+function acceptRequest(req, res) {
+  Users
+    .findById(req.params.userId)
+    .then(user => {
+      if (!user._id.equals(req.currentUser._id)) {
+        return res.status(401).send({
+          message: 'Unauthorized'
+        })
+      }
+      const index = user.friends.requests.indexOf(`${req.params.requestId}`)
+      if (index === -1) {
+        return res.status(404).send({
+          message: 'Not found'
+        })
+      }
+      user.friends.requests.splice(index, 1)
+      user.friends.friends.push(req.params.requestId)
+      Users
+        .findById(req.params.requestId)
+        .then(sender => {
+          const indexR = sender.friends.pending.indexOf(`${req.params.userId}`)
+          sender.friends.pending.splice(indexR, 1)
+          sender.friends.friends.push(req.params.userId)
+          return user.save(), sender.save()
+        })
+        .then(res.send(user))
+    })
+
+}
+
 module.exports = {
   createUser,
   loginUser,
   findUser,
   findUsers,
   deleteUser,
-  editUser
+  editUser,
+  sendRequest,
+  getRequest,
+  acceptRequest
 }
