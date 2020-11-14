@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const pubController = require('./controllers/pubs')
-const { sendRequest } = require('./controllers/user')
 const userController = require('./controllers/user')
 const secureRoute = require('./middleware/secureRoute')
 

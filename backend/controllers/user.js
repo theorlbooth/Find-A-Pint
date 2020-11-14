@@ -17,9 +17,10 @@ function loginUser(req, res) {
   Users
     .findOne({ email: req.body.email })
     .then(user => {
+      console.log(req.body.password)
       if (!user) return res.status(404).send({ message: 'Not found' })
       if (!user.validatePassword(req.body.password)) {
-        return res.status(401).send({ message: 'Unauthorized' })
+        return res.status(401).send({ message: 'Unauthorized1' })
       }
 
       const token = jwt.sign(
@@ -100,7 +101,7 @@ function sendRequest(req, res) {
           if (recipient.friends.requests.indexOf(user._id) !== -1 && 
           recipient.friends.requests.indexOf(user._id) !== -1) {
             return res.status(401).send({
-              message: 'Unauthorized'
+              message: 'Friend request already sent'
             })
           }
           recipient.friends.requests.push(user._id)
