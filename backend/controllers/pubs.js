@@ -214,14 +214,28 @@ function updateReply(req, res) {
       const comment = pub.comments.id(req.params.commentId)
       const reply = comment.replies.id(req.params.replyId)
       reply.set(req.body)
-      pub.save()
-      return res.send(reply)
+      return pub.save()
     })
+    .then(pub => res.send(pub))
     .catch(err => res.send(err))
 }
 
 function deleteReply(req, res) {
-
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      reply.remove()
+      return pub.save()
+    })
+    .then(pub => res.send(pub))
+    .catch(err => res.send(err))
 }
 
 
