@@ -175,10 +175,7 @@ function replyToComment(req, res) {
       })
       const Comment = pub.comments.id(req.params.commentId)
       Comment
-        .replies.push({
-          $each: [reply],
-          $position: 0
-        })
+        .replies.push(reply)
       return pub.save()
     })
 

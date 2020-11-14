@@ -133,6 +133,7 @@ const singlePub = (props) => {
 
   const [editModalIsOpen, setEditIsOpen] = useState(false)
   const [deleteModalIsOpen, setDeleteIsOpen] = useState(false)
+  const [replyModalIsOpen, setReplyIsOpen] = useState(false)
 
   function openEditModal() {
     setEditIsOpen(true)
@@ -148,6 +149,14 @@ const singlePub = (props) => {
 
   function closeDeleteModal() {
     setDeleteIsOpen(false)
+  }
+
+  function openReplyModal() {
+    setReplyIsOpen(true)
+  }
+
+  function closeReplyModal() {
+    setReplyIsOpen(false)
   }
 
   // ! ------------
@@ -264,6 +273,64 @@ const singlePub = (props) => {
                     </p>
                   </div>
                   <p>{comment.text}</p>
+                  <div>
+                    <a className="reply-modal" onClick={openReplyModal}>Reply</a>
+                    <Modal isOpen={replyModalIsOpen} onRequestClose={closeReplyModal} style={customStyles} contentLabel="Reply Modal">
+                      <div>Hello World</div>
+
+
+
+
+                      <div className="comments-section">
+                        <article className="media">
+                          {token && <div className="media-content">
+                            <div className="field">
+                              <p className="control">
+                                <textarea className="textarea" placeholder="Post a reply..." onChange={event => setText(event.target.value)} value={text}>{text}</textarea>
+                              </p>
+                            </div>
+                            <div className="field">
+                              <p className="control">
+                                <button className="button is-info" onClick={handleComment}>Post</button>
+                              </p>
+                            </div>
+                          </div>}
+                        </article>
+                        {singlePub.comments && singlePub.comments.map(comment => {
+                          return <article key={comment._id} className="media">
+                            <div className="media-content">
+                              <div className="content">
+                                <div className="user-time">
+                                  <p className="username">
+                                    {comment.user.username}
+                                  </p>
+                                  <p>
+                                    ({moment(comment.createdAt).fromNow()})
+                                  </p>
+                                </div>
+                                <p>{comment.text}</p>
+                              </div>
+                            </div>
+                            <div className="media-right">
+                              {/* {!isCreator(comment.user._id, user)  */}
+                              {isUser(singlePub.user, user) && <Icon
+                                onClick={() => handleFlag(comment._id)}
+                                path={mdiFlagVariant}
+                                size={1}
+                                color={comment.flagged === true ? 'red' : 'grey'}
+                              />}
+                              {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
+                              </button>}
+                            </div>
+                          </article>
+                        })}
+                      </div>
+
+
+
+
+                    </Modal>
+                  </div>
                 </div>
               </div>
               <div className="media-right">
