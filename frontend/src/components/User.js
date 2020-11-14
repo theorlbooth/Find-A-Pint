@@ -81,8 +81,10 @@ const User = (props) => {
       <h2>{user.email}</h2>
       <h3>{user.locationCoords}</h3>
       <button onClick={editTrue}>Edit</button>
-
       <div>
+        <div>
+          <h1>Friends</h1>
+        </div>
         <h2>Owned Pubs</h2>
         {user.ownedPubs.map((pub, index) => {
           return <Link to={`/pubs/${pub._id}`} key={index}>
