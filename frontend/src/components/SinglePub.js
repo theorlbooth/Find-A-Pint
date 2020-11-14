@@ -4,10 +4,11 @@ import moment from 'moment'
 import Modal from 'react-modal'
 import Icon from '@mdi/react'
 import { mdiFlagVariant } from '@mdi/js'
+import { Slide } from 'react-slideshow-image'
 
 
 import Loader from './Loader'
-import { getUserId, isCreator } from '../lib/auth'
+import { getUserId, isCreator, isUser } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
 
 const singlePub = (props) => {
@@ -32,18 +33,20 @@ const singlePub = (props) => {
   }, [])
 
 
+
+
   useEffect(() => {
     async function fetchData() {
 
       const { data } = await axios.get(`/api/pub/${id}`)
       updateSinglePub(data)
+      console.log(data)
 
       const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
       updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
 
       const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=73250291b5074399963b723e7870fafa`)
       updateWeatherInfo(weatherData)
-      console.log(weatherData)
     }
 
     fetchData()
@@ -215,8 +218,19 @@ const singlePub = (props) => {
         </div>
       </div>
       <div className="single-middle">
+
+        <div>
+          <Slide easing="ease">
+            {singlePub.photos.map((photo, index) => {
+              return <div className="each-slide" key={index}>
+                <div style={{ 'backgroundImage': `url(${photo})` }}>
+                </div>
+              </div>
+            })}
+          </Slide>
+        </div>
         <div className="single-map">Map</div>
-        
+
       </div>
       <div className="single-right-side">
         <div className="sub-button">
@@ -237,10 +251,7 @@ const singlePub = (props) => {
               </div>
             </div>}
           </article>
-
           {singlePub.comments && singlePub.comments.map(comment => {
-
-
             return <article key={comment._id} className="media">
               <div className="media-content">
                 <div className="content">
@@ -256,7 +267,8 @@ const singlePub = (props) => {
                 </div>
               </div>
               <div className="media-right">
-                {!isCreator(comment.user._id, user) && <Icon
+                {/* {!isCreator(comment.user._id, user)  */}
+                {isUser(singlePub.user, user) && <Icon
                   onClick={() => handleFlag(comment._id)}
                   path={mdiFlagVariant}
                   size={1}

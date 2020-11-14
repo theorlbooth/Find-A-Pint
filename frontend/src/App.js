@@ -4,6 +4,7 @@ import bulma from 'bulma'
 
 
 import '../styles/style.scss'
+import 'react-slideshow-image/dist/styles.css'
 
 import Home from './components/Home'
 import NavBar from './components/Navbar'
