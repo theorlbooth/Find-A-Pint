@@ -118,6 +118,16 @@ const singlePub = (props) => {
   }
 
 
+  function countReplies(comment) {
+    const replies = comment.replies.length
+    if (replies === 0) {
+      return 'Be the first to reply'
+    } else if (replies === 1) {
+      return '1 Reply'
+    } else {
+      return `${replies} Replies`
+    }
+  }
 
   // ! Modal ------------
   const customStyles = {
@@ -128,6 +138,9 @@ const singlePub = (props) => {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)'
+    },
+    overlay: {
+      zIndex: 1000
     }
   }
 
@@ -267,7 +280,7 @@ const singlePub = (props) => {
                   </div>
                   <p>{comment.text}</p>
                   <div>
-                    <Link to={`/pubs/${id}/comments/${comment._id}`}>Reply</Link>
+                    <Link to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
                   </div>
                 </div>
               </div>
