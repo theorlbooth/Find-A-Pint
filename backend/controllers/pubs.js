@@ -107,6 +107,7 @@ function findComment(req, res) {
   Pubs
     .findById(req.params.pubId)
     .populate('comments.user')
+    .populate('comments.replies.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
@@ -210,9 +211,9 @@ function updateReply(req, res) {
       const comment = pub.comments.id(req.params.commentId)
       const reply = comment.replies.id(req.params.replyId)
       reply.set(req.body)
-      return pub.save()
+      pub.save()
+      return res.send(comment)
     })
-    .then(pub => res.send(pub))
     .catch(err => res.send(err))
 }
 
@@ -228,9 +229,9 @@ function deleteReply(req, res) {
       const comment = pub.comments.id(req.params.commentId)
       const reply = comment.replies.id(req.params.replyId)
       reply.remove()
-      return pub.save()
+      pub.save()
+      return res.send(comment)
     })
-    .then(pub => res.send(pub))
     .catch(err => res.send(err))
 }
 
