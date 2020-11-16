@@ -81,7 +81,7 @@ export default function CreatePub() {
         <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} />
       </div>
       <div>
-        <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} />
+        <input type="text" placeholder="openinghours" name="openingHours" ref={register({ required: true })} />
       </div>
       <div>
         <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} />
@@ -90,7 +90,7 @@ export default function CreatePub() {
         <label>Take away?</label>
       </div>
       <div>
-        <input type="checkbox" placeholder="takeaway" name="takeaway" ref={register} />
+        <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} />
       </div>
       <div>
         <label>Outdoor Seating?</label>
