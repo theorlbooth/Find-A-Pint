@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import ReactMapGL, { Marker, Popup, GeolocateControl, Layer, SVGOverlay, Source } from 'react-map-gl'
 import axios from 'axios'
+import MapGL from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -199,6 +200,8 @@ const DisplayMap = () => {
   const geocoderContainerRef = useRef();
 
 
+
+
   return <section>
     <div
       ref={geocoderContainerRef}
@@ -303,6 +306,7 @@ const DisplayMap = () => {
         style={geolocateStyle}
         positionOptions={{ enableHighAccuracy: false }}
         trackUserLocation={true}
+        
       />
 
       {filteredPubList.map((pub, index) => {
@@ -349,6 +353,7 @@ const DisplayMap = () => {
 
         </Popup>
       ) : null}
+
       <Geocoder
         {...geocoderStyle}
         mapRef={mapRef}
@@ -357,14 +362,16 @@ const DisplayMap = () => {
         clearAndBlurOnEsc={true}
         captureDrag={true}
         closeOnClick={true}
+        collapsed={true}
+        inputValue={""}
         onResult={({ result }) => {
           setProxCoords(result.geometry.coordinates)
-
         }
         }
         onViewportChange={handleGeocoderViewportChange}
         mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
       />
+
 
       <button
         style={{ position: "absolute", left: "65%", top: "9.9%", height: '25px' }}

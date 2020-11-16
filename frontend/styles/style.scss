@@ -3,6 +3,11 @@
   margin: 30px 100px 0px 100px;
 }
 
+.mapboxgl-map{
+  width: '100vw' !important;
+  height: '90vh' !important
+}
+
 .marker-btn{
   position: relative;
   background: none;
