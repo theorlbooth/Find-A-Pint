@@ -39,3 +39,12 @@ export function isUser(pubUserId, user) {
   }
 }
 
+export function isLandlord(user) {
+  if (user === undefined) {
+    return false
+  } else if (user.isAdmin === true || user.isLandlord === true) {
+    return true
+  } else {
+    return false
+  }
+}

@@ -5,7 +5,7 @@ import axios from 'axios'
 const EditPub = (props) => {
 
   const id = props.match.params.id
-  const { register, handleSubmit, control, getValues } = useForm()
+  const { register, handleSubmit, control, getValues, setValue } = useForm()
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'photos'
@@ -22,7 +22,7 @@ const EditPub = (props) => {
     postcode: '',
     openinghours: '',
     phoneNumber: '',
-    takeaway: false,
+    takeAway: false,
     outdoorSeating: false,
     heating: false,
     liveMusic: false,
@@ -33,20 +33,29 @@ const EditPub = (props) => {
   useEffect(() => {
     axios.get(`/api/pub/${id}`)
       .then(resp => {
-        updatePub(resp.data)
-        console.log(resp.data)
         resp.data.photos.map((photo, index) => {
-          console.log(fields)
           const pic = {}
           pic.id = index
           pic.value = photo
           fields.push(pic)
-          console.log(fields)
         })
+        updatePub(resp.data)
+        console.log(resp.data)
       })
   }, [])
 
 
+
+  function mapPhotos(data) {
+    if (data.photos !== undefined) {
+      data.photos.map(photo => {
+        return photo.value
+      })
+    } else {
+      return []
+    }
+  }
+  
 
   const onSubmit = data => {
     console.log(data)
@@ -57,7 +66,8 @@ const EditPub = (props) => {
         address1: data.address,
         city: data.city,
         zip_code: data.postcode
-      }
+      },
+      photos: mapPhotos(data)
     }
 
 
@@ -81,7 +91,9 @@ const EditPub = (props) => {
           .then(resp => {
             console.log(resp.data)
           })
-
+      })
+      .then(() => {
+        props.history.push(`/pubs/${id}`)
       })
   }
 
@@ -95,7 +107,6 @@ const EditPub = (props) => {
       [name]: value
     }
     updatePub(updatedData)
-    console.log(updatedData)
   }
 
   function handleTickChange(event) {
@@ -107,9 +118,17 @@ const EditPub = (props) => {
       [name]: value
     }
     updatePub(updatedData)
-    console.log(updatedData)
   }
 
+  function picInput() {
+    append([{ value: getValues('photos-input') }])
+    setValue('photos-input', '')
+    console.log(fields)
+  }
+  function removePic(index) {
+    remove(index)
+    console.log(fields)
+  }
 
   return <>
 
@@ -136,7 +155,7 @@ const EditPub = (props) => {
           <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} value={pub.address.zip_code} onChange={handleChange} />
         </div>
         <div>
-          <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openinghours} onChange={handleChange} />
+          <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
         </div>
         <div>
           <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} value={pub.phoneNumber} onChange={handleChange} />
@@ -145,7 +164,7 @@ const EditPub = (props) => {
           <label>Take away?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="takeaway" name="takeaway" ref={register} checked={pub.takeaway === true ? true : false} onChange={handleTickChange} />
+          <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} checked={pub.takeAway === true ? true : false} onChange={handleTickChange} />
         </div>
         <div>
           <label>Outdoor Seating?</label>
@@ -172,7 +191,7 @@ const EditPub = (props) => {
           <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} checked={pub.liveSport === true ? true : false} value={pub.liveSport} onChange={handleTickChange} />
         </div>
 
-        <p>photos</p>
+        <p>Photos</p>
         {fields.map((photos, index) => {
           return (<div key={index}>
             <input
@@ -180,7 +199,7 @@ const EditPub = (props) => {
               ref={register}
               defaultValue={photos.value}
             />
-            <button type="button" onClick={() => remove(index)}>Delete</button>
+            <button type="button" onClick={() => removePic(index)}>Delete</button>
           </div>
 
           )
@@ -188,11 +207,10 @@ const EditPub = (props) => {
         <p>Add photos</p>
         <input name="photos-input" ref={register} />
         <p>
-          <a onClick={() => append([{ value: getValues('photos-input') }])} >
+          <a onClick={() => picInput()} >
             Add photos
           </a>
         </p>
-
         <input type="submit" />
       </form>
     </div >

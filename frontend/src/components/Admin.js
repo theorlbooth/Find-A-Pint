@@ -14,6 +14,7 @@ const Admin = () => {
     axios.get('/api/pub')
       .then(resp => {
         updatePubList(resp.data)
+        console.log(resp.data)
       })
   }, [])
 

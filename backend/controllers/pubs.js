@@ -69,7 +69,7 @@ function updatePub(req, res) {
       if (!pub) return res.send({
         message: 'No Pub Found'
       })
-      if (!pub.user.equals(currentUser._id)) {
+      if (!req.currentUser.isAdmin && !pub.user.equals(currentUser._id)) {
         return res.status(401).send({
           message: 'Unauthorized'
         })

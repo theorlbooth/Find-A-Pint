@@ -74,7 +74,7 @@ const Signup = (props) => {
         return <div key={index}>
           <label>{field}</label>
           <input
-            type='text'
+            type={field === 'password' || field === 'passwordConfirmation' ? 'password' : 'text'}
             onChange={handleChange}
             value={formData[field]}
             name={field}

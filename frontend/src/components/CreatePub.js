@@ -6,14 +6,11 @@ import axios from 'axios'
 
 
 export default function CreatePub() {
-  const { register, handleSubmit, errors, control, getValues } = useForm()
+  const { register, handleSubmit, errors, control, getValues, setValue } = useForm()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'images'
+    name: 'photos'
   })
-
-
-
 
 
   const onSubmit = data => {
@@ -29,9 +26,9 @@ export default function CreatePub() {
       photos: []
     }
 
-    if (data.images) {
-      data.images.map((images) => {
-        newdata.photos.push(images.value)
+    if (data.photos) {
+      data.photos.map((photo) => {
+        newdata.photos.push(photo.value)
       })
     }
 
@@ -60,11 +57,13 @@ export default function CreatePub() {
           })
 
       })
-
-
-
+      
   }
-  console.log(errors)
+
+  function picInput() {
+    append([{ value: getValues('photos-input') }])
+    setValue('photos-input', '')
+  }
 
   return (<div>
     <h1>Create a pub</h1>
@@ -125,24 +124,24 @@ export default function CreatePub() {
         <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} />
       </div>
 
-      <p>Images</p>
-      {fields.map((images, index) => {
-        return (<div key={images.id}>
+      <p>Photos</p>
+      {fields.map((photos, index) => {
+        return (<div key={photos.id}>
           <input
-            name={`images[${index}].value`}
+            name={`photos[${index}].value`}
             ref={register}
-            defaultValue={images.value}
+            defaultValue={photos.value}
           />
           <button type="button" onClick={() => remove(index)}>Delete</button>
         </div>
 
         )
       })}
-      <p>Add images</p>
-      <input name="images-input" ref={register} />
+      <p>Add photos</p>
+      <input name="photos-input" ref={register} />
       <p>
-        <a onClick={() => append({ value: getValues('images-input') })} >
-          Add images
+        <a onClick={() => picInput()} >
+          Add photos
         </a>
       </p>
 

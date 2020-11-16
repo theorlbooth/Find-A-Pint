@@ -148,7 +148,7 @@ const singlePub = (props) => {
         console.log(resp.data)
       })
       .then(() => {
-        props.history.push('/pubs')
+        props.history.push('/admin')
       })
   }
 
@@ -201,6 +201,15 @@ const singlePub = (props) => {
 
   // ! ------------
 
+
+  function showPhoto() {
+    if (singlePub.photos.length === 0) {
+      return [singlePub.imageUrl]
+
+    } else {
+      return singlePub.photos
+    }
+  }
 
 
   if (singlePub.address === undefined || weatherInfo.daily === undefined) {
@@ -272,15 +281,12 @@ const singlePub = (props) => {
               <button onClick={approvePub}>confirm</button>
             </div>
           </Modal>
-
-
-
         </div>
       </div>
       <div className="single-middle">
         <div>
           <Slide easing="ease">
-            {singlePub.photos.map((photo, index) => {
+            {showPhoto().map((photo, index) => {
               return <div className="each-slide" key={index}>
                 <div style={{ 'backgroundImage': `url(${photo})` }}>
                 </div>

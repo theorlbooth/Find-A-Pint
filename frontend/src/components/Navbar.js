@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { getUserId, isAdmin } from '../lib/auth'
+import { getUserId, isAdmin, isLandlord } from '../lib/auth'
 import axios from 'axios'
 
 const Navbar = (props) => {
+
+  const token = localStorage.getItem('token')
 
   function handleLogout() {
     localStorage.removeItem('token')
@@ -16,7 +18,7 @@ const Navbar = (props) => {
     axios.get(`/api/users/${id}`)
       .then(resp => {
         updateUser(resp.data)
-        console.log('request')
+        console.log(resp.data)
       })
   }, [props])
 
@@ -29,11 +31,11 @@ const Navbar = (props) => {
               <Link className="button is-ghost" to="/">Home</Link>
               <Link className="button is-black" to="/pubs">Search</Link>
               <Link className="button is-black" to='/pubs/maps'>Map</Link>
-              <Link className="button is-black" to='/pubs/new-pub'>Create Pub</Link>
-              {localStorage.getItem('token') && <Link className="button is-black" to={`/users/${id}`}>Account</Link>}
-              {!localStorage.getItem('token') && <Link className="button is-black" to="/login">Login</Link>}
+              {(token && isLandlord(user)) && <Link className="button is-black" to='/pubs/new-pub'>Create Pub</Link>}
+              {token && <Link className="button is-black" to={`/users/${id}`}>Account</Link>}
+              {!token && <Link className="button is-black" to="/login">Login</Link>}
               {isAdmin(user) && <Link className="button is-black" to={'/admin'}>Admin</Link>}
-              {localStorage.getItem('token') && <button className="button is-black" onClick={handleLogout}>Logout</button>}
+              {token && <button className="button is-black" onClick={handleLogout}>Logout</button>}
             </div>
           </div>
         </div>
