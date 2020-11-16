@@ -48,7 +48,7 @@ const Reply = (props) => {
 
 
   function handleReply() {
-    if (setText === '') {
+    if (text === '') {
       return
     } else {
       axios.post(`/api/pub/${id}/comments/${commentId}/new-reply`, { text }, {
