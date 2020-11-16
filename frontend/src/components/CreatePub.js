@@ -9,7 +9,7 @@ export default function CreatePub() {
   const { register, handleSubmit, errors, control, getValues } = useForm()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'photos'
+    name: 'images'
   })
 
   
@@ -25,8 +25,13 @@ export default function CreatePub() {
         address1: data.address,
         city: data.city,
         zip_code: data.postcode
-      }
+      },
+      photos: []
     }
+
+    data.images.map((images) => {
+      newdata.photos.push(images.value)
+    })
 
     const toURI = encodeURI(newdata.address.lineone + ' ' + newdata.address.zip_code + '' + 'uk')
     const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
@@ -118,24 +123,24 @@ export default function CreatePub() {
         <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} />
       </div>
 
-      <p>photos</p>
-      {fields.map((photos, index) => {
-        return (<div key={photos.id}>
+      <p>Images</p>
+      {fields.map((images, index) => {
+        return (<div key={images.id}>
           <input
-            name={`photos[${index}].value`}
+            name={`images[${index}].value`}
             ref={register}
-            defaultValue={photos.value}
+            defaultValue={images.value}
           />
           <button type="button" onClick={() => remove(index)}>Delete</button>
         </div>
 
         )
       })}
-      <p>Add photos</p>
-      <input name="photos-input" ref={register} />
+      <p>Add images</p>
+      <input name="images-input" ref={register} />
       <p>
-        <a onClick={() => append({ value: getValues('photos-input') })} >
-          Add photos
+        <a onClick={() => append({ value: getValues('images-input') })} >
+          Add images
         </a>
       </p>
 
