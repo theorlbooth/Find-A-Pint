@@ -28,7 +28,6 @@ export default function CreatePub() {
       }
     }
 
-
     const toURI = encodeURI(newdata.address.lineone + ' ' + newdata.address.zip_code + '' + 'uk')
     const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
 
@@ -36,10 +35,12 @@ export default function CreatePub() {
     axios.get(url)
       .then(resp => {
         const geo = resp.data.results[0].geometry
-        console.log(geo)
         const finaldata = {
           ...newdata,
-          coordinates: (geo)
+          coordinates: {
+            latitude: geo.lat,
+            longitude: geo.lng
+          }
         }
         console.log(finaldata)
         const token = localStorage.getItem('token')
@@ -81,7 +82,7 @@ export default function CreatePub() {
         <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} />
       </div>
       <div>
-        <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} />
+        <input type="text" placeholder="openinghours" name="openingHours" ref={register({ required: true })} />
       </div>
       <div>
         <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} />
@@ -90,7 +91,7 @@ export default function CreatePub() {
         <label>Take away?</label>
       </div>
       <div>
-        <input type="checkbox" placeholder="takeaway" name="takeaway" ref={register} />
+        <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} />
       </div>
       <div>
         <label>Outdoor Seating?</label>
@@ -117,24 +118,24 @@ export default function CreatePub() {
         <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} />
       </div>
 
-      <p>Images</p>
-      {fields.map((image, index) => {
-        return (<div key={image.id}>
+      <p>photos</p>
+      {fields.map((photos, index) => {
+        return (<div key={photos.id}>
           <input
-            name={`image[${index}].value`}
+            name={`photos[${index}].value`}
             ref={register}
-            defaultValue={image.value}
+            defaultValue={photos.value}
           />
           <button type="button" onClick={() => remove(index)}>Delete</button>
         </div>
 
         )
       })}
-      <p>Add image</p>
-      <input name="image-input" ref={register} />
+      <p>Add photos</p>
+      <input name="photos-input" ref={register} />
       <p>
-        <a onClick={() => append({ value: getValues('image-input') })} >
-          Add image
+        <a onClick={() => append({ value: getValues('photos-input') })} >
+          Add photos
         </a>
       </p>
 

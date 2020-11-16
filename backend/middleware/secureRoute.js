@@ -8,7 +8,7 @@ function secureRoute(req, res, next) {
   const authToken = req.headers.authorization
   if (!authToken || !authToken.startsWith('Bearer')) {
     return res.status(401).send({
-      message: 'Unauthorized'
+      message: 'Unauthorized no token'
     })
   }
   const token = authToken.replace('Bearer ', '')
@@ -16,7 +16,7 @@ function secureRoute(req, res, next) {
   jwt.verify(token, secret, (err, payload) => {
 
     if (err) return res.status(401).send({
-      message: 'Unauthorized'
+      message: 'Unauthorized Outdated'
     })
 
     const userId = payload.sub

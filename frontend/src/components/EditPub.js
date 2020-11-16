@@ -131,9 +131,6 @@ const EditPub = (props) => {
         <div>
           <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} value={pub.phoneNumber} onChange={handleChange} />
         </div>
-
-
-
         <div>
           <label>Take away?</label>
         </div>

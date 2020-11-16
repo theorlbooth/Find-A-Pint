@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
   address: { type: Object },
   coordinates: { type: Object },
   landlordName: { type: String },
-  photos: { type: [String] },
+  photos: { type: Object },
   price: { type: String },
   openingHours: { type: String },
   transaction: { type: [String] },
