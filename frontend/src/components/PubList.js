@@ -92,13 +92,12 @@ const PubList = () => {
     return filteredPubsE
   }
 
-  // console.log(filterPubs(examplePubs))
-  //  !! Remember to change back below!!
 
   useEffect(() => {
     axios.get('/api/pub')
       .then(resp => {
         updatePubList(resp.data)
+        console.log(resp.data)
       })
   }, [])
 
@@ -138,8 +137,6 @@ const PubList = () => {
           </div>
         </div>
       </div>
-
-      {/* !! Change back to pubsList !! */}
       <div className="search-results">
         <div className="columns is-multiline is-mobile">
           {filterPubs(pubsList).map((pub, index) => {
