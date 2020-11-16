@@ -3,7 +3,9 @@ const {
 } = require('axios')
 const Pubs = require('../models/pubs')
 const Users = require('../models/users')
+
 const axios = require('axios')
+
 
 function getPub(req, res) {
   Pubs.find().populate('user').then(pubList => res.send(pubList))
@@ -104,12 +106,14 @@ function createComment(req, res) {
 function findComment(req, res) {
   Pubs
     .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
       const comment = pub.comments.id(req.params.commentId)
-      res.send(comment)
+      return res.send(comment)
     })
     .catch(err => res.send(err))
 }
@@ -158,6 +162,80 @@ function deleteComment(req, res) {
     .catch(err => res.send(err))
 }
 
+function replyToComment(req, res) {
+  const reply = req.body
+  reply.user = req.currentUser
+  reply.flagged = false
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      comment
+        .replies.push(reply)
+      pub.save()
+      res.send(comment)
+    })
+    .catch(err => res.send(err))
+}
+
+function findReply(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      return res.send(reply)
+    })
+    .catch(err => res.send(err))
+}
+
+function updateReply(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      reply.set(req.body)
+      pub.save()
+      return res.send(comment)
+    })
+    .catch(err => res.send(err))
+}
+
+function deleteReply(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      const reply = comment.replies.id(req.params.replyId)
+      reply.remove()
+      pub.save()
+      return res.send(comment)
+    })
+    .catch(err => res.send(err))
+}
+
+
 module.exports = {
   getPub,
   addPub,
@@ -167,5 +245,9 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
-  findComment
+  findComment,
+  replyToComment,
+  findReply,
+  updateReply,
+  deleteReply
 }

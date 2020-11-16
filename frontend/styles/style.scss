@@ -16,10 +16,36 @@
   height: 50px;
 }
 
+
+// ! Reply Page 
+
+.reply-page {
+  display: flex;
+  justify-content: center;
+
+  .replies-section {
+    width: 400px;
+  }
+  
+  .current-comment {
+    margin: 30px 0px;
+  }
+
+  .replies-shown {
+    height: 55vh;
+    overflow: auto;
+  }
+
+  .add-reply {
+    margin: 30px 0px;
+  }
+}
+
 .mapboxgl-marker {
   // left: 50%;
   // top: 50%;
   // transform: translate(-50%, -50%);
+
 }
 
 
@@ -77,6 +103,7 @@
   }
 }
 
+
 .single-middle {
 
   width: 300px;
@@ -89,7 +116,6 @@
     height: 350px;
   }
 
-  
   .single-map {
     border: 5px solid black;
   }
@@ -115,11 +141,7 @@
   }
 
 }
-
-
-
 }
-
 
 
 // !! ---------------- React Toggle ----------------

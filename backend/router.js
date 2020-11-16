@@ -40,8 +40,17 @@ router.route('/pub/:pubId/comments')
   .post(secureRoute, pubController.createComment)
 
 router.route('/pub/:pubId/comments/:commentId')
+  .get(pubController.findComment)
   .put(secureRoute, pubController.updateComment)
   .delete(secureRoute, pubController.deleteComment)
-  .get(pubController.findComment)
+
+
+router.route('/pub/:pubId/comments/:commentId/new-reply')
+  .post(secureRoute, pubController.replyToComment)
+
+router.route('/pub/:pubId/comments/:commentId/reply/:replyId')
+  .get(pubController.findReply)
+  .put(secureRoute, pubController.updateReply)
+  .delete(secureRoute, pubController.deleteReply)
 
 module.exports = router

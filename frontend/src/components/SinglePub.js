@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import Icon from '@mdi/react'
 import { mdiFlagVariant } from '@mdi/js'
 import { Slide } from 'react-slideshow-image'
+import { Link } from 'react-router-dom'
 
 
 import Loader from './Loader'
@@ -31,8 +32,6 @@ const singlePub = (props) => {
         console.log(resp.data)
       })
   }, [])
-
-
 
 
   useEffect(() => {
@@ -119,6 +118,17 @@ const singlePub = (props) => {
   }
 
 
+  function countReplies(comment) {
+    const replies = comment.replies.length
+    if (replies === 0) {
+      return 'Be the first to reply'
+    } else if (replies === 1) {
+      return '1 Reply'
+    } else {
+      return `${replies} Replies`
+    }
+  }
+
   // ! Modal ------------
   const customStyles = {
     content: {
@@ -128,11 +138,17 @@ const singlePub = (props) => {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)'
+    },
+    overlay: {
+      zIndex: 1000
     }
   }
 
+  Modal.setAppElement('#root')
+
   const [editModalIsOpen, setEditIsOpen] = useState(false)
   const [deleteModalIsOpen, setDeleteIsOpen] = useState(false)
+
 
   function openEditModal() {
     setEditIsOpen(true)
@@ -149,6 +165,7 @@ const singlePub = (props) => {
   function closeDeleteModal() {
     setDeleteIsOpen(false)
   }
+
 
   // ! ------------
 
@@ -218,7 +235,6 @@ const singlePub = (props) => {
         </div>
       </div>
       <div className="single-middle">
-
         <div>
           <Slide easing="ease">
             {singlePub.photos.map((photo, index) => {
@@ -230,7 +246,6 @@ const singlePub = (props) => {
           </Slide>
         </div>
         <div className="single-map">Map</div>
-
       </div>
       <div className="single-right-side">
         <div className="sub-button">
@@ -264,6 +279,9 @@ const singlePub = (props) => {
                     </p>
                   </div>
                   <p>{comment.text}</p>
+                  <div>
+                    <Link to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
+                  </div>
                 </div>
               </div>
               <div className="media-right">
