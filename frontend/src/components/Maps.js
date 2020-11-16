@@ -8,8 +8,6 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import * as turf from '@turf/turf'
 import { NavigationControl } from 'mapbox-gl'
-import { bulma } from "bulma";
-
 
 
 let radius = 5
@@ -31,6 +29,11 @@ const DisplayMap = () => {
   const [showRadius, shouldShowRadius] = useState(true)
 
   const [circleState, updateCircle] = useState(true)
+
+  const [isVenn, setVenn] = useState(true)
+
+  const [friendCoords, setFriendCoords] = useState([-0.1347, 51.5186])
+
 
   // console.log(proxCoords)
 
@@ -108,12 +111,26 @@ const DisplayMap = () => {
 
     // console.log("Check")
     // console.log("IN USE EFFECT", proxCoords)
-    setFilteredPubList(pubList.filter(elem => {
-      if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude).toString().split('.')[0]) < radius) {
-        // console.log(elem.name)
-        return true
+    {
+      if (!isVenn) {
+        setFilteredPubList(pubList.filter(elem => {
+          if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
+            // console.log(elem.name)
+            return true
+          }
+        }))
+      } else {
+        setFilteredPubList(pubList.filter(elem => {
+          if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
+            // console.log(elem.name)
+            if (Number(measure(friendCoords[1], friendCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
+              return true
+            }
+          }
+
+        }))
       }
-    }))
+    }
     // console.log("check", filteredPubList)
   }, [proxCoords[1], proxCoords[0], circleState])
 
@@ -158,7 +175,7 @@ const DisplayMap = () => {
         ...geocoderDefaultOverrides
       })
     },
-    []
+    [handleViewportChange]
   )
 
   const data = {
@@ -172,8 +189,10 @@ const DisplayMap = () => {
   };
 
   let circ = turf.circle(proxCoords, 5, { steps: 100, units: 'kilometers' })
+  let circ2 = turf.circle(proxCoords, 5, { steps: 100, units: 'kilometers' })
   if (radius) {
     circ = turf.circle(proxCoords, radius, { steps: 100, units: 'kilometers' })
+    circ2 = turf.circle(friendCoords, radius, { steps: 100, units: 'kilometers' })
   }
   // const circleCenter = turf.circle(proxCoords, 0.05)
 
@@ -181,15 +200,26 @@ const DisplayMap = () => {
 
 
   return <section>
+    <div
+      ref={geocoderContainerRef}
+      style={{ backgroundColor: "#03befc67", width: '20%', height: '40%', position: "absolute", zIndex: 1, top: "60%" }}>
+      <p>FRIEND TEST</p>
+      <h1 style={{backgroundColor: "white"}} onClick={() => {setFriendCoords([-0.16114632548925634, 51.592644530921795]), updateCircle(true)}}>Friend Number 1</h1>
+      <h1 style={{backgroundColor: "white"}} onClick={() => {setFriendCoords([-0.10484139384928298, 51.627610411834105]), updateCircle(true)}}>Friend Number 2</h1>
+      <h1 style={{backgroundColor: "white"}} onClick={() => {setFriendCoords([-0.0676,51.4895]), updateCircle(true)}}>Friend Number 3</h1>
+
+    </div>
+
     <input type="range" className="custom-range" min="1" max="20" defaultValue="5" step="0.25"
       ref={geocoderContainerRef}
-      style={{ zIndex: 1, position: "absolute" }}
+      style={{ left: '27%', top: '17%', zIndex: 1, position: "absolute", width: "545px", height: '25px', appearance: 'none' }}
 
       onChange={(event) => {
         setRangeval(event.target.value)
         radius = rangeval
         updateCircle(true)
       }} />
+    <h1 style={{ position: "absolute", zIndex: 1, left: '27%', top: '20%' }}>Current Range: {radius} KM</h1>
 
     {/* <div
         ref={geocoderContainerRef}
@@ -203,13 +233,17 @@ const DisplayMap = () => {
       mapboxApiAccessToken="pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w"
       onViewportChange={handleViewportChange}
     >
-
-      <Source id='route' type='geojson' data={circ} />
+      <button onClick={() => {
+        updateCircle(true)
+        setVenn(!isVenn)
+      }}>Venn Toggle</button>
+      <Source id='CircleRadius1' type='geojson' data={circ} />
+      <Source id='CircleRadius2' type='geojson' data={circ2} />
       {showRadius ? (
         <Layer
-          id='route'
+          id='CircleRadius1'
           type='line'
-          source='route'
+          source='CircleRadius1'
           layout={{
             'line-join': 'round',
             'line-cap': 'round'
@@ -219,7 +253,25 @@ const DisplayMap = () => {
             'line-width': 4
           }}
         />
+
       ) : null}
+      {showRadius && isVenn ? (
+        <Layer
+          id='CircleRadius2'
+          type='line'
+          source='CircleRadius2'
+          layout={{
+            'line-join': 'round',
+            'line-cap': 'round'
+          }}
+          paint={{
+            'line-color': '#32a852',
+            'line-width': 4
+          }}
+        />
+
+      ) : null}
+
 
       {/* <DeckGL
       
@@ -303,20 +355,23 @@ const DisplayMap = () => {
         // placeholder={'Search'}
         // clearOnBlur={true}
         clearAndBlurOnEsc={true}
-        captureDrag={false}
+        captureDrag={true}
+        closeOnClick={true}
         onResult={({ result }) => {
           setProxCoords(result.geometry.coordinates)
+
         }
         }
         onViewportChange={handleGeocoderViewportChange}
         mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
       />
+
       <button
-
+        style={{ position: "absolute", left: "65%", top: "9.9%", height: '25px' }}
         onClick={() => { setFilteredPubList(pubList) }}>Clear Filter</button>
-      <h1>Current Range: {radius} KM</h1>
 
-      <button onClick={() => {
+
+      {/* <button onClick={() => {
         if (radius > 1) {
           radius -= 1
           updateCircle(true)
@@ -330,10 +385,10 @@ const DisplayMap = () => {
           updateCircle(true)
           console.log(data)
         }}>Radius +1</button>
-      
+       */}
 
     </ReactMapGL>
-    
+
   </section>
 }
 
@@ -344,8 +399,6 @@ const Maps = () => {
     <div id='maps'>
 
       <DisplayMap></DisplayMap>
-      <input className="slider is-fullwidth" step="1" min="0" max="100" value="50" type="range"></input>
-      <button className="button">Button</button>
 
 
     </div>
