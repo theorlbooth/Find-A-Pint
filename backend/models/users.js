@@ -12,7 +12,10 @@ const schema = new mongoose.Schema({
   ownedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
   subscribedPubs: [{ type: mongoose.Schema.ObjectId, ref: 'pubs' }],
   isEmailConfirmed: { type: Boolean },
-  locationCoords: { type: String },
+  locationCoords: {
+    latitude: { type: Number },
+    longitude: { type: Number }
+  },
   friends: {
     requests: [String],
     pending: [String],

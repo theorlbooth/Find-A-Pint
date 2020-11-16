@@ -10,10 +10,11 @@ const Signup = (props) => {
     password: '',
     passwordConfirmation: '',
     isLandlord: false,
-    locationCoords: ''
+    address: '',
+    postcode: ''
   })
 
-  const inputFields = ['username', 'email', 'password', 'passwordConfirmation', 'locationCoords']
+  const inputFields = ['username', 'email', 'password', 'passwordConfirmation', 'address', 'postcode']
 
   function handleChange(event) {
     const name = event.target.name
@@ -23,6 +24,7 @@ const Signup = (props) => {
       ...formData,
       [name]: value
     }
+    console.log(data)
     updateFromData(data)
   }
 
@@ -32,20 +34,36 @@ const Signup = (props) => {
       ...formData,
       isLandlord: value
     }
+    console.log(data)
     updateFromData(data)
   }
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    axios.post('api/register', formData)
+    const toURI = encodeURI(formData.address + ' ' + formData.postcode + '' + 'uk')
+    const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
+
+    axios.get(url)
       .then(resp => {
-        const message = resp.data
-        if (!message.errors) {
-          props.history.push('/login')
-          console.log(resp.data)
+        const geo = resp.data.results[0].geometry
+        const finaldata = {
+          ...formData,
+          locationCoords: {
+            latitude: geo.lat,
+            longitude: geo.lng
+          }
         }
-        console.log(resp.data)
+
+        axios.post('api/register', finaldata)
+          .then(resp => {
+            const message = resp.data
+            if (!message.errors) {
+              props.history.push('/login')
+              console.log(resp.data)
+            }
+            console.log(resp.data)
+          })
       })
   }
 
