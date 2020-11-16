@@ -59,6 +59,16 @@ const User = (props) => {
   }, [accept])
 
 
+  //! Check for Image
+
+  function checkForImage(pub) {
+    if (pub.imageUrl === '') {
+      return 'https://images.unsplash.com/photo-1586993451228-09818021e309?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    }
+    return pub.imageUrl
+  }
+
+
 
 
   //! Friend Request & Add
@@ -92,7 +102,7 @@ const User = (props) => {
     updateEdit(true)
   }
 
-  const inputFields = ['username', 'email', 'locationCoords']
+  const inputFields = ['username', 'email']
 
   function handleChange(event) {
     const name = event.target.name
@@ -140,18 +150,35 @@ const User = (props) => {
     <div>
       <h1>{user.username}</h1>
       <h2>{user.email}</h2>
-      <h3>{user.locationCoords}</h3>
       {thisUser ? <button onClick={editTrue}>Edit</button> : null}
       {!thisUser && !isFriends && !requested ? <button onClick={addFriend}>Add Friend</button> : null}
       {requested ? <button disabled>Requested</button> : null}
       <div>
         <div>
-          <h1>Friends</h1>
-          {friends.friends.map((friend, index) => {
-            return <div key={index}>
-              <h3>Name: {friend.username}</h3>
+          <h2 className="title is-2 has-text-centered">Friends</h2>
+
+          <div className="users-page">
+            <div className="filter">
             </div>
-          })}
+            <div className="search-results">
+              <div className="columns is-multiline is-mobile">
+                {friends.friends.map((user, index) => {
+                  return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                    <Link to={`/users/${user._id}`}>
+                      <div className="card">
+                        <div className="card-content">
+                          <div className="media-content">
+                            <h2 className="title is-5">{user.username}</h2>
+                            <p className="subtitle is-6">{user.email}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                })}
+              </div>
+            </div>
+          </div>
 
           {thisUser ? <div>
             <h1>Requests</h1>
@@ -166,14 +193,30 @@ const User = (props) => {
 
         </div>
         <h2>Owned Pubs</h2>
-        {user.ownedPubs.map((pub, index) => {
-          return <Link to={`/pubs/${pub._id}`} key={index}>
-            <div>
-              <h1>{pub.alias}</h1>
-              <h1>{pub.name}</h1>
-            </div>
-          </Link>
-        })}
+        <div className="pubs-page">
+          <div className="columns is-multiline is-mobile">
+            {user.ownedPubs.map((pub, index) => {
+              return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                <Link to={`pub/${pub._id}`}>
+                  <div className="card">
+                    <div className="card-image">
+                      <figure className="image is-square">
+                        <img src={checkForImage(pub)} alt={pub.name} />
+                      </figure>
+                    </div>
+                    <div className="card-content">
+                      <div className="media-content">
+                        <h2 className="title is-5">{pub.name}</h2>
+                        <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
+                        <p className="subtitle is-6">Distance from:</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            })}
+          </div>
+        </div>
       </div>
     </div>
     {edit ? <div>

@@ -10,7 +10,7 @@
   transform: translate(-50%, -50%);
 }
 
-.custom-range::-webkit-slider-thumb{
+.custom-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 25px;
@@ -19,10 +19,11 @@
   cursor: pointer;
 }
 
-.custom-range:hover{
+.custom-range:hover {
   opacity: 1;
 }
-.custom-range{
+
+.custom-range {
   background: #ffffff;
   outline: none;
   opacity: 0.7;
@@ -51,9 +52,9 @@
   margin: 30px 0px;
 }
 
-  .add-reply {
-    margin: 30px 0px;
-  }
+.add-reply {
+  margin: 30px 0px;
+}
 
 .replies-shown {
   height: 55vh;
@@ -360,5 +361,4 @@
 //   // width: 200px !important;
 // left:50%;
 // top:50%;
-
 // }

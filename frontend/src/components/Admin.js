@@ -103,7 +103,7 @@ const Admin = () => {
         <div className="columns is-multiline is-mobile">
           {adminFilter().map((pub, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
-              <Link to={`pub/${pub._id}`}>
+              <Link to={`pubs/${pub._id}`}>
                 <div className="card">
                   <div className="card-image">
                     <figure className="image is-square">

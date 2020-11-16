@@ -129,6 +129,16 @@ const singlePub = (props) => {
     }
   }
 
+  function deletePub() {
+    axios.delete(`/api/pub/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(() => {
+        props.history.push('/pubs')
+      })
+  }
+
+
   // ! Modal ------------
   const customStyles = {
     content: {
@@ -221,7 +231,7 @@ const singlePub = (props) => {
             <p>Are you sure you want to make changes to this pub?</p>
             <div className="modal-buttons">
               <button onClick={closeEditModal}>cancel</button>
-              <button>confirm</button>
+              <Link to={`/pubs/${id}/edit-pub`}><button>confirm</button></Link>
             </div>
           </Modal>
           {isCreator(singlePub.user, user) && <button className="delete-pub" onClick={openDeleteModal}>Delete Pub</button>}
@@ -229,7 +239,7 @@ const singlePub = (props) => {
             <p>Are you sure you want to delete this pub?</p>
             <div className="modal-buttons">
               <button onClick={closeDeleteModal}>cancel</button>
-              <button>confirm</button>
+              <button onClick={deletePub}>confirm</button>
             </div>
           </Modal>
         </div>
