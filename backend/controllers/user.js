@@ -115,7 +115,9 @@ function sendRequest(req, res) {
 function getRequest(req, res) {
   Users
     .findById(req.params.userId)
-    .then(user => res.send(user.friends.requests))
+    .populate('friends.friends')
+    .populate('friends.requests')
+    .then(user => res.send(user.friends))
     .catch(error => res.send(error))
 }
 
@@ -139,7 +141,7 @@ function acceptRequest(req, res) {
           sender.friends.friends.push(req.params.userId)
           return user.save(), sender.save()
         })
-        .then(res.send(user))
+        .then(res.send(user.friends))
     })
 
 }
