@@ -4,13 +4,22 @@
 }
 
 .marker-btn{
+  position: relative;
   background: none;
   border: none;
   cursor: pointer;
+  transform: translate(-50%, -50%);
 }
+
 .marker-btn img{
   width: 50px;
   height: 50px;
+}
+
+.mapboxgl-marker {
+  // left: 50%;
+  // top: 50%;
+  // transform: translate(-50%, -50%);
 }
 
 
@@ -257,14 +266,51 @@
   box-shadow: 0px 0px 5px 5px #0099E0;
 
 }
-.marker-btn{
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-.marker-btn img{
-  width: 50px;
-  height: 50px;
+// .marker-btn{
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   transform: translate(-50%, -50%);
+// }
+// .marker-btn img{
+  
+//   // transform: translate(-50%, 0);
+//   // width: 50px;
+//   // height: 50px;
 
+// }
+
+
+// .mapboxgl-ctrl-geocoder {
+//   width: 300px!important;
+// }
+// .geocoder-dropdown-item {
+//   padding: 50px;
+//   }
+
+//   .react-geocoder-results{
+//     width: 300px!important;
+//     padding: 50px;
+//     color: green;
+//   }
+
+
+
+
+.mapboxgl-ctrl-geocoder {
+  width: 650px !important;
+  max-width: 1000px !important;
+  height: 35px !important;
+font-size: 20px !important;
+margin-left: 60% !important;
 }
 
+
+
+// .BeerIcon{
+//   margin: 0px;
+//   // width: 200px !important;
+// left:50%;
+// top:50%;
+
+// }
