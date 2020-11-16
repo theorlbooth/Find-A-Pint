@@ -123,11 +123,6 @@ function acceptRequest(req, res) {
   Users
     .findById(req.params.userId)
     .then(user => {
-      if (!user._id.equals(req.currentUser._id)) {
-        return res.status(401).send({
-          message: 'Unauthorized'
-        })
-      }
       const index = user.friends.requests.indexOf(`${req.params.requestId}`)
       if (index === -1) {
         return res.status(404).send({
