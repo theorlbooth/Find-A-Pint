@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 
 import Loader from './Loader'
-import { getUserId, isCreator, isUser } from '../lib/auth'
+import { getUserId, isAdmin, isCreator, isUser } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
 
 const singlePub = (props) => {
@@ -29,7 +29,6 @@ const singlePub = (props) => {
     axios.get(`/api/users/${getUserId()}`)
       .then(resp => {
         updateUser(resp.data)
-        console.log(resp.data)
       })
   }, [])
 
@@ -138,6 +137,21 @@ const singlePub = (props) => {
       })
   }
 
+  function approvePub() {
+    axios.put(`/api/pub/${id}`, {
+      reviewed: true
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        updateSinglePub(resp.data)
+        console.log(resp.data)
+      })
+      .then(() => {
+        props.history.push('/pubs')
+      })
+  }
+
 
   // ! Modal ------------
   const customStyles = {
@@ -158,6 +172,7 @@ const singlePub = (props) => {
 
   const [editModalIsOpen, setEditIsOpen] = useState(false)
   const [deleteModalIsOpen, setDeleteIsOpen] = useState(false)
+  const [approveModalIsOpen, setApproveIsOpen] = useState(false)
 
 
   function openEditModal() {
@@ -176,6 +191,13 @@ const singlePub = (props) => {
     setDeleteIsOpen(false)
   }
 
+  function openApproveModal() {
+    setApproveIsOpen(true)
+  }
+
+  function closeApproveModal() {
+    setApproveIsOpen(false)
+  }
 
   // ! ------------
 
@@ -242,6 +264,17 @@ const singlePub = (props) => {
               <button onClick={deletePub}>confirm</button>
             </div>
           </Modal>
+          {(isAdmin(user) && singlePub.reviewed === false) && <button className="approve-pub" onClick={openApproveModal}>Approve Pub</button>}
+          <Modal isOpen={approveModalIsOpen} onRequestClose={closeApproveModal} style={customStyles} contentLabel="Approve Modal">
+            <p>Are you sure you want to approve this pub?</p>
+            <div className="modal-buttons">
+              <button onClick={closeApproveModal}>cancel</button>
+              <button onClick={approvePub}>confirm</button>
+            </div>
+          </Modal>
+
+
+
         </div>
       </div>
       <div className="single-middle">

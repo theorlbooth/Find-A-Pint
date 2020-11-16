@@ -12,7 +12,7 @@ export default function CreatePub() {
     name: 'images'
   })
 
-  
+
 
 
 
@@ -29,9 +29,11 @@ export default function CreatePub() {
       photos: []
     }
 
-    data.images.map((images) => {
-      newdata.photos.push(images.value)
-    })
+    if (data.images) {
+      data.images.map((images) => {
+        newdata.photos.push(images.value)
+      })
+    }
 
     const toURI = encodeURI(newdata.address.lineone + ' ' + newdata.address.zip_code + '' + 'uk')
     const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
@@ -60,7 +62,7 @@ export default function CreatePub() {
       })
 
 
-  
+
   }
   console.log(errors)
 

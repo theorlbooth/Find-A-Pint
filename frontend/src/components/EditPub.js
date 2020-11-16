@@ -5,11 +5,13 @@ import axios from 'axios'
 const EditPub = (props) => {
 
   const id = props.match.params.id
-  const { register, handleSubmit, errors, control, getValues } = useForm()
+  const { register, handleSubmit, control, getValues } = useForm()
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'photos'
   })
+
+
 
   const [pub, updatePub] = useState({
     alias: '',
@@ -24,7 +26,7 @@ const EditPub = (props) => {
     outdoorSeating: false,
     heating: false,
     liveMusic: false,
-    liveSport: false, 
+    liveSport: false,
     photos: []
   })
 
@@ -33,6 +35,14 @@ const EditPub = (props) => {
       .then(resp => {
         updatePub(resp.data)
         console.log(resp.data)
+        resp.data.photos.map((photo, index) => {
+          console.log(fields)
+          const pic = {}
+          pic.id = index
+          pic.value = photo
+          fields.push(pic)
+          console.log(fields)
+        })
       })
   }, [])
 
@@ -108,7 +118,7 @@ const EditPub = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div>
-          <input type="text" placeholder="alias" name="alias" ref={register({ required: true })} value={pub.alias} onChange={handleChange}/>
+          <input type="text" placeholder="alias" name="alias" ref={register({ required: true })} value={pub.alias} onChange={handleChange} />
         </div>
         <div>
           <input type="text" placeholder="name" name="name" ref={register({ required: true })} value={pub.name} onChange={handleChange} />
@@ -123,7 +133,7 @@ const EditPub = (props) => {
           <input type="text" placeholder="city" name="city" ref={register({ required: true })} value={pub.address.city} onChange={handleChange} />
         </div>
         <div>
-          <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })}  value={pub.address.zip_code} onChange={handleChange} />
+          <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} value={pub.address.zip_code} onChange={handleChange} />
         </div>
         <div>
           <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openinghours} onChange={handleChange} />
@@ -135,51 +145,51 @@ const EditPub = (props) => {
           <label>Take away?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="takeaway" name="takeaway" ref={register} checked={pub.takeaway === true ? true : false} onChange={handleTickChange}/>
+          <input type="checkbox" placeholder="takeaway" name="takeaway" ref={register} checked={pub.takeaway === true ? true : false} onChange={handleTickChange} />
         </div>
         <div>
           <label>Outdoor Seating?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} checked={pub.outdoorSeating === true ? true : false} onChange={handleTickChange}/>
+          <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} checked={pub.outdoorSeating === true ? true : false} onChange={handleTickChange} />
         </div>
         <div>
           <label>Heating?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="heating" name="heating" ref={register} checked={pub.heating === true ? true : false} value={pub.heating} onChange={handleTickChange}/>
+          <input type="checkbox" placeholder="heating" name="heating" ref={register} checked={pub.heating === true ? true : false} value={pub.heating} onChange={handleTickChange} />
         </div>
         <div>
           <label>LiveMusic?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} checked={pub.liveMusic === true ? true : false} value={pub.liveMusic} onChange={handleTickChange}/>
+          <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} checked={pub.liveMusic === true ? true : false} value={pub.liveMusic} onChange={handleTickChange} />
         </div>
         <div>
           <label>Livesport?</label>
         </div>
         <div>
-          <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} checked={pub.liveSport === true ? true : false} value={pub.liveSport} onChange={handleTickChange}/>
+          <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} checked={pub.liveSport === true ? true : false} value={pub.liveSport} onChange={handleTickChange} />
         </div>
 
-        <p>Images</p>
-        {fields.map((image, index) => {
-          return (<div key={image.id}>
+        <p>photos</p>
+        {fields.map((photos, index) => {
+          return (<div key={index}>
             <input
-              name={`image[${index}].value`}
+              name={`photos[${index}].value`}
               ref={register}
-              defaultValue={image.value}
+              defaultValue={photos.value}
             />
             <button type="button" onClick={() => remove(index)}>Delete</button>
           </div>
 
           )
         })}
-        <p>Add image</p>
-        <input name="image-input" ref={register} />
+        <p>Add photos</p>
+        <input name="photos-input" ref={register} />
         <p>
-          <a onClick={() => append({ value: getValues('image-input') })} >
-            Add image
+          <a onClick={() => append([{ value: getValues('photos-input') }])} >
+            Add photos
           </a>
         </p>
 
