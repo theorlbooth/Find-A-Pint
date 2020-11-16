@@ -7,6 +7,10 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import * as turf from '@turf/turf'
+import { NavigationControl } from 'mapbox-gl'
+import { bulma } from "bulma";
+
+
 
 let radius = 5
 
@@ -106,7 +110,7 @@ const DisplayMap = () => {
     // console.log("IN USE EFFECT", proxCoords)
     setFilteredPubList(pubList.filter(elem => {
       if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude).toString().split('.')[0]) < radius) {
-        console.log(elem.name)
+        // console.log(elem.name)
         return true
       }
     }))
@@ -167,13 +171,30 @@ const DisplayMap = () => {
     }
   };
 
-  const circ = turf.circle(proxCoords, radius, { steps: 100, units: 'kilometers' })
-
+  let circ = turf.circle(proxCoords, 5, { steps: 100, units: 'kilometers' })
+  if (radius) {
+    circ = turf.circle(proxCoords, radius, { steps: 100, units: 'kilometers' })
+  }
   // const circleCenter = turf.circle(proxCoords, 0.05)
 
+  const geocoderContainerRef = useRef();
+
+
   return <section>
+    <input type="range" className="custom-range" min="1" max="20" defaultValue="5" step="0.25"
+      ref={geocoderContainerRef}
+      style={{ zIndex: 1, position: "absolute" }}
 
+      onChange={(event) => {
+        setRangeval(event.target.value)
+        radius = rangeval
+        updateCircle(true)
+      }} />
 
+    {/* <div
+        ref={geocoderContainerRef}
+        style={{ position: "absolute", zIndex: 1, height: "450px" }}
+      /> */}
     <ReactMapGL
       ref={mapRef}
       {...viewport}
@@ -222,12 +243,10 @@ const DisplayMap = () => {
 
         }}
       />; */}
-      <input type="range" className="custom-range" min="1" max="50" defaultValue="5"
-        onChange={(event) => {
-          setRangeval(event.target.value)
-          radius = rangeval
-        }} />
+      {/* <container captureDrag={true} style={{backgroundColor: "blue"}}>  */}
 
+
+      {/* </container> */}
       <GeolocateControl
         style={geolocateStyle}
         positionOptions={{ enableHighAccuracy: false }}
@@ -247,6 +266,7 @@ const DisplayMap = () => {
           </button>
         </Marker>
       })}
+
       {/* <Source id='dot' type='geojson' data={data} />
             <Layer
         id='dot'
@@ -269,7 +289,8 @@ const DisplayMap = () => {
             <Link to={`${selectedPub._id}`}>
               <h2>{selectedPub.name}</h2>
               <p>{selectedPub.address.address1}</p>
-              <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
+              <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km
+              {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
 
             </Link>
           </div>
@@ -282,6 +303,7 @@ const DisplayMap = () => {
         // placeholder={'Search'}
         // clearOnBlur={true}
         clearAndBlurOnEsc={true}
+        captureDrag={false}
         onResult={({ result }) => {
           setProxCoords(result.geometry.coordinates)
         }
@@ -290,6 +312,7 @@ const DisplayMap = () => {
         mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
       />
       <button
+
         onClick={() => { setFilteredPubList(pubList) }}>Clear Filter</button>
       <h1>Current Range: {radius} KM</h1>
 
@@ -299,15 +322,18 @@ const DisplayMap = () => {
           updateCircle(true)
         }
       }}>Radius -1</button>
-      <button onClick={() => {
-        radius += 1
-        console.log(viewport.latitude)
-        updateCircle(true)
-        console.log(data)
+      <button
 
-      }}>Radius +1</button>
+        onClick={() => {
+          radius = Number(radius) + 1
+          console.log(viewport.latitude)
+          updateCircle(true)
+          console.log(data)
+        }}>Radius +1</button>
+      
+
     </ReactMapGL>
-
+    
   </section>
 }
 
@@ -318,8 +344,8 @@ const Maps = () => {
     <div id='maps'>
 
       <DisplayMap></DisplayMap>
-
-
+      <input className="slider is-fullwidth" step="1" min="0" max="100" value="50" type="range"></input>
+      <button className="button">Button</button>
 
 
     </div>
