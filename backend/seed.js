@@ -25,7 +25,10 @@ mongoose.connect(
           // ownedPubs: [],
           // subscribedPubs: [],
           isEmailConfirmed: true,
-          locationCoords: ''
+          locationCoords: {
+            latitude: 51.498421,
+            longitude: -0.136440
+          }
         },
         {
           username: 'lee',
@@ -37,7 +40,10 @@ mongoose.connect(
           // ownedPubs: [],
           // subscribedPubs: [],
           isEmailConfirmed: true,
-          locationCoords: ''
+          locationCoords: {
+            latitude: 51.500351,
+            longitude: -0.125570
+          }
         },
         {
           username: 'adam',
@@ -49,7 +55,10 @@ mongoose.connect(
           // ownedPubs: [],
           // subscribedPubs: [],
           isEmailConfirmed: true,
-          locationCoords: ''
+          locationCoords: {
+            latitude: 51.520840,
+            longitude: -0.091149
+          }
         }
         ])
       })

@@ -33,7 +33,6 @@ const User = (props) => {
         updateFromData(data)
         if (data._id === getUserId()) {
           updateThisUser(true)
-          console.log('true')
         }
       })
 
@@ -45,7 +44,7 @@ const User = (props) => {
       .then(resp => {
         const data = resp.data
         updateFriends(data)
-        console.log(data.friends)
+
         data.friends.map((friends) => {
           if (friends._id === getUserId()) {
             updateIsFriends(true)
@@ -68,7 +67,29 @@ const User = (props) => {
     return pub.imageUrl
   }
 
+  //! Calculate Distance
 
+  async function calcDistance(friend) {
+    const userLat = user.locationCoords.latitude
+    const userLong = user.locationCoords.longitude
+    const friendLat = friend.locationCoords.latitude
+    const friendLong = friend.locationCoords.longitude
+
+
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLong},${userLat};${friendLong},${friendLat}?access_token=pk.eyJ1IjoibGVlYjc3IiwiYSI6ImNraGtxamJqejE5ajYycnA2OGRudTU4dDYifQ.cAbyHCrLprcFj7T0TK4V8g`
+    const promise = new Promise(function (resolve) {
+      axios.get(url)
+        .then(resp => {
+          const data = resp.data
+          const distance = data.routes[0].duration
+          const time = Math.ceil(distance / 60)
+
+          resolve(time)
+        })
+    })
+    return Promise.resolve(promise).then(() => console.log(promise))
+    
+  }
 
 
   //! Friend Request & Add
@@ -80,7 +101,6 @@ const User = (props) => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log(resp.data)
         updateRequested(...accept, true)
       })
   }
@@ -91,7 +111,7 @@ const User = (props) => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log(resp.data)
+
         updateAccept(true)
       })
   }
@@ -163,6 +183,13 @@ const User = (props) => {
             <div className="search-results">
               <div className="columns is-multiline is-mobile">
                 {friends.friends.map((user, index) => {
+                  // calcDistance(user).then(function (val) {
+                  //   return val
+                  // })
+
+                  console.log(calcDistance(user))
+
+
                   return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
                     <Link to={`/users/${user._id}`}>
                       <div className="card">
@@ -170,6 +197,7 @@ const User = (props) => {
                           <div className="media-content">
                             <h2 className="title is-5">{user.username}</h2>
                             <p className="subtitle is-6">{user.email}</p>
+                            
                           </div>
                         </div>
                       </div>
