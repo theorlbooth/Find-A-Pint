@@ -7,7 +7,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transform: translate(-50%, -50%);
+  // transform: translate(-50%, -50%);
 }
 
 .custom-range::-webkit-slider-thumb {
@@ -30,6 +30,18 @@
   -webkit-transition: .2s;
   transition: opacity .2s;
 }
+
+.clearFilter{
+  appearance: none;
+  border: none;
+  background-color: #03befc;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+.clearFilter:hover{
+  opacity: 1;
+}
+
 
 .marker-btn img {
   width: 50px;
@@ -63,14 +75,6 @@
 
 .add-reply {
   margin: 30px 0px;
-}
-
-
-.mapboxgl-marker {
-  // left: 50%;
-  // top: 50%;
-  // transform: translate(-50%, -50%);
-
 }
 
 
@@ -354,7 +358,41 @@
   margin-left: 60% !important;
 }
 
+.FriendList{
+  animation: FriendsPopDown 0.25s ease 1;
+  border: 5px solid #03befca9;
+  border-radius: 5px;
+  left: 10px;
+  background-color: #03befca9;
 
+
+   width: 20%;
+    height: 5%;
+     position: absolute;
+      z-index: 1;
+       top: 95% ;
+       overflow: hidden;
+}
+.mapboxgl-ctrl-logo{
+  display: none !important;
+}
+
+.FriendList:hover{
+
+  animation: FriendsPopUp 0.25s ease 1;
+  top: 60%;
+   height: 40%; 
+}
+
+@keyframes FriendsPopUp{
+  0%{top: 95%; height: 40%;}
+  100%{top: 60%; height: 40%; }
+}
+@keyframes FriendsPopDown{
+  0%{top: 60%; height: 40%; }
+  100%{top: 95%; height: 40%;}
+
+}
 
 // .BeerIcon{
 //   margin: 0px;

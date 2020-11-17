@@ -132,7 +132,7 @@ export default function CreatePub() {
             ref={register}
             defaultValue={photos.value}
           />
-          <button type="button" onClick={() => remove(index)}>Delete</button>
+          <a onClick={() => remove(index)}>Delete</a>
         </div>
 
         )
