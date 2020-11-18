@@ -176,17 +176,17 @@ const Reply = (props) => {
 
   return <>
     <div className="reply-page">
-      <div className="comment-section">
-        <article className="media">
+      <div className="comments-section">
+        <article className="media c-comment">
           <div className="media-content">
             <div className="content">
               <div className="current-comment"></div>
               <p>{comment.text}</p>
-              <p>{comment.user.username}</p>
-              <p>({moment(comment.createdAt).fromNow()})</p>
+              <p className="together">{comment.user.username}</p>
+              <p className="together">({moment(comment.createdAt).fromNow()})</p>
             </div>
-            <div>
-              <Link to={`/pubs/${id}`}>Back</Link>
+            <div className="button-flex-2">
+              <Link to={`/pubs/${id}`}><button className="button is-black is-inverted is-outlined" style={{ border: '3px solid white' }}>Back</button></Link>
             </div>
           </div>
           <div className="media-right">
@@ -197,11 +197,11 @@ const Reply = (props) => {
           </div>
         </article>
         <div className="replies-section">
-          <div className="replies-shown"
-          >
+          <div className="button-flex">
             <button
-              onClick={() => handleClick() }>Scroll to Anchor</button>
-
+              onClick={() => handleClick()} className="button is-black" style={{ border: '3px solid white' }} >Scroll to bottom</button>
+          </div>
+          <div className="replies-shown">
             {comment.replies && comment.replies.map((reply, i, arr) => {
               return <article id={arr.length - 1 === i ? 'anchor' : ''} ref={scrollRef} key={reply._id} className="media">
                 <div className="media-content">
@@ -236,7 +236,7 @@ const Reply = (props) => {
                 </div>
                 <div className="field">
                   <p className="control">
-                    <button className="button is-info" onClick={handlePost}>Post</button>
+                    <button className="button is-black" style={{ border: '3px solid white' }} onClick={handlePost}>Post</button>
                   </p>
                 </div>
               </div>}
