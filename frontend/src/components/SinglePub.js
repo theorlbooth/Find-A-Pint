@@ -49,7 +49,6 @@ const singlePub = (props) => {
   const handleViewportChange = useCallback(
     (newViewport) => {
       setViewport(newViewport)
-
     },
     []
   )
@@ -70,13 +69,11 @@ const singlePub = (props) => {
       updateSinglePub(data)
       console.log(data)
 
-      console.log(process.env.geo_key)
 
       const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=${process.env.geo_key}`)
       updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
 
-      
-      console.log(process.env.weatherApiKey)
+
       const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=${process.env.weatherApiKey}`)
       updateWeatherInfo(weatherData)
     }
@@ -272,7 +269,14 @@ const singlePub = (props) => {
             </ul>
           </div>
           <div className="opening-times">
-            Opening Times
+            <div className="times">Opening Times</div>
+            <div className="monday">Mon: {singlePub.openingHours}</div>
+            <div className="tuesday">Tues: {singlePub.openingHours}</div>
+            <div className="wednesday">Wed: {singlePub.openingHours}</div>
+            <div className="thursday">Thurs: {singlePub.openingHours}</div>
+            <div className="friday">Fri: {singlePub.openingHours}</div>
+            <div className="saturday">Sat: {singlePub.openingHours}</div>
+            <div className="sunday">Sun: {singlePub.openingHours}</div>
           </div>
         </div>
         <div className="description">

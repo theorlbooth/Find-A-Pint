@@ -91,7 +91,7 @@ mongoose.connect(
                     photos: data.photos,
                     price: data.price,
                     reviewed: true,
-                    // openingHours: data.hours.open,
+                    openingHours: '11-11',
                     transaction: data.transaction,
                     user: users[0]
                   }
