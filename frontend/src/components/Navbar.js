@@ -31,7 +31,7 @@ const Navbar = (props) => {
               <Link className="button is-black" to="/pubs">Search</Link>
               <Link className="button is-black" to='/pubs/maps'>Map</Link>
               {(token && isLandlord(user)) && <Link className="button is-black" to='/pubs/new-pub'>Create Pub</Link>}
-              {token && <Link className="button is-black" to={`/users/${id}`}>Account</Link>}
+              {token && <Link className="button is-black" to={`/users/${getUserId()}`}>Account</Link>}
               {!token && <Link className="button is-black" to="/login">Login</Link>}
               {isAdmin(user) && <Link className="button is-black" to={'/admin'}>Admin</Link>}
               {token && <button className="button is-black" onClick={handleLogout}>Logout</button>}
