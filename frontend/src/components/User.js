@@ -41,13 +41,14 @@ const User = (props) => {
           .then(resp => {
             const Frienddata = resp.data
             updateFriends(Frienddata)
+            if (Frienddata.requests.includes(getUserId())) {
+              updateRequested(true)
+            }
             Frienddata.friends.map((friends) => {
               if (friends._id === getUserId()) {
                 updateIsFriends(true)
               }
-              if (Frienddata.requests.includes(getUserId())) {
-                updateRequested(true)
-              }
+             
             })
             const promises = []
             for (let i = 0; i < Frienddata.friends.length; i++) {
@@ -87,7 +88,7 @@ const User = (props) => {
           })
 
       })
-  }, [accept])
+  }, [accept, id])
 
  
 

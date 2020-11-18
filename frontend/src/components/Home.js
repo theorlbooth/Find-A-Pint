@@ -5,6 +5,8 @@ import axios from 'axios'
 const Home = () => {
 
   const [pubList, getPubList] = useState([])
+  const [users, updateUsers] = useState([])
+  const [filterText, updateFilterText] = useState('')
 
   const [viewport, setViewport] = useState({
     latitude: 51.5721642,
@@ -20,6 +22,10 @@ const Home = () => {
       .then(axiosResp => {
         getPubList(axiosResp.data)
 
+      })
+    axios.get('/api/users')
+      .then(resp => {
+        updateUsers(resp.data)
       })
   }, [])
 
@@ -43,28 +49,37 @@ const Home = () => {
     []
   )
 
+  function filterUsers() {
+    const filteredUSers = users.filter(user => {
+      const userName = user.username.toLowerCase()
+      const filteredText = filterText.toLowerCase()
+      return userName.includes(filteredText)
+    })
+    return filteredUSers
+  }
+
 
   return <div
     style={{ display: "flex", marginLeft: "25%", marginTop: '5%' }}
   >
 
-    <div class="tile is-ancestor">
-      <div class="tile is-vertical is-8">
-        <div class="tile">
-          <div class="tile is-parent is-vertical">
-            <article class="tile is-child notification is-dark">
-              <p class="title">Search...</p>
-              <p class="subtitle">Top tile</p>
+    <div className="tile is-ancestor">
+      <div className="tile is-vertical is-8">
+        <div className="tile">
+          <div className="tile is-parent is-vertical">
+            <article className="tile is-child notification is-dark">
+              <p className="title">Search...</p>
+              <p className="subtitle">Top tile</p>
             </article>
-            <article class="tile is-child notification is-dark">
-              <p class="title">Hello gal</p>
-              <p class="subtitle">Bottom tile</p>
+            <article className="tile is-child notification is-dark">
+              <p className="title">Hello gal</p>
+              <p className="subtitle">Bottom tile</p>
             </article>
           </div>
-          <div class="tile is-parent">
-            <article class="tile is-child notification is-dark">
-              <p class="title">Map</p>
-              <p class="subtitle">Static Map</p>
+          <div className="tile is-parent">
+            <article className="tile is-child notification is-dark">
+              <p className="title">Map</p>
+              <p className="subtitle">Static Map</p>
               <ReactMapGL
                 ref={mapRef}
                 {...viewport}
@@ -77,11 +92,24 @@ const Home = () => {
             </article>
           </div>
         </div>
-        <div class="tile is-parent">
-          <article class="tile is-child notification is-danger">
-            <p class="title">Wide tile</p>
-            <p class="subtitle">Aligned with the right tile</p>
-            <div class="content">
+        <div className="tile is-parent">
+          <article className="tile is-child notification is-danger">
+            <p className="title">User Search</p>
+            <input
+              className="subtitle"
+              onChange={(event) => updateFilterText(event.target.value)}
+              value={filterText}
+            />
+            {filterUsers().map((user, index) => {
+
+              return <div key={index} className="tile is-child notification is-dark">
+                <h3>{user.username}</h3>
+
+              </div>
+            })}
+
+
+            <div className="content">
 
             </div>
           </article>
