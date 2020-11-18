@@ -5,13 +5,14 @@ import axios from 'axios'
 import Geocoder from 'react-map-gl-geocoder'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import { getUserId } from '../lib/auth'
 
 import * as turf from '@turf/turf'
 
 
 let radius = 5
 
-const DisplayMap = () => {
+const DisplayMap = (props) => {
 
   const [pubList, getPubList] = useState([])
 
@@ -33,6 +34,7 @@ const DisplayMap = () => {
 
   const [friendCoords, setFriendCoords] = useState([-0.1347, 51.5186])
 
+  // const [friendList, getFriendList] = useState([])
 
 
   function measure(lat1, lon1, lat2, lon2) {
@@ -46,6 +48,9 @@ const DisplayMap = () => {
     var d = R * c
     return d // km float
   }
+
+
+
 
   const [viewport, setViewport] = useState({
     latitude: 51.5721642,
@@ -75,6 +80,11 @@ const DisplayMap = () => {
         setFilteredPubList(axiosResp.data)
       })
   }, [])
+
+
+
+  console.log(getUserId())
+
 
   // useEffect(() => {
   //   setFilteredPubList(pubList)
@@ -163,22 +173,39 @@ const DisplayMap = () => {
         updateCircle(true)
         setVenn(!isVenn)
       }}>Venn Toggle</button></p>
-      <h1 style={{ backgroundColor: 'rgba(255, 255, 255, 0.712)', marginTop: '5px' }} onClick={() => { setFriendCoords([-0.16114632548925634, 51.592644530921795]), updateCircle(true) }}>Friend Number 1</h1>
-      <h1 style={{ backgroundColor: 'rgba(255, 255, 255, 0.712)', marginTop: '5px' }} onClick={() => { setFriendCoords([-0.10484139384928298, 51.627610411834105]), updateCircle(true) }}>Friend Number 2</h1>
-      <h1 style={{ backgroundColor: 'rgba(255, 255, 255, 0.712)', marginTop: '5px' }} onClick={() => { setFriendCoords([-0.0676, 51.4895]), updateCircle(true) }}>Friend Number 3</h1>
+      {/* friendlist.map(){
+
+        return <h1>{name}</h1>
+      } */}
+      {
+        Object.values(props).map((friend,index) => {
+          return <h1 key={index} className="FriendCard" onClick={() => { setFriendCoords([friend[1].longitude, friend[1].latitude]), updateCircle(true) }}>{friend[0]}</h1>
+        })
+      }
 
     </div>
+    <section className='MapUI'>
+      <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05'
+        ref={geocoderContainerRef}
 
-    <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05'
-      ref={geocoderContainerRef}
-      style={{ left: '27%', top: '17%', zIndex: 1, position: 'absolute', width: '545px', height: '25px', appearance: 'none' }}
 
-      onChange={(event) => {
-        setRangeval(event.target.value)
-        radius = rangeval
-        updateCircle(true)
-      }} />
-    <h1 style={{ position: 'absolute', zIndex: 1, left: '27%', top: '20%' }}>Current Range: {radius} KM</h1>
+        onChange={(event) => {
+          setRangeval(event.target.value)
+          radius = rangeval
+          updateCircle(true)
+        }} />
+      <button className='clearFilter'
+
+        onClick={() => {
+          setFilteredPubList(pubList)
+
+
+        }}>Clear Filter</button>
+    </section>
+    <h1 className="range-Indicator">Current Range: {radius} KM</h1>
+
+
+
 
     {/* <div
         ref={geocoderContainerRef}
@@ -306,7 +333,7 @@ const DisplayMap = () => {
           clearAndBlurOnEsc={true}
           captureDrag={true}
           closeOnClick={true}
-          collapsed={true}
+          collapsed={false}
           inputValue={''}
           onResult={({ result }) => {
             setProxCoords(result.geometry.coordinates)
@@ -318,13 +345,6 @@ const DisplayMap = () => {
         />
 
 
-        <button className='clearFilter'
-          style={{ position: 'absolute', left: '65%', top: '9.9%', height: '25px' }}
-          onClick={() => {
-            setFilteredPubList(pubList)
-
-          }}>Clear Filter</button>
-
 
       </ReactMapGL>
     </section>
@@ -333,14 +353,32 @@ const DisplayMap = () => {
 }
 
 
+const getFriendInfo = (palList) => {
+
+  const promises = palList.map(id => axios.get(`/api/users/${id}`))
+  return Promise.all(promises)
+
+}
+
 const Maps = () => {
+  const [friendList, setFriendList] = useState([])
+  // const [friendInfo, setFriendInfo] = useState()
+
+
+  useEffect(() => {
+    axios.get(`/api/users/${getUserId()}`)
+      .then(axiosResp => {
+        getFriendInfo(axiosResp.data.friends.friends).then(data => {
+          setFriendList(Object.values(data.map(pal => { return [pal.data.username, pal.data.locationCoords] })))
+        })
+      })
+
+  }, [])
 
   return <section>
     <div id='maps'>
 
-      <DisplayMap></DisplayMap>
-
-
+      <DisplayMap {...friendList}></DisplayMap>
     </div>
   </section>
 }

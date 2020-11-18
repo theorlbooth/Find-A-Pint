@@ -31,18 +31,23 @@
   opacity: 1;
 }
 
-.custom-range {
+.custom-range{
   background: #ffffff;
+  width: 40%;
+  height: 25px;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
+
+  appearance: none
 }
 
 .clearFilter {
   appearance: none;
   border: none;
   background-color: #03befc;
+  width: 10%;
   opacity: 0.7;
   transition: opacity .2s;
 }
@@ -57,6 +62,28 @@
   height: 50px;
 }
 
+.MapUI{
+  display: flex;
+  flex-direction: row;
+  // left: 27%;
+  // top: 17%;
+  z-index: 1;
+  justify-content: center;
+  position: absolute;
+  transform: translate(00%,200%);
+  width: 100%;
+  // height: 55%;
+
+}
+
+.range-Indicator{
+  z-index: 2;
+  display: flex;
+  margin-left: 25%;
+  position: absolute;
+  transform: translate(00%,310%);
+  width: 100%;
+}
 
 // ! Reply Page 
 
@@ -517,21 +544,37 @@
   height: 90vh !important;
 
 }
+// .mapboxgl-ctrl-geocoder--input {
+//   width: 100% !important;
+//   max-width: 1000px !important;
+//   height: 35px !important;
+//   font-size: 20px !important;
+//   margin-left: 60% !important;
+// }
 
-.mapboxgl-ctrl-geocoder {
-  width: 650px !important;
-  max-width: 1000px !important;
-  height: 35px !important;
-  font-size: 20px !important;
-  margin-left: 60% !important;
+.mapboxgl-ctrl-top-left{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mapboxgl-ctrl-geocoder{
+
+  background-color: green;
+  width: 50% !important;
+  max-width: 100% !important;
+}
+
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl{
+  margin-left: 0px !important;
 }
 
 .FriendList {
   animation: FriendsPopDown 0.25s ease 1;
-  border: 5px solid #03befca9;
+  border: 5px solid rgba(90, 63, 38, 1);
   border-radius: 5px;
   left: 10px;
-  background-color: #03befca9;
+  background-color: rgba(90, 63, 38, 0.712);
 
 
   width: 20%;
@@ -545,12 +588,15 @@
 .mapboxgl-ctrl-logo {
   display: none !important;
 }
+.FriendCard{
+  background-color: rgba(255, 255, 255, 0.712);
+  margin-top: 5px 
+}
 
-.FriendList:hover {
-
+.FriendList:hover{
   animation: FriendsPopUp 0.25s ease 1;
   top: 60%;
-  height: 40%;
+  height: 40%; 
 }
 
 @keyframes FriendsPopUp {
