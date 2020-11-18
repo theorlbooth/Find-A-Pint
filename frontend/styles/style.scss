@@ -230,6 +230,7 @@
       border: solid white 5px;
       border-radius: 10px;
 
+
       .future-weather-day {
         display: flex;
         flex-direction: column;
@@ -239,6 +240,7 @@
         color: white;
         border-right: 1px solid lightgrey;
         font-weight: normal;
+
 
         h3, p {
           width: 160px;
