@@ -190,7 +190,7 @@ const DisplayMap = () => {
         {...viewport}
         mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
 
-        mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+        mapboxApiAccessToken={process.env.mapbox_key}
         onViewportChange={handleViewportChange}
       >
 
@@ -314,7 +314,7 @@ const DisplayMap = () => {
 
           }
           onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+          mapboxApiAccessToken={process.env.mapbox_key}
         />
 
 

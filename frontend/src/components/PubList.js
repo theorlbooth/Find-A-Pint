@@ -25,7 +25,7 @@ const PubList = () => {
 
 
   const toURI = encodeURI(zipCode + '' + 'uk')
-  const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
+  const url = `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`
 
   function measure(lat1, lon1, lat2, lon2) {
     var R = 6378.137 // Radius of earth in KM
