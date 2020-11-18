@@ -67,52 +67,122 @@ export default function CreatePub(props) {
     <h1>Create a pub</h1>
 
     {/* BulmaStart */}
-    <form onSubmit={handleSubmit(onSubmit)} style={{ marginLeft: "30%", marginRight: "30%" }}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ marginLeft: '30%', marginRight: '30%' }}>
       <div className="field">
         <label className="label">Alias:</label>
         <div className="control">
-          <input className="input is-small" type="text" placeholder="alias" name="alias" ref={register({ required: true })} />
+          <input className="input is-small" type="text" placeholder="alias" name="alias" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter an alias'
+            }
+          })} />
+          {errors.alias && (
+            <div className="error">{errors.alias.message}</div>
+          )}
         </div>
       </div>
 
       <div className="field">
         <label className="label">Name:</label>
         <div className="control">
-          <input className="input is-small" type="text" placeholder="name" name="name" ref={register({ required: true })} />
+          <input className="input is-small" type="text" placeholder="name" name="name" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a name for your pub'
+            }
+          })} />
+          {errors.name && (
+            <div className="error">{errors.name.message}</div>
+          )}
         </div>
       </div>
 
       <div className="field">
         <label className="label">imageUrl:</label>
         <div className="control">
-          <input className="input is-small" placeholder="imageUrl" name="imageUrl" ref={register({ required: true })} />
+          <input className="input is-small" placeholder="imageUrl" name="imageUrl" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a valid image for your pub'
+            }
+          })} />
+          {errors.imageUrl && (
+            <div className="error">{errors.imageUrl.message}</div>
+          )}
         </div>
       </div>
 
       <div className="field">
         <label className="label">Address:</label>
         <div className="control">
-          <input className="input is-small" placeholder="address" name="address" ref={register({ required: true })} />
+          <input className="input is-small" placeholder="address" name="address" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a valid address'
+            }
+          })} />
+          {errors.address && (
+            <div className="error">{errors.address.message}</div>
+          )}
         </div>
       </div>
 
       <div className="field">
         <label className="label">City:</label>
         <div className="control">
-          <input className="input is-small" placeholder="city" name="city" ref={register({ required: true })} />
+          <input className="input is-small" placeholder="city" name="city" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a valid city'
+            }
+          })} />
+          {errors.city && (
+            <div className="error">{errors.city.message}</div>
+          )}
         </div>
       </div>
 
       <div className="field">
         <label className="label">Postcode:</label>
         <div className="control">
-          <input className="input is-small" placeholder="postcode" name="postcode" ref={register({ required: true })} />
+          <input className="input is-small" placeholder="postcode" name="postcode" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a valid postcode'
+            }
+          })} />
+          {errors.postcode && (
+            <div className="error">{errors.postcode.message}</div>
+          )}
         </div>
       </div>
       <div className="field">
         <label className="label">Opening Hours:</label>
         <div className="control">
-          <input className="input is-small" placeholder="openinghours" name="openingHours" ref={register({ required: true })} />
+          <input className="input is-small" placeholder="openinghours" name="openingHours" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter opening hours'
+            }
+          })} />
+          {errors.openinghours && (
+            <div className="error">{errors.openinghours.message}</div>
+          )}
+        </div>
+      </div>
+      <div className="field">
+        <label className="label">Description:</label>
+        <div className="control">
+          <textarea className="input is-small" placeholder="description" name="description" ref={register({
+            required: {
+              value: true,
+              message: 'Please enter a description'
+            }
+          })} />
+          {errors.description && (
+            <div className="error">{errors.description.message}</div>
+          )}
         </div>
       </div>
       <div className="field">
@@ -122,54 +192,54 @@ export default function CreatePub(props) {
         </div>
       </div>
 
-      <section className="Toggles" style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", height: "90px" }}>
+      <section className="Toggles" style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', height: '90px' }}>
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: "3px", border: "2px solid black", width: "180px" }}>
-              <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} style={{ marginRight: "15px" }} />
+            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+              <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} style={{ marginRight: '15px' }} />
             Take away?
 
-       </label>
+            </label>
           </div>
         </div>
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: "3px", border: "2px solid black", width: "180px" }}>
-              <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} style={{ marginRight: "15px" }} />
+            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+              <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} style={{ marginRight: '15px' }} />
             Outdoor Seating?
 
-       </label>
+            </label>
           </div>
         </div>
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: "3px", border: "2px solid black", width: "180px" }}>
-              <input type="checkbox" placeholder="heating" name="heating" ref={register} style={{ marginRight: "15px" }} />
+            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+              <input type="checkbox" placeholder="heating" name="heating" ref={register} style={{ marginRight: '15px' }} />
            Heating?
 
-       </label>
+            </label>
           </div>
         </div>
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: "3px", border: "2px solid black", width: "180px" }}>
-              <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} style={{ marginRight: "15px" }} />
+            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+              <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} style={{ marginRight: '15px' }} />
            Live Music?
 
-       </label>
+            </label>
           </div>
         </div>
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: "3px", border: "2px solid black", width: "180px" }}>
-              <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} style={{ marginRight: "15px" }} />
+            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+              <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} style={{ marginRight: '15px' }} />
             Live Sports?
 
-       </label>
+            </label>
           </div>
         </div>
       </section>

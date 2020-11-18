@@ -28,8 +28,8 @@ const singlePub = (props) => {
   const [viewport, setViewport] = useState({
     latitude: latLong[0],
     longitude: latLong[1],
-    width: '350px',
-    height: '250px',
+    width: '500px',
+    height: '500px',
     zoom: 10
   })
   const mapRef = useRef()
@@ -38,8 +38,8 @@ const singlePub = (props) => {
     setViewport({
       latitude: latLong[0],
       longitude: latLong[1],
-      width: '350px',
-      height: '250px',
+      width: '500px',
+      height: '500px',
       zoom: 10
     })
 
@@ -49,7 +49,6 @@ const singlePub = (props) => {
   const handleViewportChange = useCallback(
     (newViewport) => {
       setViewport(newViewport)
-
     },
     []
   )
@@ -68,12 +67,13 @@ const singlePub = (props) => {
 
       const { data } = await axios.get(`/api/pub/${id}`)
       updateSinglePub(data)
+      console.log(data)
+
 
       const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=${process.env.geo_key}`)
       updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
 
-      
-      console.log(process.env.weatherApiKey)
+
       const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=${process.env.weatherApiKey}`)
       updateWeatherInfo(weatherData)
     }
@@ -192,10 +192,14 @@ const singlePub = (props) => {
       right: 'auto',
       bottom: 'auto',
       marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      ['text-align']: 'center',
+      ['font-size']: '22px'
+      
     },
     overlay: {
-      zIndex: 1000
+      zIndex: 1000,
+      background: 'rgba(0, 0, 0, 0.5)'
     }
   }
 
@@ -252,24 +256,33 @@ const singlePub = (props) => {
   return <>
     <div className="single-page">
       <div className="single-left-side">
-        <h1 className="name">{singlePub.name}</h1>
+        <div className="name">
+          <h1>{singlePub.name}</h1>
+        </div>
         <div className="address-info-times">
           <div className="address">
             <h3>{singlePub.address.address1}</h3>
             <h3>{singlePub.address.city}</h3>
             <h3>{singlePub.address.zip_code}</h3>
             <br></br>
-            <h3>{singlePub.display_phone}</h3>
+            <h3>{singlePub.phoneNumber}</h3>
           </div>
-          <div className="info">
-            <ul>
-              {findInfo(singlePub).map((item, index) => {
-                return <li key={index}>{item}</li>
-              })}
-            </ul>
-          </div>
+
+          <ul className="info">
+            {findInfo(singlePub).map((item, index) => {
+              return <li key={index}>{item}</li>
+            })}
+          </ul>
+
           <div className="opening-times">
-            Opening Times
+            <div className="times">Opening Times</div>
+            <div className="monday">Mon: {singlePub.openingHours}</div>
+            <div className="tuesday">Tues: {singlePub.openingHours}</div>
+            <div className="wednesday">Wed: {singlePub.openingHours}</div>
+            <div className="thursday">Thurs: {singlePub.openingHours}</div>
+            <div className="friday">Fri: {singlePub.openingHours}</div>
+            <div className="saturday">Sat: {singlePub.openingHours}</div>
+            <div className="sunday">Sun: {singlePub.openingHours}</div>
           </div>
         </div>
         <div className="description">
@@ -278,57 +291,56 @@ const singlePub = (props) => {
         <div className="weather">
           {weatherInfo.daily.map((day, index) => {
             return <section className="future-weather-day" key={index}>
-              <h3>{moment.unix(day.dt).format('dddd Do MMM')}</h3>
+              <h3 className="weather-date">{moment.unix(day.dt).format('dddd Do MMM')}</h3>
               <img src={WeatherIcons[day.weather[0].description][0]} />
-              <section>
-                <p>{Math.round(day.temp.min * 10) / 10}°C - {Math.round(day.temp.max * 10) / 10}°C</p>
-                <p>Wind Speed: {Math.round(day.wind_speed * 22.3694) / 10} mph</p>
-              </section>
+              <p>Temp: {Math.round(day.temp.min * 10) / 10}°C - {Math.round(day.temp.max * 10) / 10}°C</p>
+              <p>W/S: {Math.round(day.wind_speed * 22.3694) / 10} mph</p>
+
             </section>
           })}
         </div>
         <div className="edit-delete-buttons">
 
 
-          {isCreator(singlePub.user, user) && <button className="edit-pub" onClick={openEditModal}>Edit Pub</button>}
+          {isCreator(singlePub.user, user) && <button className="edit-pub button is-black"  style={{ border: '3px solid white' }} onClick={openEditModal}>Edit Pub</button>}
           <Modal isOpen={editModalIsOpen} onRequestClose={closeEditModal} style={customStyles} contentLabel="Edit Modal">
             <p>Are you sure you want to make changes to this pub?</p>
             <div className="modal-buttons">
-              <button onClick={closeEditModal}>cancel</button>
-              <Link to={`/pubs/${id}/edit-pub`}><button>confirm</button></Link>
+              <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeEditModal}>cancel</button>
+              <Link to={`/pubs/${id}/edit-pub`}><button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} >confirm</button></Link>
             </div>
           </Modal>
 
 
 
-          {isCreator(singlePub.user, user) && <button className="delete-pub" onClick={openDeleteModal}>Delete Pub</button>}
+          {isCreator(singlePub.user, user) && <button className="delete-pub button is-danger"  style={{ border: '3px solid white' }} onClick={openDeleteModal}>Delete Pub</button>}
           <Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles} contentLabel="Delete Modal">
             <p>Are you sure you want to delete this pub?</p>
             <div className="modal-buttons">
-              <button onClick={closeDeleteModal}>cancel</button>
-              <button onClick={deletePub}>confirm</button>
+              <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeDeleteModal}>cancel</button>
+              <button className="button is-danger" style={{ border: '3px solid white', margin: '20px' }} onClick={deletePub}>confirm</button>
             </div>
           </Modal>
 
-          {isCreator(singlePub.user, user) && 
-          <Link to={`/email/send/${singlePub._id}`}><button className="sendEmail-pub">Send A Note</button></Link>}
+          {isCreator(singlePub.user, user) &&
+            <Link to={`/email/send/${singlePub._id}`}><button className="sendEmail-pub button is-black"  style={{ border: '3px solid white' }} >Send A Note</button></Link>}
 
-          {(isAdmin(user) && singlePub.reviewed === false) && <button className="approve-pub" onClick={openApproveModal}>Approve Pub</button>}
+          {(isAdmin(user) && singlePub.reviewed === false) && <button className="approve-pub button is-black" style={{ border: '3px solid white' }} onClick={openApproveModal}>Approve Pub</button>}
           <Modal isOpen={approveModalIsOpen} onRequestClose={closeApproveModal} style={customStyles} contentLabel="Approve Modal">
             <p>Are you sure you want to approve this pub?</p>
             <div className="modal-buttons">
-              <button onClick={closeApproveModal}>cancel</button>
-              <button onClick={approvePub}>confirm</button>
+              <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeApproveModal}>cancel</button>
+              <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={approvePub}>confirm</button>
             </div>
           </Modal>
 
 
-
+          
 
         </div>
       </div>
       <div className="single-middle">
-        <div>
+        <div className="slide-show">
           <Slide easing="ease">
             {showPhoto().map((photo, index) => {
               return <div className="each-slide" key={index}>
@@ -338,27 +350,27 @@ const singlePub = (props) => {
             })}
           </Slide>
         </div>
-        <div className="single-map">Map</div>
-        <ReactMapGL
-          ref={mapRef}
-          {...viewport}
-          mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
-          mapboxApiAccessToken={process.env.mapbox_key}
-          onViewportChange={handleViewportChange}
-        >
-          <Marker
-            latitude={latLong[0]}
-            longitude={latLong[1]}
-
+        <div className="single-map">
+          <ReactMapGL className="mapgl"
+            ref={mapRef}
+            {...viewport}
+            mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
+            mapboxApiAccessToken={process.env.mapbox_key}
+            onViewportChange={handleViewportChange}
           >
-            <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: "25px" }} className='BeerIcon' />
-          </Marker>
+            <Marker
+              latitude={latLong[0]}
+              longitude={latLong[1]}
 
-        </ReactMapGL>
+            >
+              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: '25px' }} className='BeerIcon' />
+            </Marker>
+          </ReactMapGL>
+        </div>
       </div>
       <div className="single-right-side">
         <div className="sub-button">
-          <button>Subscribe</button>
+          <button className="button is-black"  style={{ border: '3px solid white' }} >Subscribe</button>
         </div>
         <div className="comments-section">
           <article className="media">
@@ -370,10 +382,7 @@ const singlePub = (props) => {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-info" onClick={handleComment
-
-
-                  }>Post</button>
+                  <button className="button is-black"  style={{ border: '3px solid white' }} onClick={handleComment}>Post</button>
                 </p>
               </div>
             </div>}
@@ -397,7 +406,6 @@ const singlePub = (props) => {
                 </div>
               </div>
               <div className="media-right">
-                {/* {!isCreator(comment.user._id, user)  */}
                 {isUser(singlePub.user, user) && <Icon
                   onClick={() => handleFlag(comment._id)}
                   path={mdiFlagVariant}

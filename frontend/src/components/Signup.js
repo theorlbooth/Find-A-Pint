@@ -6,6 +6,8 @@ import Loader from './Loader'
 
 const Signup = (props) => {
 
+ 
+  const [progress, updateProgress] = useState(0)
   const [loading, updateLoading] = useState(false)
   const [formData, updateFromData] = useState({
     username: '',
@@ -131,6 +133,14 @@ const Signup = (props) => {
   }
 
 
+  function increasePint() {
+    const newProgress = progress + 17
+    updateProgress(newProgress)
+  }
+
+ 
+
+  console.log(progress)
 
   return <div>
 
@@ -142,31 +152,58 @@ const Signup = (props) => {
     </Modal>
 
 
-    {loading ? <div><Loader /></div> : <form onSubmit={handleSubmit}>
-      <h1>Create account</h1>
-      {inputFields.map((field, index) => {
-        return <div key={index}>
-          <label>{field}</label>
-          <input
-            type={field === 'password' || field === 'passwordConfirmation' ? 'password' : 'text'}
-            onChange={handleChange}
-            value={formData[field]}
-            name={field}
-          />
-          {errors[field] && <p style={{ color: 'red' }}>
-            {`Incorrect ${errors[field].path}`}</p>}
-        </div>
-      })}
-      <label>
-        Are you a Landlord?
-      </label>
+    {loading ? <div><Loader /></div>
+      : <div className='container'>
+        <div className='columns is-centered is-vcentered'>
+          <div className="column is-half is-centered">
+            <form onSubmit={handleSubmit} className='is-centered'>
+              <h1>Create account</h1>
+              {inputFields.map((field, index) => {
+                return <div className='field' key={index}>
+                  <label>{field}</label>
+                  <div className='control'>
+                    <input
+                      type={field === 'password' || field === 'passwordConfirmation' ? 'password' : 'text'}
+                      onChange={handleChange}
+                      onBlur={() => increasePint()}
+                      value={formData[field]}
+                      name={field}
+                    />
+                    {errors[field] && <p style={{ color: 'red' }}>
+                      {`Incorrect ${errors[field].path}`}</p>}
+                  </div>
 
-      <select name="isLandlord" onChange={handleLandlord} defaultValue={false}>
-        <option value={false}>false</option>
-        <option value={true}>true</option>
-      </select>
-      <button>submit</button>
-    </form>}
+
+                </div>
+              })}
+              <div className='field'>
+                <label>
+                  Are you a Landlord?
+              </label>
+              </div>
+              <div className='control'>
+                <div className='select'>
+                  <select name="isLandlord" onChange={handleLandlord} defaultValue={false}>
+                    <option value={false}>false</option>
+                    <option value={true}>true</option>
+                  </select>
+                </div>
+              </div>
+              <div className='control'>
+                <button className='button mt-2'>submit</button>
+              </div>
+
+            </form>
+          </div>
+          <div className='column'>
+            <div className='pint-holder'>
+              <div className='pint'>
+                <progress value={progress} max="100">100%</progress>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>}
 
 
   </div>

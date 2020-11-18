@@ -54,16 +54,16 @@ const PubList = () => {
 
 
   function DistanceCall(publist) {
-    console.log("boom", distArray)
+    console.log('boom', distArray)
     publist.forEach((pub) => {
-      console.log("test", distArray)
+      console.log('test', distArray)
       console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
       return distArray.push((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
 
 
     }
     )
-    console.log("WHEN DONE:", distArray)
+    console.log('WHEN DONE:', distArray)
   }
 
   function filterPubByDistance(publist) {
@@ -187,7 +187,7 @@ const PubList = () => {
     <div className="pubs-page">
       <div className="filter">
         <div className="search">
-          <form style={{ display: "flex", flexDirection: "column", width: "150px" }}
+          <form style={{ display: 'flex', flexDirection: 'column', width: '150px' }}
             onSubmit={(e) => {
               e.preventDefault()
               console.log(zipCode)
@@ -197,7 +197,9 @@ const PubList = () => {
             }}
             ></input>
             <label>{radius}km</label>
-            <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05' onChange={(e) => { setRadius(e.target.value) }}></input>
+            <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05' onChange={(e) => {
+              setRadius(e.target.value) 
+            }}></input>
             <button onClick={() => {
               filterPubByDistance(pubsList)
             }}>New Location</button>
@@ -207,31 +209,31 @@ const PubList = () => {
             }}>Clear Filter</button>
           </form>
         </div>
-        <div className="toggles" style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
+        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="take-away-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateTakeAwayTog(event.target.checked)} />
             <label htmlFor="take-away-toggle">Take Away</label>
           </div>
-          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
+          <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="outdoor-seating-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateOutdoorSeatingTog(event.target.checked)} />
             <label htmlFor="outdoor-seating-toggle">Outdoor Seating</label>
           </div>
-          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
+          <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="heating-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateHeatingTog(event.target.checked)} />
             <label htmlFor="heating-toggle">Heating</label>
           </div>
-          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
+          <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="live-music-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateLiveMusicTog(event.target.checked)} />
             <label htmlFor="live-music-toggle">Live Music</label>
           </div>
-          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
+          <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="live-sport-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateLiveSportTog(event.target.checked)} />
             <label htmlFor="live-sport-toggle">Live Sport</label>
           </div>
         </div>
       </div>
       <div className="search-results">
-        <div className="columns is-multiline is-mobile" style={{ display: "flex", justifyContent: "center" }}>
+        <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
           {filterPubs(pubsList).map((pub, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
               <Link to={`pubs/${pub._id}`}>
