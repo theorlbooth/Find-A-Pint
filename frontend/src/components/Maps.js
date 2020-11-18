@@ -168,17 +168,27 @@ const DisplayMap = () => {
       <h1 style={{ backgroundColor: 'rgba(255, 255, 255, 0.712)', marginTop: '5px' }} onClick={() => { setFriendCoords([-0.0676, 51.4895]), updateCircle(true) }}>Friend Number 3</h1>
 
     </div>
-
+      <section className='MapUI'>
     <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05'
       ref={geocoderContainerRef}
-      style={{ left: '27%', top: '17%', zIndex: 1, position: 'absolute', width: '545px', height: '25px', appearance: 'none' }}
+      
 
       onChange={(event) => {
         setRangeval(event.target.value)
         radius = rangeval
         updateCircle(true)
       }} />
-    <h1 style={{ position: 'absolute', zIndex: 1, left: '27%', top: '20%' }}>Current Range: {radius} KM</h1>
+              <button className='clearFilter'
+          
+          onClick={() => {
+            setFilteredPubList(pubList)
+
+          }}>Clear Filter</button>
+          </section>
+            <h1 className="range-Indicator">Current Range: {radius} KM</h1>
+
+
+  
 
     {/* <div
         ref={geocoderContainerRef}
@@ -306,7 +316,7 @@ const DisplayMap = () => {
           clearAndBlurOnEsc={true}
           captureDrag={true}
           closeOnClick={true}
-          collapsed={true}
+          collapsed={false}
           inputValue={''}
           onResult={({ result }) => {
             setProxCoords(result.geometry.coordinates)
@@ -317,13 +327,6 @@ const DisplayMap = () => {
           mapboxApiAccessToken={process.env.mapbox_key}
         />
 
-
-        <button className='clearFilter'
-          style={{ position: 'absolute', left: '65%', top: '9.9%', height: '25px' }}
-          onClick={() => {
-            setFilteredPubList(pubList)
-
-          }}>Clear Filter</button>
 
 
       </ReactMapGL>
