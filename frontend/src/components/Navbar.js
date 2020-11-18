@@ -18,7 +18,6 @@ const Navbar = (props) => {
     axios.get(`/api/users/${id}`)
       .then(resp => {
         updateUser(resp.data)
-        console.log(resp.data)
       })
   }, [props])
 

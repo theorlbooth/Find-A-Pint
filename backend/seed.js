@@ -39,7 +39,7 @@ mongoose.connect(
           isAdmin: true,
           // ownedPubs: [],
           // subscribedPubs: [],
-          isEmailConfirmed: true,
+          isEmailConfirmed: false,
           locationCoords: {
             latitude: 51.500351,
             longitude: -0.125570

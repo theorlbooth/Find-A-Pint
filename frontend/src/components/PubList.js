@@ -15,6 +15,79 @@ const PubList = () => {
   const [heatingTog, updateHeatingTog] = useState(false)
   const [liveMusicTog, updateLiveMusicTog] = useState(false)
   const [liveSportTog, updateLiveSportTog] = useState(false)
+  const [zipCode, setZipCode] = useState('')
+  const [searchResult, setSearchResult] = useState([5, -0.5])
+  const [indivLatLong, setIndivLatLong] = useState([])
+  const [radius, setRadius] = useState(10)
+  const [resetFilter, shouldReset] = useState(true)
+  const distArray = []
+
+
+
+  const toURI = encodeURI(zipCode + '' + 'uk')
+  const url = `https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=${toURI}&pretty=1`
+
+  function measure(lat1, lon1, lat2, lon2) {
+    var R = 6378.137 // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    var d = R * c
+    return d // km float
+  }
+
+  useEffect(() => {
+    axios.get(url)
+      .then(axiosResp => {
+        setSearchResult(axiosResp.data.results[0].geometry)
+        console.log(axiosResp.data.results[0].geometry)
+      })
+
+  }, [zipCode])
+
+  useEffect(() => {
+    measure(searchResult[0], searchResult[1], indivLatLong[0], indivLatLong[1])
+  }, [searchResult])
+
+
+  function DistanceCall(publist) {
+    console.log("boom", distArray)
+    publist.forEach((pub) => {
+      console.log("test", distArray)
+      console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
+      return distArray.push((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
+
+
+    }
+    )
+    console.log("WHEN DONE:", distArray)
+  }
+
+  function filterPubByDistance(publist) {
+
+    updatePubList(publist.filter((pub) => {
+      console.log(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+      if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
+        return true
+      }
+    }
+    ))
+  }
+  // console.log(searchResult[0], searchResult[1] ,pub.coordinates.latitude,pub.coordinates.longitude )
+  // return 
+
+
+
+  // useEffect(() => {
+  //   axios.get('/api/pub')
+  //     .then(axiosResp => {
+  //       getPubList(axiosResp.data)
+  //       setFilteredPubList(axiosResp.data)
+  //     })
+  // }, [])
 
 
   function checkForImage(pub) {
@@ -98,8 +171,10 @@ const PubList = () => {
       .then(resp => {
         updatePubList(resp.data)
         console.log(resp.data)
+        DistanceCall(resp.data)
       })
-  }, [])
+    shouldReset(false)
+  }, [resetFilter])
 
   if (pubsList === undefined) {
     return <>
@@ -107,38 +182,56 @@ const PubList = () => {
     </>
   }
 
+
   return <>
     <div className="pubs-page">
       <div className="filter">
         <div className="search">
-          <input placeholder="user-input-coordinates"></input>
-          <button>New Location</button>
+          <form style={{ display: "flex", flexDirection: "column", width: "150px" }}
+            onSubmit={(e) => {
+              e.preventDefault()
+              console.log(zipCode)
+            }}>
+            <input placeholder="Zip" type="text" onChange={(e) => {
+              setZipCode(e.target.value)
+            }}
+            ></input>
+            <label>{radius}km</label>
+            <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05' onChange={(e) => { setRadius(e.target.value) }}></input>
+            <button onClick={() => {
+              filterPubByDistance(pubsList)
+            }}>New Location</button>
+            <button onClick={() => {
+              shouldReset(true)
+
+            }}>Clear Filter</button>
+          </form>
         </div>
-        <div className="toggles">
-          <div>
+        <div className="toggles" style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
             <Toggle id="take-away-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateTakeAwayTog(event.target.checked)} />
             <label htmlFor="take-away-toggle">Take Away</label>
           </div>
-          <div>
+          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
             <Toggle id="outdoor-seating-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateOutdoorSeatingTog(event.target.checked)} />
             <label htmlFor="outdoor-seating-toggle">Outdoor Seating</label>
           </div>
-          <div>
+          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
             <Toggle id="heating-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateHeatingTog(event.target.checked)} />
             <label htmlFor="heating-toggle">Heating</label>
           </div>
-          <div>
+          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
             <Toggle id="live-music-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateLiveMusicTog(event.target.checked)} />
             <label htmlFor="live-music-toggle">Live Music</label>
           </div>
-          <div>
+          <div style={{ backgroundColor: "gray", color: "whitesmoke", display: "flex", fontWeight: "700", alignContent: "center", padding: '5px', border: "5px solid gray", borderRadius: "5px", marginLeft: "7px" }}>
             <Toggle id="live-sport-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateLiveSportTog(event.target.checked)} />
             <label htmlFor="live-sport-toggle">Live Sport</label>
           </div>
         </div>
       </div>
       <div className="search-results">
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline is-mobile" style={{ display: "flex", justifyContent: "center" }}>
           {filterPubs(pubsList).map((pub, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
               <Link to={`pubs/${pub._id}`}>
@@ -152,7 +245,7 @@ const PubList = () => {
                     <div className="media-content">
                       <h2 className="title is-5">{pub.name}</h2>
                       <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
-                      <p className="subtitle is-6">Distance from:</p>
+                      <p className="subtitle is-6">Distance from: {distArray[pubsList.indexOf(pub)]} </p>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, createRef } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Icon from '@mdi/react'
@@ -21,6 +21,7 @@ const Reply = (props) => {
   const id = props.match.params.id
   const commentId = props.match.params.commentId
 
+  let scrollRef = useRef()
 
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const Reply = (props) => {
         updateComment(resp.data)
         console.log(resp.data)
       })
+
   }, [])
 
 
@@ -71,24 +73,82 @@ const Reply = (props) => {
       })
   }
 
+  function handleCommentDelete(commentId) {
+    axios.delete(`/api/pub/${id}/comments/${commentId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        props.history.push(`/pubs/${id}`)
+      })
+  }
+
+  function handleCFlag(commentId) {
+    axios.get(`/api/pub/${id}/comments/${commentId}`)
+      .then(resp => {
+        if (resp.data.flagged === false) {
+          axios.put(`/api/pubs/${id}/comments/${commentId}`, { flagged: true }, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(resp => {
+              updateComment(resp.data)
+              console.log(resp.data)
+            })
+        } else if (resp.data.flagged === true) {
+          axios.put(`/api/pubs/${id}/comments/${commentId}`, { flagged: false }, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(resp => {
+              updateComment(resp.data)
+              console.log(resp.data)
+            })
+        }
+      })
+  }
 
   function handleFlag(replyId) {
     axios.get(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`)
       .then(resp => {
         if (resp.data.flagged === false) {
-          axios.put(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`, { flagged: true }, {
+          axios.put(`/api/pub/${id}/comments/${commentId}`, { flagged: true }, {
             headers: { Authorization: `Bearer ${token}` }
           })
             .then(resp => {
-              updateComment(resp.data)
+              axios.put(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`, { flagged: true }, {
+                headers: { Authorization: `Bearer ${token}` }
+              })
+                .then(resp => {
+                  updateComment(resp.data)
+                  console.log(resp.data)
+                })
             })
         } else if (resp.data.flagged === true) {
-          axios.put(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`, { flagged: false }, {
-            headers: { Authorization: `Bearer ${token}` }
+          const flaggedReplies = comment.replies.filter(reply => {
+            if (reply.flagged === true) {
+              console.log(reply)
+              return reply
+            }
           })
-            .then(resp => {
-              updateComment(resp.data)
+          if (flaggedReplies.length - 1 === 0) {
+            axios.put(`/api/pub/${id}/comments/${commentId}`, { flagged: false }, {
+              headers: { Authorization: `Bearer ${token}` }
             })
+              .then(resp => {
+                axios.put(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`, { flagged: false }, {
+                  headers: { Authorization: `Bearer ${token}` }
+                })
+                  .then(resp => {
+                    updateComment(resp.data)
+                    console.log(resp.data)
+                  })
+              })
+          } else {
+            axios.put(`/api/pub/${id}/comments/${commentId}/reply/${replyId}`, { flagged: false }, {
+              headers: { Authorization: `Bearer ${token}` }
+            })
+              .then(resp => {
+                updateComment(resp.data)
+              })
+          }
         }
       })
   }
@@ -100,21 +160,50 @@ const Reply = (props) => {
     </>
   }
 
+
+  const handleClick = () => {
+    console.log(scrollRef.current)
+    scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' })
+  }
+
+  function handlePost() {
+    handleReply()
+    setTimeout(() => {
+      handleClick()
+    }, 100)
+  }
+
+
   return <>
     <div className="reply-page">
       <div className="comment-section">
-        <div className="current-comment">
-          <div>{comment.text}</div>
-          <div>{comment.user.username}</div>
-          <div>({moment(comment.createdAt).fromNow()})</div>
-          <div>
-            <Link to={`/pubs/${id}`}>Back</Link>
+        <article className="media">
+          <div className="media-content">
+            <div className="content">
+              <div className="current-comment"></div>
+              <p>{comment.text}</p>
+              <p>{comment.user.username}</p>
+              <p>({moment(comment.createdAt).fromNow()})</p>
+            </div>
+            <div>
+              <Link to={`/pubs/${id}`}>Back</Link>
+            </div>
           </div>
-        </div>
+          <div className="media-right">
+            {isUser(pub.user, user) && <Icon onClick={() => handleCFlag(comment._id)} path={mdiFlagVariant}
+              size={1}
+              color={comment.flagged === true ? 'red' : 'grey'} />}
+            {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}></button>}
+          </div>
+        </article>
         <div className="replies-section">
-          <div className="replies-shown">
-            {comment.replies && comment.replies.map(reply => {
-              return <article key={reply._id} className="media">
+          <div className="replies-shown"
+          >
+            <button
+              onClick={() => handleClick() }>Scroll to Anchor</button>
+
+            {comment.replies && comment.replies.map((reply, i, arr) => {
+              return <article id={arr.length - 1 === i ? 'anchor' : ''} ref={scrollRef} key={reply._id} className="media">
                 <div className="media-content">
                   <div className="content">
                     <div className="user-time">
@@ -147,7 +236,7 @@ const Reply = (props) => {
                 </div>
                 <div className="field">
                   <p className="control">
-                    <button className="button is-info" onClick={handleReply}>Post</button>
+                    <button className="button is-info" onClick={handlePost}>Post</button>
                   </p>
                 </div>
               </div>}

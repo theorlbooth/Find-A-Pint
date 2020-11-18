@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Modal from 'react-modal'
@@ -6,6 +6,7 @@ import Icon from '@mdi/react'
 import { mdiFlagVariant } from '@mdi/js'
 import { Slide } from 'react-slideshow-image'
 import { Link } from 'react-router-dom'
+import ReactMapGL, { Marker, Popup, GeolocateControl, Layer, Source } from 'react-map-gl'
 
 
 import Loader from './Loader'
@@ -23,6 +24,35 @@ const singlePub = (props) => {
 
   const id = props.match.params.id
   const token = localStorage.getItem('token')
+
+  const [viewport, setViewport] = useState({
+    latitude: latLong[0],
+    longitude: latLong[1],
+    width: '350px',
+    height: '250px',
+    zoom: 10
+  })
+  const mapRef = useRef()
+
+  useEffect(() => {
+    setViewport({
+      latitude: latLong[0],
+      longitude: latLong[1],
+      width: '350px',
+      height: '250px',
+      zoom: 10
+    })
+
+  }, [latLong])
+
+
+  const handleViewportChange = useCallback(
+    (newViewport) => {
+      setViewport(newViewport)
+
+    },
+    []
+  )
 
 
   useEffect(() => {
@@ -257,6 +287,8 @@ const singlePub = (props) => {
           })}
         </div>
         <div className="edit-delete-buttons">
+
+
           {isCreator(singlePub.user, user) && <button className="edit-pub" onClick={openEditModal}>Edit Pub</button>}
           <Modal isOpen={editModalIsOpen} onRequestClose={closeEditModal} style={customStyles} contentLabel="Edit Modal">
             <p>Are you sure you want to make changes to this pub?</p>
@@ -265,6 +297,9 @@ const singlePub = (props) => {
               <Link to={`/pubs/${id}/edit-pub`}><button>confirm</button></Link>
             </div>
           </Modal>
+
+
+
           {isCreator(singlePub.user, user) && <button className="delete-pub" onClick={openDeleteModal}>Delete Pub</button>}
           <Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles} contentLabel="Delete Modal">
             <p>Are you sure you want to delete this pub?</p>
@@ -273,6 +308,10 @@ const singlePub = (props) => {
               <button onClick={deletePub}>confirm</button>
             </div>
           </Modal>
+
+          {isCreator(singlePub.user, user) && 
+          <Link to={`/email/send/${singlePub._id}`}><button className="sendEmail-pub">Send A Note</button></Link>}
+
           {(isAdmin(user) && singlePub.reviewed === false) && <button className="approve-pub" onClick={openApproveModal}>Approve Pub</button>}
           <Modal isOpen={approveModalIsOpen} onRequestClose={closeApproveModal} style={customStyles} contentLabel="Approve Modal">
             <p>Are you sure you want to approve this pub?</p>
@@ -281,6 +320,10 @@ const singlePub = (props) => {
               <button onClick={approvePub}>confirm</button>
             </div>
           </Modal>
+
+
+
+
         </div>
       </div>
       <div className="single-middle">
@@ -295,6 +338,22 @@ const singlePub = (props) => {
           </Slide>
         </div>
         <div className="single-map">Map</div>
+        <ReactMapGL
+          ref={mapRef}
+          {...viewport}
+          mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
+          mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+          onViewportChange={handleViewportChange}
+        >
+          <Marker
+            latitude={latLong[0]}
+            longitude={latLong[1]}
+
+          >
+            <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: "25px" }} className='BeerIcon' />
+          </Marker>
+
+        </ReactMapGL>
       </div>
       <div className="single-right-side">
         <div className="sub-button">
@@ -310,7 +369,10 @@ const singlePub = (props) => {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-info" onClick={handleComment}>Post</button>
+                  <button className="button is-info" onClick={handleComment
+
+
+                  }>Post</button>
                 </p>
               </div>
             </div>}

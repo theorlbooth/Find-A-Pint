@@ -2,18 +2,18 @@ const express = require('express')
 const router = express.Router()
 const pubController = require('./controllers/pubs')
 const userController = require('./controllers/user')
+const emailController = require('./controllers/email')
 const secureRoute = require('./middleware/secureRoute')
+const { get } = require('mongoose')
 
 router.route('/pub')
   .get(pubController.getPub)
   .post(secureRoute, pubController.addPub)
 
-
 router.route('/pub/:pubId')
   .get(pubController.singlePub)
   .delete(secureRoute, pubController.removePub)
   .put(secureRoute, pubController.updatePub)
-
 
 router.route('/register')
   .post(userController.createUser)
@@ -44,6 +44,8 @@ router.route('/pub/:pubId/comments/:commentId')
   .put(secureRoute, pubController.updateComment)
   .delete(secureRoute, pubController.deleteComment)
 
+router.route('/pubs/:pubId/comments/:commentId')
+  .put(secureRoute, pubController.updateCComment)
 
 router.route('/pub/:pubId/comments/:commentId/new-reply')
   .post(secureRoute, pubController.replyToComment)
@@ -52,5 +54,19 @@ router.route('/pub/:pubId/comments/:commentId/reply/:replyId')
   .get(pubController.findReply)
   .put(secureRoute, pubController.updateReply)
   .delete(secureRoute, pubController.deleteReply)
+
+
+router.route('/pubs/flagged/comments/pubs')
+  .get(pubController.getFlaggedCommentsPubs)
+
+router.route('/pubs/flagged/replies/pubs')
+  .get(pubController.getFlaggedRepliesPubs)
+
+  
+router.route('/email/ver/:userId')
+  .get(emailController.sendVer)
+
+router.route('/email/conf/:userId')
+  .get(emailController.confirmVer)
 
 module.exports = router

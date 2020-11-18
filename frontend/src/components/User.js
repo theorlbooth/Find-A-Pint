@@ -14,7 +14,8 @@ const User = (props) => {
   const [thisUser, updateThisUser] = useState(false)
   const [isFriends, updateIsFriends] = useState(false)
   const [requested, updateRequested] = useState(false)
-  const [friends, updateFriends] = useState([])
+  const [friends, updateFriends] = useState(false)
+  const [distFriends, updateDistFriends] = useState([])
   const [formData, updateFromData] = useState({
     username: '',
     email: '',
@@ -28,35 +29,71 @@ const User = (props) => {
   useEffect(() => {
     axios.get(`/api/users/${id}`)
       .then(resp => {
-        const data = resp.data
-        updateUser(data)
-        updateFromData(data)
-        if (data._id === getUserId()) {
+        const userData = resp.data
+        updateUser(userData)
+        updateFromData(userData)
+        if (userData._id === getUserId()) {
           updateThisUser(true)
         }
-      })
-
-  }, [])
 
 
-  useEffect(() => {
-    axios.get(`/api/users/${id}/requests`)
-      .then(resp => {
-        const data = resp.data
-        updateFriends(data)
+        axios.get(`/api/users/${id}/requests`)
+          .then(resp => {
+            const Frienddata = resp.data
+            updateFriends(Frienddata)
+            Frienddata.friends.map((friends) => {
+              if (friends._id === getUserId()) {
+                updateIsFriends(true)
+              }
+              if (Frienddata.requests.includes(getUserId())) {
+                updateRequested(true)
+              }
+            })
+            const promises = []
+            for (let i = 0; i < Frienddata.friends.length; i++) {
+              const timeoutInterval = 0 * i
+              promises.push(new Promise((resolve) => {
+                setTimeout(() => {
+                  const userLat = userData.locationCoords.latitude
+                  const userLong = userData.locationCoords.longitude
+                  const friendLat = Frienddata.friends[i].locationCoords.latitude
+                  const friendLong = Frienddata.friends[i].locationCoords.longitude
+                  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLong},${userLat};${friendLong},${friendLat}?access_token=pk.eyJ1IjoibGVlYjc3IiwiYSI6ImNraGtxamJqejE5ajYycnA2OGRudTU4dDYifQ.cAbyHCrLprcFj7T0TK4V8g`
 
-        data.friends.map((friends) => {
-          if (friends._id === getUserId()) {
-            updateIsFriends(true)
-          }
-        })
+                  axios.get(url)
+                    .then(resp => {
+                      const data = resp.data.routes[0].duration
+                      const time = Math.ceil(data / 60)
+                      const newFriend = {
+                        ...Frienddata.friends[i],
+                        distance: time
+                      }
+                      resolve(newFriend)
+                    })
+                }, timeoutInterval)
 
-        if (data.requests.includes(getUserId())) {
-          updateRequested(true)
-        }
+              }))
+              Promise.all(promises)
+                .then(finishedFriends => {
+                  const data = {
+                    ...distFriends,
+                    finishedFriends
+                  }
+                  updateDistFriends(data.finishedFriends)
+                })
+
+            }
+
+          })
+
       })
   }, [accept])
 
+ 
+
+
+
+  console.log(distFriends)
 
   //! Check for Image
 
@@ -69,26 +106,21 @@ const User = (props) => {
 
   //! Calculate Distance
 
-  async function calcDistance(friend) {
-    const userLat = user.locationCoords.latitude
-    const userLong = user.locationCoords.longitude
+  async function calcDistance(data, friend) {
+    const userLat = data.locationCoords.latitude
+    const userLong = data.locationCoords.longitude
     const friendLat = friend.locationCoords.latitude
     const friendLong = friend.locationCoords.longitude
-
-
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLong},${userLat};${friendLong},${friendLat}?access_token=pk.eyJ1IjoibGVlYjc3IiwiYSI6ImNraGtxamJqejE5ajYycnA2OGRudTU4dDYifQ.cAbyHCrLprcFj7T0TK4V8g`
-    const promise = new Promise(function (resolve) {
-      axios.get(url)
-        .then(resp => {
-          const data = resp.data
-          const distance = data.routes[0].duration
-          const time = Math.ceil(distance / 60)
-
-          resolve(time)
-        })
-    })
-    return Promise.resolve(promise).then(() => console.log(promise))
-    
+    try {
+      const promise = await axios.get(url)
+      const data = promise.data
+      const distance = data.routes[0].duration
+      const time = Math.ceil(distance / 60)
+      return time
+    } catch (error) {
+      console.error(error)
+    }
   }
 
 
@@ -101,7 +133,7 @@ const User = (props) => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        updateRequested(...accept, true)
+        updateRequested(true)
       })
   }
 
@@ -182,12 +214,7 @@ const User = (props) => {
             </div>
             <div className="search-results">
               <div className="columns is-multiline is-mobile">
-                {friends.friends.map((user, index) => {
-                  // calcDistance(user).then(function (val) {
-                  //   return val
-                  // })
-
-                  console.log(calcDistance(user))
+                {distFriends.map((user, index) => {
 
 
                   return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
@@ -197,7 +224,7 @@ const User = (props) => {
                           <div className="media-content">
                             <h2 className="title is-5">{user.username}</h2>
                             <p className="subtitle is-6">{user.email}</p>
-                            
+                            <p className="subtitle is-6">{user.distance} Minutes Away From You</p>
                           </div>
                         </div>
                       </div>

@@ -10,6 +10,7 @@ const Login = (props) => {
     password: ''
   })
 
+  const [error, updateError] = useState('')
 
   function handleChange(event) {
     const name = event.target.name
@@ -19,7 +20,7 @@ const Login = (props) => {
       ...formData,
       [name]: value
     }
-    console.log(data)
+    updateError('')
     updateFromData(data)
   }
 
@@ -27,11 +28,15 @@ const Login = (props) => {
 
     event.preventDefault()
 
-    axios.post('api/login', formData)
+    axios.post('/api/login', formData)
       .then(resp => {
         const token = resp.data.token
-        console.log(name)
-        localStorage.setItem('token', token)
+        if (token === undefined) {
+          updateError(resp.data.message)
+        } else {
+          console.log(name)
+          localStorage.setItem('token', token)
+        }
         if (token) {
           props.history.push('/')
         }
@@ -42,10 +47,11 @@ const Login = (props) => {
 
   return <div id='login'>
     <h1>Login</h1>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{marginLeft: "30%", marginRight: "30%"}}>
       <div>
         <label>email</label>
         <input
+          className="input"
           type='text'
           onChange={handleChange}
           value={formData.email}
@@ -56,15 +62,18 @@ const Login = (props) => {
       <div>
         <label>password</label>
         <input
+        className="input"
           type='password'
           onChange={handleChange}
           value={formData.password}
           name='password'
         />
+        {error && <p style={{ color: 'red' }}>
+          {error}</p>}
       </div>
-      <button>Login</button>
+      <button className="button">Login</button>
     </form>
-    <Link to={'/signup'}>Create account</Link>
+    <Link to={'/signup'} style={{marginLeft: "30%"}}>Create account</Link>
   </div>
 }
 

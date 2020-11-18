@@ -9,11 +9,20 @@ const Admin = () => {
 
   const [pubsList, updatePubList] = useState([])
   const [userList, updateUserList] = useState([])
+  const [flaggedPubs, updateFlaggedPubs] = useState([])
 
   useEffect(() => {
     axios.get('/api/pub')
       .then(resp => {
         updatePubList(resp.data)
+        console.log(resp.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    axios.get('/api/pubs/flagged/comments/pubs')
+      .then(resp => {
+        updateFlaggedPubs(resp.data)
         console.log(resp.data)
       })
   }, [])
@@ -127,7 +136,9 @@ const Admin = () => {
         </div>
       </div>
     </div>
-
+    <div className="flagged-button"> 
+      <Link className={flaggedPubs.length === 0 ? 'button is-black' : 'button is-danger'} to='/pubs/flagged'>Flagged</Link>
+    </div>
 
     <h2 className="title is-2 has-text-centered">Users</h2>
 

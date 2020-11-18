@@ -5,12 +5,28 @@ const Pubs = require('../models/pubs')
 const Users = require('../models/users')
 
 const axios = require('axios')
+const users = require('../models/users')
 
 
 function getPub(req, res) {
   Pubs.find().populate('user').then(pubList => res.send(pubList))
     .catch(error => res.send(error))
 }
+
+
+function getFlaggedCommentsPubs(req, res) {
+  Pubs
+    .find({ 'comments.flagged': true }).then(flaggedList => res.send(flaggedList))
+    .catch(error => res.send(error))
+}
+
+function getFlaggedRepliesPubs(req, res) {
+  Pubs
+    .find({ 'comments.replies.flagged': true }).then(flaggedList => res.send(flaggedList))
+    .catch(error => res.send(error))
+}
+
+
 
 function addPub(req, res) {
   req.body.user = req.currentUser
@@ -22,11 +38,10 @@ function addPub(req, res) {
         .findById(currentUser._id)
         .then(user => {
           user.ownedPubs.push(pub._id)
-          return user.save()
+          user.save()
+          return res.send(pub)         
         })
-        .then(pub => res.send(pub))
     })
-
     .catch(error => res.send(error))
 }
 
@@ -123,21 +138,33 @@ function updateComment(req, res) {
   Pubs
     .findById(req.params.pubId)
     .populate('comments.user')
+    .populate('comments.replies.user')
     .then(pub => {
       if (!pub) return res.status(404).send({
         message: 'Not found'
       })
       const comment = pub.comments.id(req.params.commentId)
-      // ! - Have blanked this out for now, as we don't have an ammend comment (is it really necessary?)
-      // if (!req.currentUser.isAdmin && !comment.user.equals(req.currentUser._id)) {
-      //   return res.status(401).send({
-      //     message: 'Unauthorized'
-      //   })
-      // }
       comment.set(req.body)
       return pub.save()
     })
     .then(pub => res.send(pub))
+    .catch(err => res.send(err))
+}
+
+function updateCComment(req, res) {
+  Pubs
+    .findById(req.params.pubId)
+    .populate('comments.user')
+    .populate('comments.replies.user')
+    .then(pub => {
+      if (!pub) return res.status(404).send({
+        message: 'Not found'
+      })
+      const comment = pub.comments.id(req.params.commentId)
+      comment.set(req.body)
+      pub.save()
+      res.send(comment)
+    })
     .catch(err => res.send(err))
 }
 
@@ -244,10 +271,13 @@ module.exports = {
   updatePub,
   createComment,
   updateComment,
+  updateCComment,
   deleteComment,
   findComment,
   replyToComment,
   findReply,
   updateReply,
-  deleteReply
+  deleteReply,
+  getFlaggedCommentsPubs,
+  getFlaggedRepliesPubs
 }

@@ -159,7 +159,7 @@ const DisplayMap = () => {
       ref={geocoderContainerRef}
     >
 
-      <p style={{ backgroundColor: 'whitesmoke' }}>FRIEND TEST               <button onClick={() => {
+      <p style={{ backgroundColor: 'whitesmoke' }}>FRIEND TEST <button onClick={() => {
         updateCircle(true)
         setVenn(!isVenn)
       }}>Venn Toggle</button></p>
@@ -169,7 +169,7 @@ const DisplayMap = () => {
 
     </div>
 
-    <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.25'
+    <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05'
       ref={geocoderContainerRef}
       style={{ left: '27%', top: '17%', zIndex: 1, position: 'absolute', width: '545px', height: '25px', appearance: 'none' }}
 
@@ -184,89 +184,90 @@ const DisplayMap = () => {
         ref={geocoderContainerRef}
         style={{ position: 'absolute', zIndex: 1, height: '450px' }}
       /> */}
-    <ReactMapGL
-      ref={mapRef}
-      {...viewport}
-      mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
+    <section className="Maps_Container">
+      <ReactMapGL
+        ref={mapRef}
+        {...viewport}
+        mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
 
-      mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
-      onViewportChange={handleViewportChange}
-    >
+        mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+        onViewportChange={handleViewportChange}
+      >
 
-      <Source id='CircleRadius1' type='geojson' data={circ} />
-      <Source id='CircleRadius2' type='geojson' data={circ2} />
-      {showRadius ? (
-        <Layer
-          id='CircleRadius1'
-          type='line'
-          source='CircleRadius1'
-          layout={{
-            'line-join': 'round',
-            'line-cap': 'round'
-          }}
-          paint={{
-            'line-color': '#94ccdc',
-            'line-width': 4
-          }}
-        />
+        <Source id='CircleRadius1' type='geojson' data={circ} />
+        <Source id='CircleRadius2' type='geojson' data={circ2} />
+        {showRadius ? (
+          <Layer
+            id='CircleRadius1'
+            type='line'
+            source='CircleRadius1'
+            layout={{
+              'line-join': 'round',
+              'line-cap': 'round'
+            }}
+            paint={{
+              'line-color': '#94ccdc',
+              'line-width': 4
+            }}
+          />
 
-      ) : null}
-      {showRadius && isVenn ? (
-        <Layer
-          id='CircleRadius2'
-          type='line'
-          source='CircleRadius2'
-          layout={{
-            'line-join': 'round',
-            'line-cap': 'round'
-          }}
-          paint={{
-            'line-color': '#32a852',
-            'line-width': 4
-          }}
-        />
+        ) : null}
+        {showRadius && isVenn ? (
+          <Layer
+            id='CircleRadius2'
+            type='line'
+            source='CircleRadius2'
+            layout={{
+              'line-join': 'round',
+              'line-cap': 'round'
+            }}
+            paint={{
+              'line-color': '#32a852',
+              'line-width': 4
+            }}
+          />
 
-      ) : null}
+        ) : null}
 
 
-      <GeolocateControl
-        style={geolocateStyle}
-        positionOptions={{ enableHighAccuracy: false }}
-        trackUserLocation={true}
-        onGeolocate={() => {
-          if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              console.log(position, position.coords.longitude);
-              if (position.coords.latitude) {
-                setProxCoords([position.coords.longitude, position.coords.latitude])
-              }
-            });
-          } else {
-            console.log('err')
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{ enableHighAccuracy: false }}
+          trackUserLocation={true}
+          onGeolocate={() => {
+            if ('geolocation' in navigator) {
+              navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position, position.coords.longitude);
+                if (position.coords.latitude) {
+                  setProxCoords([position.coords.longitude, position.coords.latitude])
+                }
+              });
+            } else {
+              console.log('err')
+            }
+
+          }
           }
 
-        }
-        }
+        />
 
-      />
+        {filteredPubList.map((pub, index) => {
+          {/* {console.log(pub)} */ }
+          return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude} key={index} offsetLeft={-25} offsetTop={-25}>
+            {/* {console.log('pubs: ', pub.coordinates.latitude)} */}
+            <div>
+              <button className='marker-btn' onClick={(e) => {
+                e.preventDefault()
+                setPopup(true)
+                setSelectedPub(pub)
+              }}>
+                <img src='https://img.icons8.com/cotton/2x/beer-glass.png' className='BeerIcon' />
+              </button>
+            </div>
+          </Marker>
+        })}
 
-      {filteredPubList.map((pub, index) => {
-        {/* {console.log(pub)} */ }
-        return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude} key={index} offsetLeft={-25} offsetTop={-25}>
-          {/* {console.log('pubs: ', pub.coordinates.latitude)} */}
-          <div>
-            <button className='marker-btn' onClick={(e) => {
-              e.preventDefault()
-              setPopup(true)
-              setSelectedPub(pub)
-            }}>
-              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' className='BeerIcon' />
-            </button>
-          </div>
-        </Marker>
-      })}
-
-      {/* <Source id='dot' type='geojson' data={data} />
+        {/* <Source id='dot' type='geojson' data={data} />
             <Layer
         id='dot'
         type='point'
@@ -274,61 +275,59 @@ const DisplayMap = () => {
 
 
       /> */}
-      {/* <Marker latitude={proxCoords[1]} longitude={proxCoords[0]}>
+        {/* <Marker latitude={proxCoords[1]} longitude={proxCoords[0]}>
         <h1 style={{ fontWeight: '900' }}>X</h1>
       </Marker> */}
-      {selectedPub && showPopup ? (
-        <Popup
-          latitude={selectedPub.coordinates.latitude}
-          longitude={selectedPub.coordinates.longitude}
-          offsetTop={-30}
-          onClose={() => setPopup(false)}
-          closeOnClick={false} >
-          <div>
-            <Link to={`${selectedPub._id}`}>
-              <h2>{selectedPub.name}</h2>
-              <p>{selectedPub.address.address1}</p>
-              <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km
+        {selectedPub && showPopup ? (
+          <Popup
+            latitude={selectedPub.coordinates.latitude}
+            longitude={selectedPub.coordinates.longitude}
+            offsetTop={-30}
+            onClose={() => setPopup(false)}
+            closeOnClick={false} >
+            <div>
+              <Link to={`${selectedPub._id}`}>
+                <h2>{selectedPub.name}</h2>
+                <p>{selectedPub.address.address1}</p>
+                <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km
               {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
 
-            </Link>
-          </div>
+              </Link>
+            </div>
 
-        </Popup>
-      ) : null}
+          </Popup>
+        ) : null}
 
-      <Geocoder
-        {...geocoderStyle}
-        mapRef={mapRef}
-        // placeholder={'Search'}
-        // clearOnBlur={true}
-        clearAndBlurOnEsc={true}
-        captureDrag={true}
-        closeOnClick={true}
-        collapsed={true}
-        inputValue={''}
-        onResult={({ result }) => {
+        <Geocoder
+          {...geocoderStyle}
+          mapRef={mapRef}
+          // placeholder={'Search'}
+          // clearOnBlur={true}
+          clearAndBlurOnEsc={true}
+          captureDrag={true}
+          closeOnClick={true}
+          collapsed={true}
+          inputValue={''}
+          onResult={({ result }) => {
+            setProxCoords(result.geometry.coordinates)
+          }
 
-
-          setProxCoords(result.geometry.coordinates)
-
-        }
-
-        }
-        onViewportChange={handleGeocoderViewportChange}
-        mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
-      />
+          }
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+        />
 
 
-      <button className='clearFilter'
-        style={{ position: 'absolute', left: '65%', top: '9.9%', height: '25px' }}
-        onClick={() => {
-          setFilteredPubList(pubList)
+        <button className='clearFilter'
+          style={{ position: 'absolute', left: '65%', top: '9.9%', height: '25px' }}
+          onClick={() => {
+            setFilteredPubList(pubList)
 
-        }}>Clear Filter</button>
+          }}>Clear Filter</button>
 
 
-    </ReactMapGL>
+      </ReactMapGL>
+    </section>
 
   </section>
 }

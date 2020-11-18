@@ -18,6 +18,9 @@ import Admin from './components/Admin'
 import User from './components/User'
 import Reply from './components/Reply'
 import EditPub from './components/EditPub'
+import Flagged from './components/Flagged'
+import EmailVer from './components/EmailVer'
+import EmailSend from './components/EmailSend'
 
 
 const App = () => {
@@ -30,13 +33,15 @@ const App = () => {
       <Route exact path='/pubs' component={PubList} /> 
       <Route exact path='/pubs/maps' component={Maps} />
       <Route exact path='/signup' component={Signup} />
+      <Route exact path='/pubs/flagged' component={Flagged} />
       <Route exact path='/pubs/new-pub' component={CreatePub} />
       <Route exact path='/pubs/:id/comments/:commentId' component={Reply} />
       <Route exact path='/pubs/:id/edit-pub' component={EditPub} />
       <Route exact path ='/pubs/:id' component={SinglePub} />
       <Route exact path='/admin' component={Admin} />
       <Route exact path='/users/:id' component={User} />
-      
+      <Route exact path='/email/ver/:id' component={EmailVer} />
+      <Route exact path='/email/send/:id' component={EmailSend} />
     </Switch>
   </BrowserRouter>
   </>

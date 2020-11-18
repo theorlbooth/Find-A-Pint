@@ -18,9 +18,11 @@ function loginUser(req, res) {
     .findOne({ email: req.body.email })
     .then(user => {
       console.log(req.body.password)
-      if (!user) return res.status(404).send({ message: 'Not found' })
+      if (!user) {
+        return res.send({ message: 'Incorrect email/password' })
+      }
       if (!user.validatePassword(req.body.password)) {
-        return res.status(401).send({ message: 'Unauthorized1' })
+        return res.send({ message: 'Unauthorized login attempt' })
       }
 
       const token = jwt.sign(
@@ -29,7 +31,7 @@ function loginUser(req, res) {
         { expiresIn: '12h' }
       )
       const username = user.username
-      res.status(202).send({ token, username, message: 'login successful' })
+      res.status(202).send({ token, username, message: 'Login successful' })
     })
     .catch(error => res.send(error))
 }
