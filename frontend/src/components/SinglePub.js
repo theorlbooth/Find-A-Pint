@@ -70,10 +70,14 @@ const singlePub = (props) => {
       updateSinglePub(data)
       console.log(data)
 
-      const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=52535ae64e3048c58091a5065a58f57e`)
+      console.log(process.env.geo_key)
+
+      const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=${process.env.geo_key}`)
       updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
 
-      const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=73250291b5074399963b723e7870fafa`)
+      
+      console.log(process.env.weatherApiKey)
+      const { data: weatherData } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${geoData.results[0].geometry.lat}&lon=${geoData.results[0].geometry.lng}&exclude=minutely,alerts&units=metric&appid=${process.env.weatherApiKey}`)
       updateWeatherInfo(weatherData)
     }
 
@@ -342,7 +346,7 @@ const singlePub = (props) => {
           ref={mapRef}
           {...viewport}
           mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
-          mapboxApiAccessToken='pk.eyJ1IjoiYWR3YW0xMiIsImEiOiJja2hlc3Rvbm8wNTd5MzBtMnh4d3I3ODR3In0.-MLW5F1IEhhA-2jgTww4_w'
+          mapboxApiAccessToken={process.env.mapbox_key}
           onViewportChange={handleViewportChange}
         >
           <Marker
