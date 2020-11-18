@@ -422,10 +422,10 @@
 
 .FriendList{
   animation: FriendsPopDown 0.25s ease 1;
-  border: 5px solid #03befca9;
+  border: 5px solid rgba(90, 63, 38, 1);
   border-radius: 5px;
   left: 10px;
-  background-color: #03befca9;
+  background-color: rgba(90, 63, 38, 0.712);
 
 
    width: 20%;
@@ -438,22 +438,25 @@
 .mapboxgl-ctrl-logo{
   display: none !important;
 }
+.FriendCard{
+  background-color: rgba(255, 255, 255, 0.712);
+  margin-top: 5px 
+}
 
 .FriendList:hover{
-
   animation: FriendsPopUp 0.25s ease 1;
   top: 60%;
-   height: 40%; 
+  height: 40%; 
 }
 
 @keyframes FriendsPopUp{
   0%{top: 95%; height: 40%;}
   100%{top: 60%; height: 40%; }
 }
+
 @keyframes FriendsPopDown{
   0%{top: 60%; height: 40%; }
   100%{top: 95%; height: 40%;}
-
 }
 
 // .BeerIcon{
