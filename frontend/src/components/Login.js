@@ -46,8 +46,11 @@ const Login = (props) => {
 
 
   return <div id='login'>
-    <h1>Login</h1>
-    <form onSubmit={handleSubmit} style={{marginLeft: "30%", marginRight: "30%"}}>
+
+    <form onSubmit={handleSubmit} style={{ marginLeft: "30%", marginRight: "30%" }}>
+      <div className='is-title'>
+        <h1>Login</h1>
+      </div>
       <div>
         <label>email</label>
         <input
@@ -62,7 +65,7 @@ const Login = (props) => {
       <div>
         <label>password</label>
         <input
-        className="input"
+          className="input"
           type='password'
           onChange={handleChange}
           value={formData.password}
@@ -73,7 +76,7 @@ const Login = (props) => {
       </div>
       <button className="button">Login</button>
     </form>
-    <Link to={'/signup'} style={{marginLeft: "30%"}}>Create account</Link>
+    <Link to={'/signup'} style={{ marginLeft: "30%" }}>Create account</Link>
   </div>
 }
 
