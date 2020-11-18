@@ -261,11 +261,11 @@ const singlePub = (props) => {
         </div>
         <div className="address-info-times">
           <div className="address">
-            <h3>{singlePub.address.address1}</h3>
-            <h3>{singlePub.address.city}</h3>
-            <h3>{singlePub.address.zip_code}</h3>
+            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.address1}</h3>
+            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.city}</h3>
+            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.zip_code}</h3>
             <br></br>
-            <h3>{singlePub.phoneNumber}</h3>
+            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.phoneNumber}</h3>
           </div>
 
           <ul className="info">

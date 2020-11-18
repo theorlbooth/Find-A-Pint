@@ -317,7 +317,7 @@ const DisplayMap = (props) => {
                 <h2>{selectedPub.name}</h2>
                 <p>{selectedPub.address.address1}</p>
                 <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km
-              {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
+                  {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
 
               </Link>
             </div>

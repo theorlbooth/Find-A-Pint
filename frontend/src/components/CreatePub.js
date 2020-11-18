@@ -63,20 +63,21 @@ export default function CreatePub(props) {
     setValue('photos-input', '')
   }
 
-  return (<div>
-    <h1>Create a pub</h1>
-
+  return (<div className="create-page">
+    <h1>Enter Pub Details</h1>
     {/* BulmaStart */}
     <form onSubmit={handleSubmit(onSubmit)} style={{ marginLeft: '30%', marginRight: '30%' }}>
+      
       <div className="field">
         <label className="label">Alias:</label>
         <div className="control">
-          <input className="input is-small" type="text" placeholder="alias" name="alias" ref={register({
-            required: {
-              value: true,
-              message: 'Please enter an alias'
-            }
-          })} />
+          <input className="input is-small" type="text" placeholder="alias" name="alias"
+            ref={register({
+              required: {
+                value: true,
+                message: 'Please enter an alias'
+              }
+            })} />
           {errors.alias && (
             <div className="error">{errors.alias.message}</div>
           )}
@@ -179,7 +180,7 @@ export default function CreatePub(props) {
               value: true,
               message: 'Please enter a description'
             }
-          })} />
+          })} style={{ height: '80px' }}/>
           {errors.description && (
             <div className="error">{errors.description.message}</div>
           )}
@@ -195,7 +196,7 @@ export default function CreatePub(props) {
       <section className="Toggles" style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', height: '90px' }}>
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+            <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
               <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} style={{ marginRight: '15px' }} />
             Take away?
 
@@ -205,7 +206,7 @@ export default function CreatePub(props) {
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+            <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
               <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} style={{ marginRight: '15px' }} />
             Outdoor Seating?
 
@@ -215,7 +216,7 @@ export default function CreatePub(props) {
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+            <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
               <input type="checkbox" placeholder="heating" name="heating" ref={register} style={{ marginRight: '15px' }} />
            Heating?
 
@@ -225,7 +226,7 @@ export default function CreatePub(props) {
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+            <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
               <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} style={{ marginRight: '15px' }} />
            Live Music?
 
@@ -235,7 +236,7 @@ export default function CreatePub(props) {
 
         <div className="field">
           <div className="control">
-            <label className="checkbox" style={{ padding: '3px', border: '2px solid black', width: '180px' }}>
+            <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
               <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} style={{ marginRight: '15px' }} />
             Live Sports?
 
@@ -264,93 +265,11 @@ export default function CreatePub(props) {
           Add photos
         </a>
       </p>
-
-      <input type="submit" />
+      <div className="submit-flex">
+        <input className="button is-black is-inverted is-outlined" type="submit" />
+      </div>
     </form>
-
-    {/* BulmaEnd */}
-    {/* <form onSubmit={handleSubmit(onSubmit)}>
-
-      <div>
-        <input type="text" placeholder="alias" name="alias" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="name" name="name" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="imageUrl" name="imageUrl" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="address" name="address" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="city" name="city" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="openinghours" name="openingHours" ref={register({ required: true })} />
-      </div>
-      <div>
-        <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} />
-      </div>
-      <div>
-        <label>Take away?</label>
-      </div>
-      <div>
-        <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} />
-      </div>
-      <div>
-        <label>Outdoor Seating?</label>
-      </div>
-      <div>
-        <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} />
-      </div>
-      <div>
-        <label>Heating?</label>
-      </div>
-      <div>
-        <input type="checkbox" placeholder="heating" name="heating" ref={register} />
-      </div>
-      <div>
-        <label>LiveMusic?</label>
-      </div>
-      <div>
-        <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} />
-      </div>
-      <div>
-        <label>Livesport?</label>
-      </div>
-      <div>
-        <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} />
-      </div>
-      
-      <p>Photos</p>
-      {fields.map((photos, index) => {
-        return (<div key={photos.id}>
-          <input
-            name={`photos[${index}].value`}
-            ref={register}
-            defaultValue={photos.value}
-          />
-          <a onClick={() => remove(index)}>Delete</a>
-        </div>
-
-        )
-      })}
-      <p>Add photos</p>
-      <input name="photos-input" ref={register} />
-      <p>
-        <a onClick={() => picInput()} >
-          Add photos
-        </a>
-      </p>
-
-      <input type="submit" /> */}
-    {/* </form> */}
-  </div >
-
+  </div>
   )
 }
 
