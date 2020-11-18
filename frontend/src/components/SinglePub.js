@@ -68,9 +68,6 @@ const singlePub = (props) => {
 
       const { data } = await axios.get(`/api/pub/${id}`)
       updateSinglePub(data)
-      console.log(data)
-
-      console.log(process.env.geo_key)
 
       const { data: geoData } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${data.address.zip_code}&key=${process.env.geo_key}`)
       updateLatLong([geoData.results[0].geometry.lat, geoData.results[0].geometry.lng])
