@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import ReactMapGL, { Marker, Popup, GeolocateControl, Layer, Source } from 'react-map-gl'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { getUserId } from '../lib/auth'
 
 const Home = () => {
 
   const [pubList, getPubList] = useState([])
   const [users, updateUsers] = useState([])
   const [filterText, updateFilterText] = useState('')
+
+  const id = getUserId()
 
   const [viewport, setViewport] = useState({
     latitude: 51.5721642,
@@ -28,6 +32,8 @@ const Home = () => {
         updateUsers(resp.data)
       })
   }, [])
+
+
 
   // useEffect(() => {
   //   setViewport({
@@ -92,28 +98,31 @@ const Home = () => {
             </article>
           </div>
         </div>
-        <div className="tile is-parent">
+        {id && <div className="tile is-parent">
           <article className="tile is-child notification is-danger">
             <p className="title">User Search</p>
             <input
-              className="subtitle"
-              onChange={(event) => updateFilterText(event.target.value)}
+              className="input"
+              onChange={(event) => {
+                updateFilterText(event.target.value)
+              }}
               value={filterText}
-            />
-            {filterUsers().map((user, index) => {
-
-              return <div key={index} className="tile is-child notification is-dark">
-                <h3>{user.username}</h3>
-
-              </div>
-            })}
+            ></input>
+            {filterText ? <div>
+              {filterUsers().map((user, index) => {
+                return <div key={index} className="tile is-child notification is-dark">
+                  <h3>{user.username}</h3>
+                  <Link className='is-button' to={`/users/${user._id}`}>View Profile</Link>
+                </div>
+              })}
+            </div> : null}
 
 
             <div className="content">
 
             </div>
           </article>
-        </div>
+        </div>}
       </div>
 
     </div>

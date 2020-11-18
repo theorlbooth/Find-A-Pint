@@ -21,6 +21,7 @@ const EditPub = (props) => {
     city: '',
     postcode: '',
     openinghours: '',
+    description: '',
     phoneNumber: '',
     takeAway: false,
     outdoorSeating: false,
@@ -156,6 +157,9 @@ const EditPub = (props) => {
         </div>
         <div>
           <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
+        </div>
+        <div>
+          <textarea type="text" placeholder="description" name="description" ref={register({ required: true })} value={pub.description} onChange={handleChange} />
         </div>
         <div>
           <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} value={pub.phoneNumber} onChange={handleChange} />

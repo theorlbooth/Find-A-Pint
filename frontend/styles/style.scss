@@ -2,10 +2,11 @@
   margin: 30px 100px 0px 100px;
 }
 
-.field{
+.field {
   margin-bottom: 6px !important;
 }
-.label{
+
+.label {
   margin-bottom: 3px !important;
 }
 
@@ -38,14 +39,15 @@
   transition: opacity .2s;
 }
 
-.clearFilter{
+.clearFilter {
   appearance: none;
   border: none;
   background-color: #03befc;
   opacity: 0.7;
   transition: opacity .2s;
 }
-.clearFilter:hover{
+
+.clearFilter:hover {
   opacity: 1;
 }
 
@@ -508,11 +510,12 @@
 
 
 
-.mapboxgl-control-container{
+.mapboxgl-control-container {
   width: 100vh !important;
   height: 90vh !important;
 
 }
+
 .mapboxgl-ctrl-geocoder {
   width: 650px !important;
   max-width: 1000px !important;
@@ -521,7 +524,7 @@
   margin-left: 60% !important;
 }
 
-.FriendList{
+.FriendList {
   animation: FriendsPopDown 0.25s ease 1;
   border: 5px solid #03befca9;
   border-radius: 5px;
@@ -529,31 +532,47 @@
   background-color: #03befca9;
 
 
-   width: 20%;
-    height: 5%;
-     position: absolute;
-      z-index: 1;
-       top: 95% ;
-       overflow: hidden;
+  width: 20%;
+  height: 5%;
+  position: absolute;
+  z-index: 1;
+  top: 95%;
+  overflow: hidden;
 }
-.mapboxgl-ctrl-logo{
+
+.mapboxgl-ctrl-logo {
   display: none !important;
 }
 
-.FriendList:hover{
+.FriendList:hover {
 
   animation: FriendsPopUp 0.25s ease 1;
   top: 60%;
-   height: 40%; 
+  height: 40%;
 }
 
-@keyframes FriendsPopUp{
-  0%{top: 95%; height: 40%;}
-  100%{top: 60%; height: 40%; }
+@keyframes FriendsPopUp {
+  0% {
+    top: 95%;
+    height: 40%;
+  }
+
+  100% {
+    top: 60%;
+    height: 40%;
+  }
 }
-@keyframes FriendsPopDown{
-  0%{top: 60%; height: 40%; }
-  100%{top: 95%; height: 40%;}
+
+@keyframes FriendsPopDown {
+  0% {
+    top: 60%;
+    height: 40%;
+  }
+
+  100% {
+    top: 95%;
+    height: 40%;
+  }
 
 }
 
@@ -564,3 +583,46 @@
 // top:50%;
 // }
 
+
+//! Progress bar
+
+.pint-holder{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.pint {
+  border-bottom: 1rem solid rgba(150, 150, 150, 0.666);
+  border-top:1rem solid rgba(150, 150, 150, 0.666);
+  border-left:1rem solid rgba(150, 150, 150, 0.666);
+  border-top-left-radius: 5%;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-top-right-radius: 5%;
+  transform: rotate(270deg);
+  height: 15rem;
+  width: 25rem;
+}
+progress {
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0%;
+  height: 13rem;
+  width: 100%;
+
+
+}
+
+progress::-webkit-progress-bar {
+  background-color: rgb(128, 128, 128);
+
+}
+
+progress::-webkit-progress-value {
+  background-image: url(https://i.imgur.com/rfeXVUC.jpg);
+  transform: rotate(180deg);
+  background-size: cover;
+  // background-repeat: no-repeat;
+  -webkit-transition: all 0.5s ease-in-out;
+}
