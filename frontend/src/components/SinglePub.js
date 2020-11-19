@@ -256,9 +256,10 @@ const singlePub = (props) => {
 
 
   function showPhoto() {
-    if (singlePub.photos.length === 0) {
+    if (singlePub.photos.length === 0 && singlePub.imageUrl === '') {
+      return ['https://images.unsplash.com/photo-1586993451228-09818021e309?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80']
+    } else if (singlePub.photos.length === 0) {
       return [singlePub.imageUrl]
-
     } else {
       return singlePub.photos
     }
@@ -393,7 +394,7 @@ const singlePub = (props) => {
         </div>
         <div className="comments-section">
           <article className="media">
-            {(!token && singlePub.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">* No Comments *</div>}
+            {(!token && singlePub.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">No Comments</div>}
             {(token && isVerified(user)) && <div className="media-content">
 
               <div className="field">
