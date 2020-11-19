@@ -1,7 +1,7 @@
+require('dotenv').config()
 const Users = require('../models/users')
-const mailgun = require('mailgun-js')
-const DOMAIN = 'leejburgess.co.uk'
-
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.sendgirdapikey)
 
 
 function sendVer(req, res) {
@@ -14,7 +14,7 @@ function sendVer(req, res) {
         message: 'No user found'
       })
 
-      const data = {
+      const msg = {
         from: 'FindaPint <lee@leejburgess.co.uk>',
         to: `${user.email}`,
         subject: 'Verify Email',
@@ -22,9 +22,12 @@ function sendVer(req, res) {
         <a href="http://localhost:8001/email/ver/${user._id}'>
         Click here to add your email address to a mailing list</a>'`
       }
-      mg.messages().send(data, function (error, body) {
-        return res.send(body)
-      })
+      sgMail
+        .send(msg)
+        .then((user) =>{
+          res.send(user)
+        })
+        .catch((error) => res.send(error))
     })
 
 }

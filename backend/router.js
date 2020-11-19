@@ -4,7 +4,7 @@ const pubController = require('./controllers/pubs')
 const userController = require('./controllers/user')
 const emailController = require('./controllers/email')
 const secureRoute = require('./middleware/secureRoute')
-const { get } = require('mongoose')
+
 
 router.route('/pub')
   .get(pubController.getPub)
