@@ -169,7 +169,7 @@ const User = (props) => {
         if (!message.errors) {
           console.log(resp.data)
         }
-        updateUser(resp.data)
+        updateAccept(false)
         updateEdit(false)
 
       })
@@ -183,14 +183,14 @@ const User = (props) => {
 
   return <div className='container is-widescreen'>
     <div>
-      <section className='hero is-light mt-5 mb-2'>
+      <section className='hero mt-5 mb-2' style={{ border: '5px solid hsl(0, 0%, 96%)', borderRadius: '5px' }}>
         <div className='hero-body'>
           <div className='container'>
-            <h2 className="subtitle is-3 has-text-centered">Your Account</h2>
-            <h1 className='title'>{user.username}</h1>
-            <h2 className='subtitle'>{user.email}</h2>
-            {thisUser ? <button className="button is-info is-outlined" onClick={editTrue}>Edit</button> : null}
-            {!thisUser && !isFriends && !requested ? <button className="button is-primary is-inverted" onClick={addFriend}>Add Friend</button> : null}
+            <h2 className="subtitle is-3 has-text-white has-text-centered">Your Account</h2>
+            <h1 className='title has-text-white'>{user.username}</h1>
+            <h2 className='subtitle has-text-white'>{user.email}</h2>
+            {thisUser ? <button className="button is-white is-outlined" onClick={editTrue}>Edit</button> : null}
+            {!thisUser && !isFriends && !requested ? <button className="button has-text-white is-inverted" onClick={addFriend}>Add Friend</button> : null}
             {requested ? <button className="button is-primary" disabled>Requested</button> : null}
           </div>
         </div>
@@ -204,7 +204,7 @@ const User = (props) => {
 
           <section>
             <div className='container'>
-              <h2 className="subtitle is-3 has-text-centered">Friends</h2>
+              <h2 className="subtitle is-3 has-text-white has-text-centered">Friends</h2>
               <div className="columns is-multiline is-mobile">
                 {distFriends.map((user, index) => {
                   return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
@@ -231,7 +231,7 @@ const User = (props) => {
           <section>
             <div className='container'>
               {thisUser && (friends.requests[0]) ? <div>
-                <h2 className="subtitle is-3 has-text-centered">Requests</h2>
+                <h2 className="subtitle is-3  has-text-white has-text-centered">Requests</h2>
                 {friends.requests.map((requests, index) => {
                   return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
 
@@ -259,7 +259,7 @@ const User = (props) => {
 
         <section className='mb-5'>
           <div className='container'>
-            <h2 className="subtitle is-3 has-text-centered">Owned Pubs</h2>
+            <h2 className="subtitle is-3 has-text-white has-text-centered">Owned Pubs</h2>
             <div className="pubs-page">
               <div className="columns is-multiline is-mobile">
                 {user.ownedPubs.map((pub, index) => {
@@ -289,46 +289,48 @@ const User = (props) => {
 
       </div>
     </div>
-    {edit ? <div className='container'>
-      <section className='hero is-danger p-1 my-5'>
-      </section>
-      <section className='p-3 mb-5'>
-        <form onSubmit={handleSubmit}>
-          <h2 className="subtitle is-3 has-text-centered">Edit Profile</h2>
-          {inputFields.map((field, index) => {
-            return <div className='field' key={index}>
-              <label className='label'>{field}</label>
-              <input
-                className='input is-small'
-                type='text'
-                onChange={handleChange}
-                value={formData[field]}
-                name={field}
-              />
-            </div>
-          })}
-          <label className='label'>
-            Are you a Landlord?
+    {
+      edit ? <div className='container'>
+        <section className='hero is-danger p-1 my-5'>
+        </section>
+        <section className='p-3 mb-5'>
+          <form onSubmit={handleSubmit}>
+            <h2 className="subtitle is-3 has-text-white has-text-centered">Edit Profile</h2>
+            {inputFields.map((field, index) => {
+              return <div className='field' key={index}>
+                <label className='label has-text-white'>{field}</label>
+                <input
+                  className='input is-small'
+                  type='text'
+                  onChange={handleChange}
+                  value={formData[field]}
+                  name={field}
+                />
+              </div>
+            })}
+            <label className='label has-text-white'>
+              Are you a Landlord?
           </label>
-          <div className='control'>
-            <div className='select is-small'>
-              <select name="isLandlord" onChange={handleLandlord} defaultValue={false}>
-                <option value={false}>false</option>
-                <option value={true}>true</option>
-              </select>
+            <div className='control'>
+              <div className='select is-small'>
+                <select name="isLandlord" onChange={handleLandlord} defaultValue={formData.isLandlord}>
+                  <option value={false}>false</option>
+                  <option value={true}>true</option>
+                </select>
+              </div>
+
             </div>
+            <div className='control'>
+              <button className='button is-danger mt-2'>submit</button>
+            </div>
+          </form>
+        </section>
 
-          </div>
-          <div className='control'>
-            <button className='button is-danger mt-2'>submit</button>
-          </div>
-        </form>
-      </section>
+      </div>
+        : null
+    }
 
-    </div>
-      : null}
-
-  </div>
+  </div >
 
 
 

@@ -73,7 +73,8 @@ const Signup = (props) => {
           locationCoords: {
             latitude: geo.lat,
             longitude: geo.lng
-          }
+          },
+          isEmailConfirmed: false
         }
 
         axios.post('api/register', finaldata)
