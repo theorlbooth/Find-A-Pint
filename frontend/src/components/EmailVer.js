@@ -25,12 +25,12 @@ const EmailVer = (props) => {
   if (!resp) return <Loader />
 
 
-  return <div>
-    <h1>Verification</h1>
+  return <div className='container has-text-centered mt-5 mb-5'>
+    <h1 className='title has-text-white'>Verification</h1>
     {!error ? <div>
-      <h2>Verification Confirmed!</h2>
-      <Link to={'/'}>Return home</Link>
-    </div> : <h2>Verification Failed!</h2>}
+      <h2 className='subtitle is-2 has-text-white'>Verification Confirmed!</h2>
+      <Link className='button is-large is-white is-outlined' to={'/'}>Return home</Link>
+    </div> : <h2 className='subtitle is-2 has-text-white'>Verification Failed!</h2>}
   </div>
 }
 

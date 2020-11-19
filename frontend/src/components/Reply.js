@@ -6,7 +6,7 @@ import { mdiFlagVariant } from '@mdi/js'
 import { Link } from 'react-router-dom'
 
 import Loader from './Loader'
-import { getUserId, isCreator, isUser } from '../lib/auth'
+import { getUserId, isCreator, isUser, isAdmin } from '../lib/auth'
 
 
 
@@ -182,18 +182,18 @@ const Reply = (props) => {
             <div className="content">
               <div className="current-comment"></div>
               <p>{comment.text}</p>
-              <p className="together">{comment.user.username}</p>
-              <p className="together">({moment(comment.createdAt).fromNow()})</p>
+              <p style={{ textDecoration: 'underline' }} className="together">{!comment.user ? 'unknown' : comment.user.username}</p>
+              <p style={{ fontWeight: 'normal' }} className="together">({moment(comment.createdAt).fromNow()})</p>
             </div>
             <div className="button-flex-2">
               <Link to={`/pubs/${id}`}><button className="button is-black is-inverted is-outlined" style={{ border: '3px solid white' }}>Back</button></Link>
             </div>
           </div>
           <div className="media-right">
-            {isUser(pub.user, user) && <Icon onClick={() => handleCFlag(comment._id)} path={mdiFlagVariant}
+            {isAdmin(user) && <Icon onClick={() => handleCFlag(comment._id)} path={mdiFlagVariant}
               size={1}
               color={comment.flagged === true ? 'red' : 'grey'} />}
-            {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}></button>}
+            {!comment.user ? false : isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}></button>}
           </div>
         </article>
         <div className="replies-section">
@@ -208,9 +208,9 @@ const Reply = (props) => {
                   <div className="content">
                     <div className="user-time">
                       <p className="username">
-                        {reply.user.username}
+                        {!comment.user ? 'unknown' : reply.user.username}
                       </p>
-                      <p>
+                      <p style={{ fontWeight: 'normal' }} >
                         ({moment(reply.createdAt).fromNow()})
                       </p>
                     </div>
@@ -221,7 +221,7 @@ const Reply = (props) => {
                   {isUser(pub.user, user) && <Icon onClick={() => handleFlag(reply._id)} path={mdiFlagVariant}
                     size={1}
                     color={reply.flagged === true ? 'red' : 'grey'} />}
-                  {isCreator(reply.user._id, user) && <button className="delete" onClick={() => handleReplyDelete(reply._id)}></button>}
+                  {!comment.user ? false : isCreator(reply.user._id, user) && <button className="delete" onClick={() => handleReplyDelete(reply._id)}></button>}
                 </div>
               </article>
             })}

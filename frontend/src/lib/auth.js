@@ -57,3 +57,13 @@ export function isLandlord(user) {
     return false
   }
 }
+
+export function isVerified(user) {
+  if (user === undefined) {
+    return false
+  } else if (user.isAdmin === true || user.isEmailConfirmed === true) {
+    return true
+  } else {
+    return false
+  }
+}
