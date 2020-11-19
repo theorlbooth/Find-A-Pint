@@ -34,7 +34,7 @@ const Navbar = (props) => {
               {token && <Link className="button is-ghost" to={`/users/${getUserId()}`}>Account</Link>}
               {!token && <Link className="button is-ghost" to="/login">Login</Link>}
               {isAdmin(user) && <Link className="button is-ghost" to={'/admin'}>Admin</Link>}
-              {token && <Link className="button is-ghost" onClick={handleLogout}>Logout</Link>}
+              {token && <Link className="button is-ghost" to={'/'} onClick={handleLogout}>Logout</Link>}
             </div>
           </div>
         </div>

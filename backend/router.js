@@ -36,6 +36,10 @@ router.route('/users/:userId/requests')
 router.route('/users/:userId/requests/:requestId')
   .post(secureRoute, userController.acceptRequest)
 
+router.route('/pub/:pubId/subscribers')
+  .post(secureRoute, pubController.addSubscribers)
+  .get(pubController.findSubscribers)
+
 router.route('/pub/:pubId/comments')
   .post(secureRoute, pubController.createComment)
 
@@ -62,11 +66,14 @@ router.route('/pubs/flagged/comments/pubs')
 router.route('/pubs/flagged/replies/pubs')
   .get(pubController.getFlaggedRepliesPubs)
 
-  
+
 router.route('/email/ver/:userId')
   .get(emailController.sendVer)
 
 router.route('/email/conf/:userId')
   .get(emailController.confirmVer)
+
+router.route('/email/note/send')
+  .post(secureRoute, emailController.sendNote)
 
 module.exports = router

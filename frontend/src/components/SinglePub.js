@@ -16,6 +16,7 @@ import WeatherIcons from './WeatherIcons'
 const singlePub = (props) => {
 
   const [singlePub, updateSinglePub] = useState([])
+  const [subscribed, updateSubscribed] = useState(false)
   const [text, setText] = useState('')
   const [user, updateUser] = useState({})
 
@@ -183,6 +184,23 @@ const singlePub = (props) => {
       })
   }
 
+  function subscribe() {
+    updateSubscribed(true)
+    axios.post(`/api/pub/${singlePub._id}/subscribers`, '', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+  }
+
+  useEffect(() => {
+    if (!user.subscribedPubs) {
+      return
+    }
+    if (user.subscribedPubs.includes(singlePub._id)) {
+      updateSubscribed(true)
+    }
+  }, [user])
+
+
 
   // ! Modal ------------
   const customStyles = {
@@ -195,7 +213,7 @@ const singlePub = (props) => {
       transform: 'translate(-50%, -50%)',
       ['text-align']: 'center',
       ['font-size']: '22px'
-      
+
     },
     overlay: {
       zIndex: 1000,
@@ -253,6 +271,7 @@ const singlePub = (props) => {
     </>
   }
 
+
   return <>
     <div className="single-page">
       <div className="single-left-side">
@@ -302,7 +321,7 @@ const singlePub = (props) => {
         <div className="edit-delete-buttons">
 
 
-          {isCreator(singlePub.user, user) && <button className="edit-pub button is-black"  style={{ border: '3px solid white' }} onClick={openEditModal}>Edit Pub</button>}
+          {isCreator(singlePub.user, user) && <button className="edit-pub button is-black" style={{ border: '3px solid white' }} onClick={openEditModal}>Edit Pub</button>}
           <Modal isOpen={editModalIsOpen} onRequestClose={closeEditModal} style={customStyles} contentLabel="Edit Modal">
             <p>Are you sure you want to make changes to this pub?</p>
             <div className="modal-buttons">
@@ -313,7 +332,7 @@ const singlePub = (props) => {
 
 
 
-          {isCreator(singlePub.user, user) && <button className="delete-pub button is-danger"  style={{ border: '3px solid white' }} onClick={openDeleteModal}>Delete Pub</button>}
+          {isCreator(singlePub.user, user) && <button className="delete-pub button is-danger" style={{ border: '3px solid white' }} onClick={openDeleteModal}>Delete Pub</button>}
           <Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles} contentLabel="Delete Modal">
             <p>Are you sure you want to delete this pub?</p>
             <div className="modal-buttons">
@@ -323,7 +342,7 @@ const singlePub = (props) => {
           </Modal>
 
           {isCreator(singlePub.user, user) &&
-            <Link to={`/email/send/${singlePub._id}`}><button className="sendEmail-pub button is-black"  style={{ border: '3px solid white' }} >Send A Note</button></Link>}
+            <Link to={`/email/send/${singlePub._id}`}><button className="sendEmail-pub button is-black" style={{ border: '3px solid white' }} >Send A Note</button></Link>}
 
           {(isAdmin(user) && singlePub.reviewed === false) && <button className="approve-pub button is-black" style={{ border: '3px solid white' }} onClick={openApproveModal}>Approve Pub</button>}
           <Modal isOpen={approveModalIsOpen} onRequestClose={closeApproveModal} style={customStyles} contentLabel="Approve Modal">
@@ -335,7 +354,7 @@ const singlePub = (props) => {
           </Modal>
 
 
-          
+
 
         </div>
       </div>
@@ -370,7 +389,7 @@ const singlePub = (props) => {
       </div>
       <div className="single-right-side">
         <div className="sub-button">
-          <button className="button is-black"  style={{ border: '3px solid white' }} >Subscribe</button>
+          {!subscribed ? <button className="button is-black" style={{ border: '3px solid white' }} onClick={subscribe} >Subscribe</button> : null}
         </div>
         <div className="comments-section">
           <article className="media">
@@ -382,7 +401,7 @@ const singlePub = (props) => {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-black"  style={{ border: '3px solid white' }} onClick={handleComment}>Post</button>
+                  <button className="button is-black" style={{ border: '3px solid white' }} onClick={handleComment}>Post</button>
                 </p>
               </div>
             </div>}
@@ -395,13 +414,13 @@ const singlePub = (props) => {
                     <p className="username">
                       {comment.user.username}
                     </p>
-                    <p>
+                    <p style={{ fontWeight: 'normal' }}>
                       ({moment(comment.createdAt).fromNow()})
                     </p>
                   </div>
                   <p>{comment.text}</p>
                   <div>
-                    <Link to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
+                    <Link style={{ fontWeight: 'normal' }} to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
                   </div>
                 </div>
               </div>

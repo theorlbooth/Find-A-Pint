@@ -49,7 +49,6 @@ const Login = (props) => {
 
     <form onSubmit={handleSubmit} style={{ marginLeft: "30%", marginRight: "30%" }}>
       <div className='is-title'>
-        <h1>Login</h1>
       </div>
       <div>
         <label>email</label>
@@ -59,6 +58,7 @@ const Login = (props) => {
           onChange={handleChange}
           value={formData.email}
           name='email'
+          style={{ minWidth: '500px', marginBottom: '10px' }}
         />
       </div>
 
@@ -70,13 +70,14 @@ const Login = (props) => {
           onChange={handleChange}
           value={formData.password}
           name='password'
+          style={{ minWidth: '500px', marginBottom: '10px' }}
         />
         {error && <p style={{ color: 'red' }}>
           {error}</p>}
       </div>
       <button className="button">Login</button>
     </form>
-    <Link to={'/signup'} style={{ marginLeft: "30%" }}>Create account</Link>
+    <Link className="button is-danger" style={{ marginTop: '30px' }} to={'/signup'}>Create account</Link>
   </div>
 }
 

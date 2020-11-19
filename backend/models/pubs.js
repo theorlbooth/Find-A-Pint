@@ -41,7 +41,7 @@ const schema = new mongoose.Schema({
   description: { type: String },
   reviewed: { type: Boolean },
   comments: [ commentSchema ],
-  subscribers: { type: mongoose.Schema.ObjectId, ref: 'Users' },
+  subscribers: [{ type: mongoose.Schema.ObjectId, ref: 'Users' }],
   user: { type: mongoose.Schema.ObjectId, ref: 'Users', required: true }  
 })
 
