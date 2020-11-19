@@ -177,7 +177,7 @@ const DisplayMap = (props) => {
       ref={geocoderContainerRef}
     >
 
-      <p style={{ backgroundColor: 'black', color: "whitesmoke", marginLeft: "10px", fontWeight: '900', display: 'flex', justifyContent: 'space-between' }}>Friend List <button onClick={() => {
+      <p style={{ backgroundColor: 'black', color: "whitesmoke", marginLeft: "5px", marginRight: '5px', paddingLeft: '10px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', border: '3px solid black', borderRadius: '5px' }}>Friend List <button onClick={() => {
         updateCircle(true)
         setVenn(!isVenn)
 
@@ -211,7 +211,7 @@ const DisplayMap = (props) => {
 
         }}>Clear Filter</button>
     </section>
-    <h1 className="range-Indicator">Current Range: {radius} KM</h1>
+    <h1 className="range-Indicator" style={{color: 'gray', fontWeight: '700'}}>Current Range: {radius} KM</h1>
 
 
 
@@ -224,7 +224,7 @@ const DisplayMap = (props) => {
       <ReactMapGL
         ref={mapRef}
         {...viewport}
-        mapStyle='mapbox://styles/adwam12/ckhewfl88137g19rzckkwjfv0'
+        mapStyle='mapbox://styles/adwam12/ckhor6e5u23eb19qqkqd514rt'
 
         mapboxApiAccessToken={process.env.mapbox_key}
         onViewportChange={handleViewportChange}

@@ -66,7 +66,7 @@ const Home = () => {
 
 
   return <div
-    style={{ display: "flex", marginLeft: "25%", marginTop: '5%' }}
+    style={{ display: "flex", marginLeft: "25%", marginTop: '5%'}}
   >
 
     <div className="tile is-ancestor">
