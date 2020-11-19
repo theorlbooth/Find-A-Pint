@@ -10,7 +10,7 @@ import ReactMapGL, { Marker, Popup, GeolocateControl, Layer, Source } from 'reac
 
 
 import Loader from './Loader'
-import { getUserId, isAdmin, isCreator, isUser } from '../lib/auth'
+import { getUserId, isAdmin, isCreator, isUser, isVerified } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
 
 const singlePub = (props) => {
@@ -389,12 +389,13 @@ const singlePub = (props) => {
       </div>
       <div className="single-right-side">
         <div className="sub-button">
-          {!subscribed ? <button className="button is-black" style={{ border: '3px solid white' }} onClick={subscribe} >Subscribe</button> : null}
+          {!subscribed && user[0] ? <button className="button is-black" style={{ border: '3px solid white' }} onClick={subscribe} >Subscribe</button> : null}
         </div>
         <div className="comments-section">
           <article className="media">
             {(!token && singlePub.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">* No Comments *</div>}
-            {token && <div className="media-content">
+            {(token && isVerified(user)) && <div className="media-content">
+
               <div className="field">
                 <p className="control">
                   <textarea className="textarea" placeholder="Post a comment..." onChange={event => setText(event.target.value)} value={text}>{text}</textarea>
