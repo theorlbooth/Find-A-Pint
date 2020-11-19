@@ -10,7 +10,7 @@ import ReactMapGL, { Marker, Popup, GeolocateControl, Layer, Source } from 'reac
 
 
 import Loader from './Loader'
-import { getUserId, isAdmin, isCreator, isUser, isVerified } from '../lib/auth'
+import { getUserId, isAdmin, isCreator, isLandlord, isUser, isVerified } from '../lib/auth'
 import WeatherIcons from './WeatherIcons'
 
 const singlePub = (props) => {
@@ -430,7 +430,7 @@ const singlePub = (props) => {
                 </div>
               </div>
               <div className="media-right">
-                {isUser(singlePub.user, user) && <Icon
+                {isLandlord(user) && <Icon
                   onClick={() => handleFlag(comment._id)}
                   path={mdiFlagVariant}
                   size={1}
