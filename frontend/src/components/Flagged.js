@@ -61,7 +61,7 @@ const Flagged = () => {
   return <>
     <div className="admin-page">
       <div className="search-results">
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline is-mobile flagged-flex">
           {flaggedPubs.map((pub, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
               <Link to={`${pub._id}`}>

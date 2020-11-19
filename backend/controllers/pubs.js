@@ -39,7 +39,7 @@ function addPub(req, res) {
         .then(user => {
           user.ownedPubs.push(pub._id)
           user.save()
-          return res.send(pub)         
+          return res.send(pub)
         })
     })
     .catch(error => res.send(error))
@@ -263,6 +263,33 @@ function deleteReply(req, res) {
 }
 
 
+function addSubscribers(req, res) {
+  req.body.user = req.currentUser
+  const currentUser = req.currentUser
+  Pubs
+    .findById(req.params.pubId)
+    .then(pub => {
+      pub.subscribers.push(currentUser._id)
+      Users
+        .findById(currentUser._id)
+        .then(user => {
+          user.subscribedPubs.push(pub._id)
+          user.save(), pub.save()
+          return res.send(pub)
+        })
+    })
+    .catch(error => res.send(error))
+}
+
+
+function findSubscribers(req, res){
+  Pubs
+    .findById(req.params.pubId)
+    .populate('subscribers')
+    .then(pub => res.send(pub.subscribers))
+    .catch(error => res.send(error))
+}
+
 module.exports = {
   getPub,
   addPub,
@@ -279,5 +306,7 @@ module.exports = {
   updateReply,
   deleteReply,
   getFlaggedCommentsPubs,
-  getFlaggedRepliesPubs
+  getFlaggedRepliesPubs,
+  addSubscribers,
+  findSubscribers
 }

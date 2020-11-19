@@ -19,8 +19,8 @@ function sendVer(req, res) {
         to: `${user.email}`,
         subject: 'Verify Email',
         html: `To verify email please follow this link 
-        <a href="http://localhost:8001/email/ver/${user._id}'>
-        Click here to add your email address to a mailing list</a>'`
+         href="http://localhost:8001/email/ver/${user._id}'>
+        Click here to add your email address to a mailing list`
       }
       sgMail
         .send(msg)
@@ -54,7 +54,19 @@ function confirmVer(req, res) {
     .then(user => res.send(user))
 }
 
+
+function sendNote(req, res){
+  req.body.user = req.currentUser
+  const msg = req.body
+
+  sgMail
+    .send(msg)
+    .then(() => res.status(200).send('All good!'))
+    .catch((error) => res.send(error))
+}
+
 module.exports = {
   sendVer,
-  confirmVer
+  confirmVer,
+  sendNote
 }
