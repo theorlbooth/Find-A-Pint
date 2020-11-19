@@ -54,7 +54,6 @@ const PubList = () => {
 
 
   function DistanceCall(publist) {
-    console.log('boom', distArray)
     publist.forEach((pub) => {
       console.log('test', distArray)
       console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
@@ -186,30 +185,32 @@ const PubList = () => {
   return <>
     <div className="pubs-page">
       <div className="filter">
-        <div className="search">
-          <form style={{ display: 'flex', flexDirection: 'column', width: '150px' }}
+        <div className="search" style={{display: 'flex', justifyContent: 'center'}}>
+          <form className="ListForm"
             onSubmit={(e) => {
               e.preventDefault()
               console.log(zipCode)
             }}>
-            <input placeholder="Zip" type="text" onChange={(e) => {
+            <input className="input" placeholder="Zip" type="text" onChange={(e) => {
               setZipCode(e.target.value)
             }}
             ></input>
             <label>{radius}km</label>
-            <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05' onChange={(e) => {
+            <input type='range' className='custom-rangePub' min='1' max='20' defaultValue='10' step='0.05' onChange={(e) => {
               setRadius(e.target.value) 
             }}></input>
-            <button onClick={() => {
+            <div style={{display: "flex", flexDirection: "row", justifyContent: 'center'}}>
+            <button className="button" onClick={() => {
               filterPubByDistance(pubsList)
-            }}>New Location</button>
-            <button onClick={() => {
+            }}>Search</button>
+            <button className="button" onClick={() => {
               shouldReset(true)
 
             }}>Clear Filter</button>
+            </div>
           </form>
         </div>
-        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center',marginTop: '1%' }}>
           <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="take-away-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateTakeAwayTog(event.target.checked)} />
             <label htmlFor="take-away-toggle">Take Away</label>

@@ -30,12 +30,20 @@ const DisplayMap = (props) => {
 
   const [circleState, updateCircle] = useState(true)
 
-  const [isVenn, setVenn] = useState(true)
+  const [isVenn, setVenn] = useState(false)
 
   const [friendCoords, setFriendCoords] = useState([-0.1347, 51.5186])
 
   // const [friendList, getFriendList] = useState([])
 
+
+  let isFilterOn = 'off'
+
+  if (isVenn) {
+    isFilterOn = 'On'
+  } else {
+    isFilterOn = 'Off'
+  }
 
   function measure(lat1, lon1, lat2, lon2) {
     var R = 6378.137 // Radius of earth in KM
@@ -56,7 +64,7 @@ const DisplayMap = (props) => {
     latitude: 51.5721642,
     longitude: -0.0083677,
     width: '100vw',
-    height: '90vh',
+    height: '93vh',
     zoom: 10
   })
 
@@ -169,16 +177,17 @@ const DisplayMap = (props) => {
       ref={geocoderContainerRef}
     >
 
-      <p style={{ backgroundColor: 'whitesmoke' }}>FRIEND TEST <button onClick={() => {
+      <p style={{ backgroundColor: 'black', color: "whitesmoke", marginLeft: "10px", fontWeight: '900', display: 'flex', justifyContent: 'space-between' }}>Friend List <button onClick={() => {
         updateCircle(true)
         setVenn(!isVenn)
-      }}>Venn Toggle</button></p>
+
+      }}>Friend Filter: {isFilterOn}</button></p>
       {/* friendlist.map(){
 
         return <h1>{name}</h1>
       } */}
       {
-        Object.values(props).map((friend,index) => {
+        Object.values(props).map((friend, index) => {
           return <h1 key={index} className="FriendCard" onClick={() => { setFriendCoords([friend[1].longitude, friend[1].latitude]), updateCircle(true) }}>{friend[0]}</h1>
         })
       }

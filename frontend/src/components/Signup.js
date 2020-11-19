@@ -6,7 +6,7 @@ import Loader from './Loader'
 
 const Signup = (props) => {
 
- 
+
   const [progress, updateProgress] = useState(0)
   const [loading, updateLoading] = useState(false)
   const [formData, updateFromData] = useState({
@@ -138,7 +138,7 @@ const Signup = (props) => {
     updateProgress(newProgress)
   }
 
- 
+
 
   console.log(progress)
 
@@ -155,7 +155,7 @@ const Signup = (props) => {
     {loading ? <div><Loader /></div>
       : <div className='container'>
         <div className='columns is-centered is-vcentered'>
-          <div className="column is-half is-centered">
+          <div className="LeftForm">
             <form onSubmit={handleSubmit} className='is-centered'>
               <h1>Create account</h1>
               {inputFields.map((field, index) => {
@@ -163,6 +163,7 @@ const Signup = (props) => {
                   <label>{field}</label>
                   <div className='control'>
                     <input
+                      className="input is-small"
                       type={field === 'password' || field === 'passwordConfirmation' ? 'password' : 'text'}
                       onChange={handleChange}
                       onBlur={() => increasePint()}
@@ -195,7 +196,7 @@ const Signup = (props) => {
 
             </form>
           </div>
-          <div className='column'>
+          <div className='MasterContainer'>
             <div className='pint-holder'>
               <div className='pint'>
                 <progress value={progress} max="100">100%</progress>
