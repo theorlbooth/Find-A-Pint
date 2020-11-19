@@ -9,7 +9,7 @@ import Loader from './Loader'
 const User = (props) => {
 
   const [edit, updateEdit] = useState(false)
-  const [accept, updateAccept] = useState([])
+  const [accept, updateAccept] = useState(false)
   const [user, updateUser] = useState([])
   const [thisUser, updateThisUser] = useState(false)
   const [isFriends, updateIsFriends] = useState(false)
@@ -35,7 +35,9 @@ const User = (props) => {
         if (userData._id === getUserId()) {
           updateThisUser(true)
         }
-
+        if (userData._id !== getUserId()) {
+          updateThisUser(false)
+        }
 
         axios.get(`/api/users/${id}/requests`)
           .then(resp => {
@@ -48,7 +50,7 @@ const User = (props) => {
               if (friends._id === getUserId()) {
                 updateIsFriends(true)
               }
-             
+
             })
             const promises = []
             for (let i = 0; i < Frienddata.friends.length; i++) {
@@ -90,7 +92,7 @@ const User = (props) => {
       })
   }, [accept, id])
 
- 
+
 
 
 
@@ -104,26 +106,6 @@ const User = (props) => {
     }
     return pub.imageUrl
   }
-
-  //! Calculate Distance
-
-  async function calcDistance(data, friend) {
-    const userLat = data.locationCoords.latitude
-    const userLong = data.locationCoords.longitude
-    const friendLat = friend.locationCoords.latitude
-    const friendLong = friend.locationCoords.longitude
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${userLong},${userLat};${friendLong},${friendLat}?access_token=pk.eyJ1IjoibGVlYjc3IiwiYSI6ImNraGtxamJqejE5ajYycnA2OGRudTU4dDYifQ.cAbyHCrLprcFj7T0TK4V8g`
-    try {
-      const promise = await axios.get(url)
-      const data = promise.data
-      const distance = data.routes[0].duration
-      const time = Math.ceil(distance / 60)
-      return time
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
 
   //! Friend Request & Add
 
@@ -193,39 +175,106 @@ const User = (props) => {
       })
   }
 
-
+  console.log(friends.requests)
   if (!user.username || !friends.friends) {
     return <Loader />
   }
 
 
-  return <div>
+  return <div className='container is-widescreen'>
     <div>
-      <h1>{user.username}</h1>
-      <h2>{user.email}</h2>
-      {thisUser ? <button onClick={editTrue}>Edit</button> : null}
-      {!thisUser && !isFriends && !requested ? <button onClick={addFriend}>Add Friend</button> : null}
-      {requested ? <button disabled>Requested</button> : null}
+      <section className='hero is-light mt-5 mb-2'>
+        <div className='hero-body'>
+          <div className='container'>
+            <h2 className="subtitle is-3 has-text-centered">Your Account</h2>
+            <h1 className='title'>{user.username}</h1>
+            <h2 className='subtitle'>{user.email}</h2>
+            {thisUser ? <button className="button is-info is-outlined" onClick={editTrue}>Edit</button> : null}
+            {!thisUser && !isFriends && !requested ? <button className="button is-primary is-inverted" onClick={addFriend}>Add Friend</button> : null}
+            {requested ? <button className="button is-primary" disabled>Requested</button> : null}
+          </div>
+        </div>
+      </section>
       <div>
         <div>
-          <h2 className="title is-2 has-text-centered">Friends</h2>
 
-          <div className="users-page">
-            <div className="filter">
-            </div>
-            <div className="search-results">
+
+          <section className='hero is-light p-1 my-5'>
+          </section>
+
+          <section>
+            <div className='container'>
+              <h2 className="subtitle is-3 has-text-centered">Friends</h2>
               <div className="columns is-multiline is-mobile">
                 {distFriends.map((user, index) => {
-
-
                   return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
                     <Link to={`/users/${user._id}`}>
                       <div className="card">
                         <div className="card-content">
                           <div className="media-content">
-                            <h2 className="title is-5">{user.username}</h2>
+                            <h2 className="title is-5 is-1-mobile">{user.username}</h2>
                             <p className="subtitle is-6">{user.email}</p>
-                            <p className="subtitle is-6">{user.distance} Minutes Away From You</p>
+                            <p className="subtitle is-6 has-text-link">{user.distance} Minutes Away From You</p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className='hero is-light p-1 my-5'>
+          </section>
+
+          <section>
+            <div className='container'>
+              {thisUser && (friends.requests[0]) ? <div>
+                <h2 className="subtitle is-3 has-text-centered">Requests</h2>
+                {friends.requests.map((requests, index) => {
+                  return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+
+                    <div className="card">
+                      <div className="card-content">
+                        <div className="media-content">
+                          <Link to={`/users/${requests._id}`}>
+                            <h2 className="title is-5 is-1-mobile">{requests.username}</h2>
+                          </Link>
+                          <button className='button is-primary mt-2' onClick={() => acceptRequest(requests._id)}>Accept</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                })}
+                <section className='hero is-light p-1 my-5'>
+                </section>
+              </div> : null}
+            </div>
+          </section>
+
+        </div>
+
+
+        <section className='mb-5'>
+          <div className='container'>
+            <h2 className="subtitle is-3 has-text-centered">Owned Pubs</h2>
+            <div className="pubs-page">
+              <div className="columns is-multiline is-mobile">
+                {user.ownedPubs.map((pub, index) => {
+                  return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                    <Link to={`pub/${pub._id}`}>
+                      <div className="card">
+                        <div className="card-image">
+                          <figure className="image is-square">
+                            <img src={checkForImage(pub)} alt={pub.name} />
+                          </figure>
+                        </div>
+                        <div className="card-content">
+                          <div className="media-content">
+                            <h2 className="title is-5">{pub.name}</h2>
+                            <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
                           </div>
                         </div>
                       </div>
@@ -235,70 +284,47 @@ const User = (props) => {
               </div>
             </div>
           </div>
+        </section>
 
-          {thisUser ? <div>
-            <h1>Requests</h1>
-            {friends.requests.map((requests, index) => {
-              return <div key={index}>
-                <h3>Name: {requests.username}</h3>
-                <button onClick={() => acceptRequest(requests._id)}>Accept</button>
-              </div>
 
-            })}
-          </div> : null}
-
-        </div>
-        <h2>Owned Pubs</h2>
-        <div className="pubs-page">
-          <div className="columns is-multiline is-mobile">
-            {user.ownedPubs.map((pub, index) => {
-              return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
-                <Link to={`pub/${pub._id}`}>
-                  <div className="card">
-                    <div className="card-image">
-                      <figure className="image is-square">
-                        <img src={checkForImage(pub)} alt={pub.name} />
-                      </figure>
-                    </div>
-                    <div className="card-content">
-                      <div className="media-content">
-                        <h2 className="title is-5">{pub.name}</h2>
-                        <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
-                        <p className="subtitle is-6">Distance from:</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            })}
-          </div>
-        </div>
       </div>
     </div>
-    {edit ? <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Create account</h1>
-        {inputFields.map((field, index) => {
-          return <div key={index}>
-            <label>{field}</label>
-            <input
-              type='text'
-              onChange={handleChange}
-              value={formData[field]}
-              name={field}
-            />
-          </div>
-        })}
-        <label>
-          Are you a Landlord?
-        </label>
+    {edit ? <div className='container'>
+      <section className='hero is-danger p-1 my-5'>
+      </section>
+      <section className='p-3 mb-5'>
+        <form onSubmit={handleSubmit}>
+          <h2 className="subtitle is-3 has-text-centered">Edit Profile</h2>
+          {inputFields.map((field, index) => {
+            return <div className='field' key={index}>
+              <label className='label'>{field}</label>
+              <input
+                className='input is-small'
+                type='text'
+                onChange={handleChange}
+                value={formData[field]}
+                name={field}
+              />
+            </div>
+          })}
+          <label className='label'>
+            Are you a Landlord?
+          </label>
+          <div className='control'>
+            <div className='select is-small'>
+              <select name="isLandlord" onChange={handleLandlord} defaultValue={false}>
+                <option value={false}>false</option>
+                <option value={true}>true</option>
+              </select>
+            </div>
 
-        <select name="isLandlord" onChange={handleLandlord} defaultValue={false}>
-          <option value={false}>false</option>
-          <option value={true}>true</option>
-        </select>
-        <button>submit</button>
-      </form>
+          </div>
+          <div className='control'>
+            <button className='button is-danger mt-2'>submit</button>
+          </div>
+        </form>
+      </section>
+
     </div>
       : null}
 
