@@ -56,7 +56,7 @@ const EditPub = (props) => {
       return []
     }
   }
-  
+
 
   const onSubmit = data => {
     console.log(data)
@@ -132,90 +132,133 @@ const EditPub = (props) => {
   }
 
   return <>
+    <div className="edit-page">
+      <h1>Edit Pub Details</h1>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ marginLeft: '30%', marginRight: '30%' }}>
 
-    <div>
-      <h1>Edit Pub</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-
-        <div>
-          <input type="text" placeholder="alias" name="alias" ref={register({ required: true })} value={pub.alias} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="name" name="name" ref={register({ required: true })} value={pub.name} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="imageUrl" name="imageUrl" ref={register({ required: true })} value={pub.imageUrl} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="address" name="address" ref={register({ required: true })} value={pub.address.address1} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="city" name="city" ref={register({ required: true })} value={pub.address.city} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} value={pub.address.zip_code} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
-        </div>
-        <div>
-          <textarea type="text" placeholder="description" name="description" ref={register({ required: true })} value={pub.description} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} value={pub.phoneNumber} onChange={handleChange} />
-        </div>
-        <div>
-          <label>Take away?</label>
-        </div>
-        <div>
-          <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} checked={pub.takeAway === true ? true : false} onChange={handleTickChange} />
-        </div>
-        <div>
-          <label>Outdoor Seating?</label>
-        </div>
-        <div>
-          <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} checked={pub.outdoorSeating === true ? true : false} onChange={handleTickChange} />
-        </div>
-        <div>
-          <label>Heating?</label>
-        </div>
-        <div>
-          <input type="checkbox" placeholder="heating" name="heating" ref={register} checked={pub.heating === true ? true : false} value={pub.heating} onChange={handleTickChange} />
-        </div>
-        <div>
-          <label>LiveMusic?</label>
-        </div>
-        <div>
-          <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} checked={pub.liveMusic === true ? true : false} value={pub.liveMusic} onChange={handleTickChange} />
-        </div>
-        <div>
-          <label>Livesport?</label>
-        </div>
-        <div>
-          <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} checked={pub.liveSport === true ? true : false} value={pub.liveSport} onChange={handleTickChange} />
+        <div className="field">
+          <label className="label">Alias:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="alias" name="alias"
+              ref={register({ required: true })} value={pub.alias} onChange={handleChange} />
+          </div>
         </div>
 
+        <div className="field">
+          <label className="label">Name:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="name" name="name" ref={register({ required: true })} value={pub.name} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">imageUrl:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="imageUrl" name="imageUrl" ref={register({ required: true })} value={pub.imageUrl} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Address:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="address" name="address" ref={register({ required: true })} value={pub.address.address1} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">City:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="city" name="city" ref={register({ required: true })} value={pub.address.city} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Postcode:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} value={pub.address.zip_code} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Opening Hours:</label>
+          <div className="control">
+            <input className="input is-small" type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Description:</label>
+          <div className="control">
+            <textarea className="input is-small" type="text" placeholder="description" name="description" ref={register({ required: true })} value={pub.description} onChange={handleChange} style={{ height: '80px' }}/>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Phone Number:</label>
+          <div className="control">
+            <textarea className="input is-small" type="text" placeholder="phoneNumber" name="phoneNumber" ref={register} value={pub.phoneNumber} onChange={handleChange} />
+          </div>
+        </div>
+
+        <section className="Toggles" style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', height: '90px' }}>
+          <div className="field">
+            <div className="control">
+              <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
+                <input type="checkbox" placeholder="takeaway" name="takeAway" ref={register} checked={pub.takeAway === true ? true : false} onChange={handleTickChange} style={{ marginRight: '15px' }} />Take away?</label>
+            </div>
+          </div>
+
+          <div className="field">
+            <div className="control">
+              <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
+                <input type="checkbox" placeholder="outdoorSeating" name="outdoorSeating" ref={register} checked={pub.outdoorSeating === true ? true : false} onChange={handleTickChange} style={{ marginRight: '15px' }} />Outdoor Seating?</label>
+            </div>
+          </div>
+
+          <div className="field">
+            <div className="control">
+              <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
+                <input type="checkbox" placeholder="heating" name="heating" ref={register} checked={pub.heating === true ? true : false} value={pub.heating} onChange={handleTickChange} style={{ marginRight: '15px' }} />Heating?</label>
+            </div>
+          </div>
+
+          <div className="field">
+            <div className="control">
+              <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
+                <input type="checkbox" placeholder="liveMusic" name="liveMusic" ref={register} checked={pub.liveMusic === true ? true : false} value={pub.liveMusic} onChange={handleTickChange} style={{ marginRight: '15px' }} />LiveMusic?</label>
+            </div>
+          </div>
+
+          <div className="field">
+            <div className="control">
+              <label className="checkbox" style={{ padding: '3px', border: '3px solid white', width: '180px' }}>
+                <input type="checkbox" placeholder="liveSport" name="liveSport" ref={register} checked={pub.liveSport === true ? true : false} value={pub.liveSport} onChange={handleTickChange} style={{ marginRight: '15px' }} />Livesport?</label>
+            </div>
+          </div>
+        </section>
         <p>Photos</p>
         {fields.map((photos, index) => {
           return (<div key={index}>
-            <input
+            <input className="input" type="text" placeholder="Photo URL"
               name={`photos[${index}].value`}
               ref={register}
               defaultValue={photos.value}
             />
-            <button type="button" onClick={() => removePic(index)}>Delete</button>
+            <a type="button" onClick={() => removePic(index)}>Delete</a>
           </div>
 
           )
         })}
         <p>Add photos</p>
-        <input name="photos-input" ref={register} />
+        <input className="input" type="text" name="photos-input" ref={register} />
         <p>
           <a onClick={() => picInput()} >
             Add photos
           </a>
         </p>
-        <input type="submit" />
+        <div className="submit-flex">
+          <input className="button is-black is-inverted is-outlined" type="submit" />
+        </div>
       </form>
     </div >
 

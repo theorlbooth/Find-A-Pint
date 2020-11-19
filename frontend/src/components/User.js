@@ -25,7 +25,7 @@ const User = (props) => {
     locationCoords: ''
   })
   const id = props.match.params.id
-
+  console.log('hi')
   useEffect(() => {
     axios.get(`/api/users/${id}`)
       .then(resp => {

@@ -15,7 +15,7 @@ const PubList = () => {
   const [heatingTog, updateHeatingTog] = useState(false)
   const [liveMusicTog, updateLiveMusicTog] = useState(false)
   const [liveSportTog, updateLiveSportTog] = useState(false)
-  const [zipCode, setZipCode] = useState('')
+  const [zipCode, setZipCode] = useState('E16AN')
   const [searchResult, setSearchResult] = useState([5, -0.5])
   const [indivLatLong, setIndivLatLong] = useState([])
   const [radius, setRadius] = useState(10)
@@ -24,7 +24,8 @@ const PubList = () => {
 
 
 
-  const toURI = encodeURI(zipCode + '' + 'uk')
+  const toURI = encodeURI(zipCode + '&countrycode=' + 'uk')
+  console.log("URI", toURI)
   const url = `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`
 
   function measure(lat1, lon1, lat2, lon2) {
@@ -54,22 +55,24 @@ const PubList = () => {
 
 
   function DistanceCall(publist) {
-    console.log('boom', distArray)
     publist.forEach((pub) => {
-      console.log('test', distArray)
-      console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
+      // console.log('test', distArray)
+      // console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
       return distArray.push((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
 
 
     }
     )
-    console.log('WHEN DONE:', distArray)
+    // console.log('WHEN DONE:', distArray)
   }
 
   function filterPubByDistance(publist) {
 
     updatePubList(publist.filter((pub) => {
-      console.log(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+      console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+      console.log("DISTANCE FROM ZIP: ",measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
+      console.log("Zipcode: ",zipCode)
+      console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
       if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
         return true
       }
@@ -186,30 +189,32 @@ const PubList = () => {
   return <>
     <div className="pubs-page">
       <div className="filter">
-        <div className="search">
-          <form style={{ display: 'flex', flexDirection: 'column', width: '150px' }}
+        <div className="search" style={{display: 'flex', justifyContent: 'center'}}>
+          <form className="ListForm"
             onSubmit={(e) => {
               e.preventDefault()
               console.log(zipCode)
             }}>
-            <input placeholder="Zip" type="text" onChange={(e) => {
-              setZipCode(e.target.value)
+            <input className="input" placeholder="Zip" type="text" onChange={(e) => {
+              setZipCode(e.target.value.replace(/\s/g, ''))
             }}
             ></input>
             <label>{radius}km</label>
-            <input type='range' className='custom-range' min='1' max='20' defaultValue='5' step='0.05' onChange={(e) => {
+            <input type='range' className='custom-rangePub' min='1' max='20' defaultValue='10' step='0.05' onChange={(e) => {
               setRadius(e.target.value) 
             }}></input>
-            <button onClick={() => {
+            <div style={{display: "flex", flexDirection: "row", justifyContent: 'center'}}>
+            <button className="button" onClick={() => {
               filterPubByDistance(pubsList)
-            }}>New Location</button>
-            <button onClick={() => {
+            }}>Search</button>
+            <button className="button" onClick={() => {
               shouldReset(true)
 
             }}>Clear Filter</button>
+            </div>
           </form>
         </div>
-        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center',marginTop: '1%' }}>
           <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="take-away-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateTakeAwayTog(event.target.checked)} />
             <label htmlFor="take-away-toggle">Take Away</label>

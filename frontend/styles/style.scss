@@ -1,5 +1,5 @@
 .search-results {
-  margin: 30px 100px 0px 100px;
+  margin: 0px 100px 0px 100px;
 }
 
 .field {
@@ -48,8 +48,9 @@
   border: none;
   background-color: #03befc;
   width: 10%;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: opacity .2s;
+  font-weight: 800;
 }
 
 .clearFilter:hover {
@@ -85,6 +86,73 @@
   width: 100%;
 }
 
+
+// ! Flagged Page --
+
+.admin-page {
+  height: 100vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1581876574411-10b7b7b978d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  padding-top: 30px;
+  
+}
+
+// ! Create Pub Page --
+
+.create-page {
+  height: 120vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1504502350688-00f5d59bbdeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .label {
+    color: white;
+  }
+
+  .submit-flex {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// ! Edit Pub Page
+
+.edit-page {
+  height: 120vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1504502350688-00f5d59bbdeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .label {
+    color: white;
+  }
+
+  .submit-flex {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+  }
+}
+
 // ! Reply Page 
 
 .reply-page {
@@ -102,13 +170,15 @@
 
 
   .comments-section {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: rgba(0, 0, 0, 0.2);
     border: solid white 5px;
     border-radius: 10px;
+    max-width: 100%;
+    min-width: 30%;
 
     .media {
       margin: 0px 10px;
@@ -137,7 +207,8 @@
   }
 
   .replies-section {
-    width: 400px;
+    max-width: 100%;
+    min-width: 30%;
     
     .button-flex {
       display: flex;
@@ -252,10 +323,11 @@
     .weather {
       display: flex;
       overflow-x: scroll;
-      max-width: 800px;
+      max-width: 500px;
       margin: 20px 0px;
       border: solid white 5px;
       border-radius: 10px;
+
 
       .future-weather-day {
         display: flex;
@@ -266,6 +338,8 @@
         color: white;
         border-right: 1px solid lightgrey;
         font-weight: normal;
+        height: 190px;
+
 
         h3, p {
           width: 160px;
@@ -569,26 +643,18 @@
 
 .FriendList {
   animation: FriendsPopDown 0.25s ease 1;
-  border: 5px solid rgba(90, 63, 38, 1);
+  border: 5px solid rgb(219, 219, 219);
   border-radius: 5px;
-  left: 10px;
-  background-color: rgba(90, 63, 38, 0.712);
+  left: 2%;
+  background-color: rgba(231, 231, 231, 0.829);
 
 
   width: 20%;
   height: 5%;
   position: absolute;
   z-index: 1;
-  top: 95%;
+top: 95%;
   overflow: hidden;
-}
-
-.mapboxgl-ctrl-logo {
-  display: none !important;
-}
-.FriendCard{
-  background-color: rgba(255, 255, 255, 0.712);
-  margin-top: 5px 
 }
 
 .FriendList:hover{
@@ -621,6 +687,49 @@
   }
 
 }
+
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+.FriendCard{
+  background-color: rgba(0, 0, 0, 0.884);
+  color: white;
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  font-weight: 700;
+}
+
+.LeftForm{
+  
+width: 15% !important;
+// min-width: 25px !important;
+margin-top: 5%;
+}
+
+.search{
+  margin-top: 5%;
+}
+
+.custom-rangePub{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  background-color: rgb(196, 196, 196);
+  appearance: none;
+}
+.custom-rangePub::-webkit-slider-thumb{
+  appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: white;
+  border: 2px solid gray;
+  cursor: pointer;
+}
+
 
 // .BeerIcon{
 //   margin: 0px;
@@ -671,4 +780,28 @@ progress::-webkit-progress-value {
   background-size: cover;
   // background-repeat: no-repeat;
   -webkit-transition: all 0.5s ease-in-out;
+}
+
+.ListForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+}
+
+.ColorInvert{
+  background-color: rgb(24, 11, 11);
+}
+
+body{
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Ubuntu', sans-serif;
+ background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),  url("https://images.unsplash.com/photo-1560290881-c6839ff0717e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80");
+
+}
+
+label{
+  color: whitesmoke;
+  font-weight: 600;
 }
