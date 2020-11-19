@@ -186,7 +186,9 @@ const PubList = () => {
 
   if (pubsList === undefined) {
     return <>
-      <Loader />
+      <div className="flex-loader">
+        <Loader />
+      </div>
     </>
   }
 
@@ -205,12 +207,12 @@ const PubList = () => {
               // console.log(zipCode)
               // resetSearch()
 
-              
+
               filterPubByDistance(pubsList)
-              
+
             }}>
             <input className="input" placeholder="Zip" type="text" onChange={(e) => {
-                         
+
               setZipCode(e.target.value.replace(/\s/g, ''))
             }}
             ></input>
@@ -218,7 +220,7 @@ const PubList = () => {
             <input type='range' className='custom-rangePub' min='1' max='20' defaultValue='10' step='0.05' onChange={(e) => {
 
               setRadius(e.target.value)
-              
+
             }}></input>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
               <button className="button" onClick={() => {

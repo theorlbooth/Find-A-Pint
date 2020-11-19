@@ -268,7 +268,9 @@ const singlePub = (props) => {
 
   if (singlePub.address === undefined || weatherInfo.daily === undefined) {
     return <>
-      <Loader />
+      <div className="flex-loader">
+        <Loader />
+      </div>
     </>
   }
 
@@ -277,7 +279,7 @@ const singlePub = (props) => {
     <div className="single-page">
       <div className="single-left-side">
         <div className="name">
-          <h1>{singlePub.name}</h1>
+          <h1 style={{ fontFamily: 'Playfair Display SC, serif' }}>{singlePub.name}</h1>
         </div>
         <div className="address-info-times">
           <div className="address">

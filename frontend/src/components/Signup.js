@@ -158,7 +158,7 @@ const Signup = (props) => {
     </Modal>
 
 
-    {loading ? <div><Loader /></div>
+    {loading ? <div className="flex-loader"><Loader /></div>
       : <div className='container'>
         <div className='columns is-centered is-vcentered'>
           <div className="LeftForm">

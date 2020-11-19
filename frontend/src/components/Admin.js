@@ -39,7 +39,11 @@ const Admin = () => {
 
 
   if (!pubsList.reviewed) {
-    <Loader />
+    return <>
+    <div className="flex-loader">
+      <Loader />
+    </div>
+    </>
   }
 
 

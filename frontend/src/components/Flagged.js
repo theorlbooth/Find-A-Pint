@@ -53,7 +53,9 @@ const Flagged = () => {
 
   if (flaggedPubs === undefined) {
     return <>
-      <Loader />
+      <div className="flex-loader">
+        <Loader />
+      </div>
     </>
   }
 
@@ -83,7 +85,7 @@ const Flagged = () => {
               </Link>
               {pub.comments.map((comment, index) => {
                 if (comment.flagged === true) {
-                  return <div className="flagged" key={index} style={{ border: '3px solid red', ['border-radius']: '10px',padding: '10px', background: 'rgba(0, 0, 0, 0.7)' }}>
+                  return <div className="flagged" key={index} style={{ border: '3px solid red', ['border-radius']: '10px', padding: '10px', background: 'rgba(0, 0, 0, 0.7)' }}>
                     <Link style={{ color: 'white', fontWeight: 'bold' }} to={`/pubs/${pub._id}/comments/${comment._id}`}>
                       <article className="media">
                         <div className="media-content">

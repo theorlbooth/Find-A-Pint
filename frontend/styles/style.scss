@@ -10,6 +10,13 @@
   margin-bottom: 3px !important;
 }
 
+.flex-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .marker-btn {
   position: relative;
   background: none;

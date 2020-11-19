@@ -177,7 +177,11 @@ const User = (props) => {
 
   console.log(friends.requests)
   if (!user.username || !friends.friends) {
-    return <Loader />
+    return <>
+      <div className="flex-loader">
+        <Loader />
+      </div>
+    </>
   }
 
 

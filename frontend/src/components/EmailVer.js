@@ -22,8 +22,13 @@ const EmailVer = (props) => {
       })
   }, [])
 
-  if (!resp) return <Loader />
-
+  if (!resp) {
+    return <>
+    <div className="flex-loader">
+      <Loader />
+    </div>
+    </>
+  }
 
   return <div className='container has-text-centered mt-5 mb-5'>
     <h1 className='title has-text-white'>Verification</h1>
