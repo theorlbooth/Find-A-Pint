@@ -15,7 +15,7 @@ const PubList = () => {
   const [heatingTog, updateHeatingTog] = useState(false)
   const [liveMusicTog, updateLiveMusicTog] = useState(false)
   const [liveSportTog, updateLiveSportTog] = useState(false)
-  const [zipCode, setZipCode] = useState('')
+  const [zipCode, setZipCode] = useState('E16AN')
   const [searchResult, setSearchResult] = useState([5, -0.5])
   const [indivLatLong, setIndivLatLong] = useState([])
   const [radius, setRadius] = useState(10)
@@ -24,7 +24,8 @@ const PubList = () => {
 
 
 
-  const toURI = encodeURI(zipCode + '' + 'uk')
+  const toURI = encodeURI(zipCode + '&countrycode=' + 'uk')
+  console.log("URI", toURI)
   const url = `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`
 
   function measure(lat1, lon1, lat2, lon2) {
@@ -55,20 +56,23 @@ const PubList = () => {
 
   function DistanceCall(publist) {
     publist.forEach((pub) => {
-      console.log('test', distArray)
-      console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
+      // console.log('test', distArray)
+      // console.log((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
       return distArray.push((measure(searchResult[0], searchResult[1], pub.coordinates.latitude, pub.coordinates.longitude)))
 
 
     }
     )
-    console.log('WHEN DONE:', distArray)
+    // console.log('WHEN DONE:', distArray)
   }
 
   function filterPubByDistance(publist) {
 
     updatePubList(publist.filter((pub) => {
-      console.log(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+      console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+      console.log("DISTANCE FROM ZIP: ",measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
+      console.log("Zipcode: ",zipCode)
+      console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
       if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
         return true
       }
@@ -192,7 +196,7 @@ const PubList = () => {
               console.log(zipCode)
             }}>
             <input className="input" placeholder="Zip" type="text" onChange={(e) => {
-              setZipCode(e.target.value)
+              setZipCode(e.target.value.replace(/\s/g, ''))
             }}
             ></input>
             <label>{radius}km</label>

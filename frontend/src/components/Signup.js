@@ -92,12 +92,11 @@ const Signup = (props) => {
             axios.post('api/login', logIn)
               .then(resp => {
                 const token = resp.data.token
-                console.log(name)
                 localStorage.setItem('token', token)
                 updateFromData('')
               })
             const id = message._id
-            axios.get(`api/email/ver/${id}`)
+            axios.get(`api/email/ver/${message._id}`)
               .then(resp => {
                 const data = resp.data
                 console.log(data)
