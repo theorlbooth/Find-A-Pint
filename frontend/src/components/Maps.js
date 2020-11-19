@@ -90,16 +90,6 @@ const DisplayMap = (props) => {
   }, [])
 
 
-
-  console.log(getUserId())
-
-
-  // useEffect(() => {
-  //   setFilteredPubList(pubList)
-  //   // console.log('Original', pubList)
-  //   // console.log('filt', filteredPubList)
-  // }, [pubList])
-
   useEffect(() => {
     if (showRadius) {
       shouldShowRadius(false)
@@ -111,20 +101,19 @@ const DisplayMap = (props) => {
 
   useEffect(() => {
 
-    // console.log('Check')
-    // console.log('IN USE EFFECT', proxCoords)
+
     {
       if (!isVenn) {
         setFilteredPubList(pubList.filter(elem => {
           if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
-            // console.log(elem.name)
+
             return true
           }
         }))
       } else {
         setFilteredPubList(pubList.filter(elem => {
           if (Number(measure(proxCoords[1], proxCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
-            // console.log(elem.name)
+
             if (Number(measure(friendCoords[1], friendCoords[0], elem.coordinates.latitude, elem.coordinates.longitude)) < radius) {
               return true
             }
@@ -133,7 +122,6 @@ const DisplayMap = (props) => {
         }))
       }
     }
-    // console.log('check', filteredPubList)
   }, [proxCoords[1], proxCoords[0], circleState])
 
 
@@ -177,7 +165,7 @@ const DisplayMap = (props) => {
       ref={geocoderContainerRef}
     >
 
-      <p style={{ backgroundColor: 'black', color: "whitesmoke", marginLeft: "5px", marginRight: '5px', paddingLeft: '10px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', border: '3px solid black', borderRadius: '5px' }}>Friend List <button onClick={() => {
+      <p style={{ backgroundColor: 'black', color: 'whitesmoke', marginLeft: '5px', marginRight: '5px', paddingLeft: '10px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', border: '3px solid black', borderRadius: '5px' }}>Friend List <button onClick={() => {
         updateCircle(true)
         setVenn(!isVenn)
 
@@ -188,7 +176,7 @@ const DisplayMap = (props) => {
       } */}
       {
         Object.values(props).map((friend, index) => {
-          return <h1 key={index} className="FriendCard" onClick={() => { setFriendCoords([friend[1].longitude, friend[1].latitude]), updateCircle(true) }}>{friend[0]}</h1>
+          return <h1 key={index} className='FriendCard' onClick={() => { setFriendCoords([friend[1].longitude, friend[1].latitude]), updateCircle(true) }}>{friend[0]}</h1>
         })
       }
 
@@ -212,7 +200,7 @@ const DisplayMap = (props) => {
 
         }}>Clear Filter</button>
     </section>
-    <h1 className="range-Indicator" style={{color: 'gray', fontWeight: '700'}}>Current Range: {radius} KM</h1>
+    <h1 className='range-Indicator' style={{ color: 'gray', fontWeight: '700' }}>Current Range: {radius} KM</h1>
 
 
 
@@ -221,7 +209,7 @@ const DisplayMap = (props) => {
         ref={geocoderContainerRef}
         style={{ position: 'absolute', zIndex: 1, height: '450px' }}
       /> */}
-    <section className="Maps_Container">
+    <section className='Maps_Container'>
       <ReactMapGL
         ref={mapRef}
         {...viewport}
@@ -274,13 +262,13 @@ const DisplayMap = (props) => {
           onGeolocate={() => {
             if ('geolocation' in navigator) {
               navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position, position.coords.longitude);
+                // console.log(position, position.coords.longitude);
                 if (position.coords.latitude) {
                   setProxCoords([position.coords.longitude, position.coords.latitude])
                 }
-              });
+              })
             } else {
-              console.log('err')
+              console.log('error')
             }
 
           }
@@ -289,9 +277,9 @@ const DisplayMap = (props) => {
         />
 
         {filteredPubList.map((pub, index) => {
-          {/* {console.log(pub)} */ }
+
           return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude} key={index} offsetLeft={-25} offsetTop={-25}>
-            {/* {console.log('pubs: ', pub.coordinates.latitude)} */}
+
             <div>
               <button className='marker-btn' onClick={(e) => {
                 e.preventDefault()
@@ -324,7 +312,7 @@ const DisplayMap = (props) => {
             closeOnClick={false} >
             <div>
               <Link to={`${selectedPub._id}`}>
-                <h2 style={{fontWeight: "900", textDecoration: "underline"}}>{selectedPub.name}</h2>
+                <h2 style={{ fontWeight: '900', textDecoration: 'underline' }}>{selectedPub.name}</h2>
                 <p>{selectedPub.address.address1}</p>
                 <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km,  {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
 

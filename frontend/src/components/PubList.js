@@ -26,7 +26,7 @@ const PubList = () => {
 
 
   const toURI = encodeURI(zipCode + '&countrycode=' + 'uk')
-  console.log("URI", toURI)
+  // console.log("URI", toURI)
   const url = `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`
 
   function measure(lat1, lon1, lat2, lon2) {
@@ -45,7 +45,7 @@ const PubList = () => {
     axios.get(url)
       .then(axiosResp => {
         setSearchResult(axiosResp.data.results[0].geometry)
-        console.log(axiosResp.data.results[0].geometry)
+        // console.log(axiosResp.data.results[0].geometry)
       })
 
   }, [zipCode])
@@ -72,10 +72,10 @@ const PubList = () => {
 
     return setTimeout(() => {
       updatePubList(publist.filter((pub) => {
-        console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
-        console.log("DISTANCE FROM ZIP: ", measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
-        console.log("Zipcode: ", zipCode)
-        console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
+        // console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+        // console.log("DISTANCE FROM ZIP: ", measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
+        // console.log("Zipcode: ", zipCode)
+        // console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
         if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
           return true
         }
@@ -210,6 +210,7 @@ const PubList = () => {
               
             }}>
             <input className="input" placeholder="Zip" type="text" onChange={(e) => {
+                         
               setZipCode(e.target.value.replace(/\s/g, ''))
             }}
             ></input>
@@ -217,6 +218,7 @@ const PubList = () => {
             <input type='range' className='custom-rangePub' min='1' max='20' defaultValue='10' step='0.05' onChange={(e) => {
 
               setRadius(e.target.value)
+              
             }}></input>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
               <button className="button" onClick={() => {

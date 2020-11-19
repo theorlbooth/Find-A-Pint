@@ -10,6 +10,7 @@ const Navbar = (props) => {
   function handleLogout() {
     localStorage.removeItem('token')
     props.history.push('/')
+    location.reload()
   }
   const id = getUserId()
 
@@ -27,7 +28,7 @@ const Navbar = (props) => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <Link className="button is-black" to="/" style={{border: '2px solid white'}}>Home</Link>
+              <Link className="button is-black" to="/" style={{ border: '2px solid white' }}>Home</Link>
               <Link className="button is-ghost" to="/pubs">Search</Link>
               <Link className="button is-ghost" to='/pubs/maps'>Map</Link>
               {(token && isLandlord(user)) && <Link className="button is-ghost" to='/pubs/new-pub'>Create Pub</Link>}
