@@ -33,12 +33,8 @@ const Admin = () => {
       })
   }, [])
 
+  
   if (pubsList === undefined) {
-    return
-  }
-
-
-  if (!pubsList.reviewed) {
     return <>
     <div className="flex-loader">
       <Loader />
