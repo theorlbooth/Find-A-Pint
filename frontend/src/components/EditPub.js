@@ -5,7 +5,7 @@ import axios from 'axios'
 const EditPub = (props) => {
 
   const id = props.match.params.id
-  const { register, handleSubmit, control, getValues, setValue } = useForm()
+  const { register, handleSubmit, control, errors, getValues, setValue } = useForm()
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'photos'
@@ -20,7 +20,7 @@ const EditPub = (props) => {
     address: '',
     city: '',
     postcode: '',
-    openinghours: '',
+    openingHours: '',
     description: '',
     phoneNumber: '',
     takeAway: false,
@@ -140,56 +140,120 @@ const EditPub = (props) => {
           <label className="label">Alias:</label>
           <div className="control">
             <input className="input is-small" type="text" placeholder="alias" name="alias"
-              ref={register({ required: true })} value={pub.alias} onChange={handleChange} />
+              ref={register({
+                required: {
+                  value: true,
+                  message: 'Please enter an alias'
+                }
+              })} value={pub.alias} onChange={handleChange} />
+            {errors.alias && (
+              <div style={{ color: 'red' }} className="error">{errors.alias.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">Name:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="name" name="name" ref={register({ required: true })} value={pub.name} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="name" name="name" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a name for your pub'
+              }
+            })} value={pub.name} onChange={handleChange} />
+            {errors.name && (
+              <div style={{ color: 'red' }} className="error">{errors.name.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">imageUrl:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="imageUrl" name="imageUrl" ref={register({ required: true })} value={pub.imageUrl} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="imageUrl" name="imageUrl" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a valid image for your pub'
+              }
+            })} value={pub.imageUrl} onChange={handleChange} />
+            {errors.imageUrl && (
+              <div style={{ color: 'red' }} className="error">{errors.imageUrl.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">Address:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="address" name="address" ref={register({ required: true })} value={pub.address.address1} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="address" name="address" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a valid address'
+              }
+            })} value={pub.address.address1} onChange={handleChange} />
+            {errors.address && (
+              <div style={{ color: 'red' }} className="error">{errors.address.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">City:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="city" name="city" ref={register({ required: true })} value={pub.address.city} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="city" name="city" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a valid city'
+              }
+            })} value={pub.address.city} onChange={handleChange} />
+            {errors.city && (
+              <div style={{ color: 'red' }} className="error">{errors.city.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">Postcode:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="postcode" name="postcode" ref={register({ required: true })} value={pub.address.zip_code} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="postcode" name="postcode" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a valid postcode'
+              }
+            })} value={pub.address.zip_code} onChange={handleChange} />
+            {errors.postcode && (
+              <div style={{ color: 'red' }} className="error">{errors.postcode.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">Opening Hours:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="opening hours" name="openingHours" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter opening hours'
+              }
+            })} value={pub.openingHours} onChange={handleChange} />
+            {errors.openingHours && (
+              <div style={{ color: 'red' }} className="error">{errors.openingHours.message}</div>
+            )}
           </div>
         </div>
 
         <div className="field">
           <label className="label">Description:</label>
           <div className="control">
-            <textarea className="input is-small" type="text" placeholder="description" name="description" ref={register({ required: true })} value={pub.description} onChange={handleChange} style={{ height: '80px' }}/>
+            <textarea className="input is-small" type="text" placeholder="description" name="description" ref={register({
+              required: {
+                value: true,
+                message: 'Please enter a description'
+              }
+            })} value={pub.description} onChange={handleChange} style={{ height: '80px' }} />
+            {errors.description && (
+              <div style={{ color: 'red' }} className="error">{errors.description.message}</div>
+            )}
           </div>
         </div>
 

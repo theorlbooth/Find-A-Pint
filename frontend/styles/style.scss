@@ -87,6 +87,17 @@
 }
 
 
+// ! Login Page --
+
+#login {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
 // ! Flagged Page --
 
 .admin-page {
@@ -166,18 +177,16 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  opacity: 0.9;
 
 
   .comments-section {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background: rgba(0, 0, 0, 0.2);
     border: solid white 5px;
     border-radius: 10px;
-    max-width: 100%;
+    max-width: 90%;
     min-width: 30%;
 
     .media {
@@ -408,6 +417,10 @@
       height: 80vh;
       overflow: auto;
       margin-top: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 3px solid white;
+      border-radius: 10px;
+      padding: 10px;
 
       .media {
         margin: 0px 10px 20px 10px;
@@ -797,7 +810,7 @@ body{
   height: 100vh;
   width: 100vw;
   font-family: 'Ubuntu', sans-serif;
- background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),  url("https://images.unsplash.com/photo-1560290881-c6839ff0717e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80");
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),  url("https://images.unsplash.com/photo-1560290881-c6839ff0717e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80");
 
 }
 

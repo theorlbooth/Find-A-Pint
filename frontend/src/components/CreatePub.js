@@ -79,7 +79,7 @@ export default function CreatePub(props) {
               }
             })} />
           {errors.alias && (
-            <div className="error">{errors.alias.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.alias.message}</div>
           )}
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function CreatePub(props) {
             }
           })} />
           {errors.name && (
-            <div className="error">{errors.name.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.name.message}</div>
           )}
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function CreatePub(props) {
             }
           })} />
           {errors.imageUrl && (
-            <div className="error">{errors.imageUrl.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.imageUrl.message}</div>
           )}
         </div>
       </div>
@@ -124,7 +124,7 @@ export default function CreatePub(props) {
             }
           })} />
           {errors.address && (
-            <div className="error">{errors.address.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.address.message}</div>
           )}
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function CreatePub(props) {
             }
           })} />
           {errors.city && (
-            <div className="error">{errors.city.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.city.message}</div>
           )}
         </div>
       </div>
@@ -154,21 +154,21 @@ export default function CreatePub(props) {
             }
           })} />
           {errors.postcode && (
-            <div className="error">{errors.postcode.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.postcode.message}</div>
           )}
         </div>
       </div>
       <div className="field">
         <label className="label">Opening Hours:</label>
         <div className="control">
-          <input className="input is-small" placeholder="openinghours" name="openingHours" ref={register({
+          <input className="input is-small" placeholder="opening hours" name="openingHours" ref={register({
             required: {
               value: true,
               message: 'Please enter opening hours'
             }
           })} />
-          {errors.openinghours && (
-            <div className="error">{errors.openinghours.message}</div>
+          {errors.openingHours && (
+            <div style={{ color: 'red' }} className="error">{errors.openingHours.message}</div>
           )}
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function CreatePub(props) {
             }
           })} style={{ height: '80px' }}/>
           {errors.description && (
-            <div className="error">{errors.description.message}</div>
+            <div style={{ color: 'red' }} className="error">{errors.description.message}</div>
           )}
         </div>
       </div>

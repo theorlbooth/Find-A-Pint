@@ -395,13 +395,13 @@ const singlePub = (props) => {
                     <p className="username">
                       {comment.user.username}
                     </p>
-                    <p>
+                    <p style={{ fontWeight: 'normal' }}>
                       ({moment(comment.createdAt).fromNow()})
                     </p>
                   </div>
                   <p>{comment.text}</p>
                   <div>
-                    <Link to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
+                    <Link style={{ fontWeight: 'normal' }} to={`/pubs/${id}/comments/${comment._id}`}>{countReplies(comment)}</Link>
                   </div>
                 </div>
               </div>
