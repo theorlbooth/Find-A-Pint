@@ -63,44 +63,61 @@ const EmailSend = (props) => {
   }
 
   if (!subscribers[0]) {
-    return <h1>You have no subscribers</h1>
+    return <div className='container has-text-centered'>
+      <h1 className='title has-text-white'>Currently no subscribers</h1>
+    </div>
   }
 
-  return <div>
-    <h1>New note from {singlePub.name} </h1>
+  return <div className='container has-text-centered mt-5 mb-5'>
+    <h1 className='title has-text-white'>New note from - {singlePub.name} </h1>
 
 
     <form onSubmit={sendEmail}>
-      <div>
-        <label>Subject</label>
+      <div className='field'>
+        <label className='label has-text-white subtitle is-5'>Subject</label>
         <input
           type='text'
           onChange={handleChange}
           value={message.subject}
           name='subject'
+          className='input is-large'
         />
       </div>
       <div>
-        <label>Message</label>
+        <label className='label has-text-white subtitle is-5'>Message</label>
         <div>
           <textarea
             type='textarea'
             onChange={handleChange}
             value={message.html}
             name='html'
+            className='textarea'
           />
         </div>
       </div>
-      <button>Send</button>
+      <button className='button is-medium mt-3'>Send</button>
     </form>
 
-    <div>
-      {subscribers.map((user, index) => {
-        return <div key={index}>
-          <h1>{user.username}</h1>
+    <section>
+      <div className='container'>
+        <h2 className="subtitle is-3 has-text-white has-text-centered mt-5">You are sending to:</h2>
+        <div className="columns is-multiline is-mobile">
+          {subscribers.map((user, index) => {
+            return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+              <Link to={`/users/${user._id}`}>
+                <div className="card">
+                  <div className="card-content">
+                    <div className="media-content">
+                      <h2 className="title is-5 is-1-mobile">{user.username}</h2>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          })}
         </div>
-      })}
-    </div>
+      </div>
+    </section>
   </div>
 }
 
