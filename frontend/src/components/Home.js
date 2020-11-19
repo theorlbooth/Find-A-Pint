@@ -10,6 +10,7 @@ const Home = () => {
   const [users, updateUsers] = useState([])
   const [user, updateUser] = useState([])
   const [filterText, updateFilterText] = useState('')
+  const [userStatus, getUserStatus] = useState('none')
 
   const id = getUserId()
 
@@ -70,6 +71,43 @@ const Home = () => {
     return filteredUSers
   }
 
+  if (getUserId()) {
+    axios.get(`/api/users/${getUserId()}`)
+      .then(axiosResp => {
+        if (axiosResp.data.isEmailConfirmed) {
+          getUserStatus(axiosResp.data.isEmailConfirmed)
+        } else {
+          getUserStatus('false')
+        }
+      })
+  }
+  console.log(userStatus)
+  function statusCheck() {
+
+    if (userStatus === 'false' ){
+      return <div>
+                        <Link to={`/users/${getUserId()}`}>
+      <p>Account</p>
+      <p style={{ fontSize: '25px', fontWeight: '400' }}>Please validate your email </p>
+      </Link>
+    </div>
+    }
+    if (userStatus === true ){
+      return <div>
+                <Link to={`/users/${getUserId()}`}>
+        <p>Account</p>
+        </Link>
+      </div>
+    }
+    if (userStatus === 'none'){
+      return <div>
+        <Link to={`/login`}>
+        <p>Login/Register</p>
+        </Link>
+      </div>
+    }
+
+  }
 
   return <div
     style={{ display: "flex", marginLeft: "25%", marginTop: '5%' }}
@@ -79,17 +117,21 @@ const Home = () => {
       <div className="tile is-vertical is-8">
         <div className="tile">
           <div className="tile is-parent is-vertical">
-            <article className="tile is-child notification" style={{ display: 'flex', justifyContent: "center", alignitems: "center", border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)" }}>
-              <h2 style={{ display: "flex", alignSelf: 'center', fontSize: '50px', fontWeight: '900', color: 'white' }}>PUB LIST</h2>
+            <article className="tile is-child notification" style={{ display: 'flex', justifyContent: 'center', alignitems: 'center', border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)" }}>
+            <Link to={`/pubs`} style={{display: 'flex', alignSelf: 'center', color: "white"}}>
+              <h2 style={{  fontSize: '50px', fontWeight: '900', color: 'white' }}>PUB LIST</h2>
+              </Link>
             </article>
-            <article className="tile is-child notification is-dark" style={{ display: 'flex', justifyContent: "center", alignitems: "center", border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)" }}>
-              <p style={{ display: "flex", alignSelf: 'center', fontSize: '50px', fontWeight: '900', color: 'white' }}>Login</p>
+            <article className="tile is-child notification is-dark" style={{ display: 'flex', justifyContent: 'center', alignitems: 'center', border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)" }}>
+              <p style={{ display: 'flex', alignSelf: 'center', fontSize: '50px', fontWeight: '900', color: 'white' }}>{statusCheck()}</p>
               {/* <p className="subtitle">Bottom tile</p> */}
             </article>
           </div>
           <div className="tile is-parent">
             <article className="tile is-child notification" style={{ border: '10px solid white', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+              <Link to={`/pubs/maps`} style={{color: 'white'}}>
               <p style={{ display: "flex", alignSelf: 'center', fontSize: '50px', fontWeight: '900', color: 'white' }}>Map</p>
+              </Link>
               <ReactMapGL
                 ref={mapRef}
                 {...viewport}

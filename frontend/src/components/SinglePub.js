@@ -31,7 +31,7 @@ const singlePub = (props) => {
     longitude: latLong[1],
     width: '500px',
     height: '500px',
-    zoom: 10
+    zoom: 12
   })
   const mapRef = useRef()
 
@@ -41,7 +41,7 @@ const singlePub = (props) => {
       longitude: latLong[1],
       width: '500px',
       height: '500px',
-      zoom: 10
+      zoom: 12
     })
 
   }, [latLong])
@@ -256,9 +256,10 @@ const singlePub = (props) => {
 
 
   function showPhoto() {
-    if (singlePub.photos.length === 0) {
+    if (singlePub.photos.length === 0 && singlePub.imageUrl === '') {
+      return ['https://images.unsplash.com/photo-1586993451228-09818021e309?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80']
+    } else if (singlePub.photos.length === 0) {
       return [singlePub.imageUrl]
-
     } else {
       return singlePub.photos
     }
@@ -280,11 +281,11 @@ const singlePub = (props) => {
         </div>
         <div className="address-info-times">
           <div className="address">
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.address1}</h3>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.city}</h3>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.zip_code}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.address1}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.city}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.zip_code}</h3>
             <br></br>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.phoneNumber}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.phoneNumber}</h3>
           </div>
 
           <ul className="info">
@@ -382,7 +383,7 @@ const singlePub = (props) => {
               longitude={latLong[1]}
 
             >
-              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: '25px' }} className='BeerIcon' />
+              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: '45px' }} className='BeerIcon' />
             </Marker>
           </ReactMapGL>
         </div>
@@ -393,7 +394,9 @@ const singlePub = (props) => {
         </div>
         <div className="comments-section">
           <article className="media">
+            {(!token && singlePub.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">No Comments</div>}
             {(token && isVerified(user)) && <div className="media-content">
+
               <div className="field">
                 <p className="control">
                   <textarea className="textarea" placeholder="Post a comment..." onChange={event => setText(event.target.value)} value={text}>{text}</textarea>
@@ -412,7 +415,7 @@ const singlePub = (props) => {
                 <div className="content">
                   <div className="user-time">
                     <p className="username">
-                      {comment.user.username}
+                      {!comment.user ? 'unknown' : comment.user.username}
                     </p>
                     <p style={{ fontWeight: 'normal' }}>
                       ({moment(comment.createdAt).fromNow()})
@@ -431,7 +434,7 @@ const singlePub = (props) => {
                   size={1}
                   color={comment.flagged === true ? 'red' : 'grey'}
                 />}
-                {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
+                {!comment.user ? false : isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
                 </button>}
               </div>
             </article>
