@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import Loader from './Loader'
 
-
+import { getUserId, isCurrentUser } from '../lib/auth'
 
 const Admin = () => {
 
@@ -15,7 +15,6 @@ const Admin = () => {
     axios.get('/api/pub')
       .then(resp => {
         updatePubList(resp.data)
-        console.log(resp.data)
       })
   }, [])
 
@@ -23,7 +22,6 @@ const Admin = () => {
     axios.get('/api/pubs/flagged/comments/pubs')
       .then(resp => {
         updateFlaggedPubs(resp.data)
-        console.log(resp.data)
       })
   }, [])
 
@@ -72,7 +70,6 @@ const Admin = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log(resp.data)
         axios.get('/api/pub')
           .then(resp => {
             updatePubList(resp.data)
@@ -88,7 +85,6 @@ const Admin = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log(resp.data)
         axios.get('/api/pub')
           .then(resp => {
             updatePubList(resp.data)
@@ -110,7 +106,7 @@ const Admin = () => {
       <div className="filter">
       </div>
       <div className="search-results">
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline is-mobile pub-flex">
           {adminFilter().map((pub, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
               <Link to={`pubs/${pub._id}`}>
@@ -129,26 +125,27 @@ const Admin = () => {
                   </div>
                 </div>
               </Link>
-              <button className='button' onClick={() => removePub(pub._id)}>Remove</button>
-              <button className='button' onClick={() => approvePub(pub._id)}>Approve</button>
+              <button className='button' style={{ margin: '10px' }} onClick={() => removePub(pub._id)}>Remove</button>
+              <button className='button' style={{ margin: '10px' }} onClick={() => approvePub(pub._id)}>Approve</button>
             </div>
           })}
         </div>
       </div>
     </div>
-    <div className="flagged-button"> 
-      <Link className={flaggedPubs.length === 0 ? 'button is-black' : 'button is-danger'} to='/pubs/flagged'>Flagged</Link>
+    <div className="flagged-button">
+      <div className="flag-button">
+        <Link style={{ minWidth: '150px' }} className={flaggedPubs.length === 0 ? 'button is-black flag-button' : 'button is-danger'} to='/pubs/flagged'>Flagged</Link>
+      </div>
     </div>
-
-    <h2 className="title is-2 has-text-centered">Users</h2>
+    <h2 style={{ color: 'white' }} className="title is-2 has-text-centered">Users</h2>
 
     <div className="users-page">
       <div className="filter">
       </div>
       <div className="search-results">
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline is-mobile search-results">
           {userList.map((user, index) => {
-            return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+            return <div className="column is-2-desktop is-6-tablet is-12-mobile indiv-result" key={index}>
               <Link to={`/users/${user._id}`}>
                 <div className="card">
                   <div className="card-content">
@@ -159,7 +156,7 @@ const Admin = () => {
                   </div>
                 </div>
               </Link>
-              <button className='button' onClick={() => removeUser(user._id)}>Remove</button>
+              {!isCurrentUser(user._id) && <button className='button' style={{ margin: '10px' }} onClick={() => removeUser(user._id)}>Remove</button>}
             </div>
           })}
         </div>

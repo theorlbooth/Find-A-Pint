@@ -87,6 +87,40 @@
 }
 
 
+// ! Admin Page --
+
+.users-page {
+  display: flex;
+  justify-content: center;
+
+  .search-results {
+    display: flex;
+    justify-content: center;
+
+    .indiv-result {
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+.pub-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+}
+
+
+.flagged-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+}
+
 // ! Flagged Page --
 
 .admin-page {
@@ -96,8 +130,14 @@
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  padding-top: 30px;
+  padding-top: 6%;
   
+}
+
+.flagged-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 // ! Create Pub Page --
@@ -159,7 +199,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   color: white;
   font-weight: bold;
   background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1436076863939-06870fe779c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
@@ -170,14 +210,14 @@
 
 
   .comments-section {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: rgba(0, 0, 0, 0.2);
     border: solid white 5px;
     border-radius: 10px;
-    max-width: 100%;
+    max-width: 90%;
     min-width: 30%;
 
     .media {
