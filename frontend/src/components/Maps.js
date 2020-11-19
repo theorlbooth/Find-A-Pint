@@ -26,7 +26,7 @@ const DisplayMap = (props) => {
 
   const [rangeval, setRangeval] = useState(null)
 
-  const [showRadius, shouldShowRadius] = useState(true)
+  const [showRadius, shouldShowRadius] = useState(false)
 
   const [circleState, updateCircle] = useState(true)
 
@@ -200,6 +200,7 @@ const DisplayMap = (props) => {
 
         onChange={(event) => {
           setRangeval(event.target.value)
+          shouldShowRadius(true)
           radius = rangeval
           updateCircle(true)
         }} />
@@ -323,10 +324,9 @@ const DisplayMap = (props) => {
             closeOnClick={false} >
             <div>
               <Link to={`${selectedPub._id}`}>
-                <h2>{selectedPub.name}</h2>
+                <h2 style={{fontWeight: "900", textDecoration: "underline"}}>{selectedPub.name}</h2>
                 <p>{selectedPub.address.address1}</p>
-                <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km
-                  {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
+                <p>{measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[0]}km,  {measure(proxCoords[1], proxCoords[0], selectedPub.coordinates.latitude, selectedPub.coordinates.longitude).toString().split('.')[1].substring(0, 3)}m</p>
 
               </Link>
             </div>

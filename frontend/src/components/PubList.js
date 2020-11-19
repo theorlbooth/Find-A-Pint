@@ -21,6 +21,7 @@ const PubList = () => {
   const [radius, setRadius] = useState(10)
   const [resetFilter, shouldReset] = useState(true)
   const distArray = []
+  const [PubListCopy, CopyPubList] = useState([])
 
 
 
@@ -67,17 +68,21 @@ const PubList = () => {
   }
 
   function filterPubByDistance(publist) {
+    resetSearch()
 
-    updatePubList(publist.filter((pub) => {
-      console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
-      console.log("DISTANCE FROM ZIP: ",measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
-      console.log("Zipcode: ",zipCode)
-      console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
-      if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
-        return true
+    return setTimeout(() => {
+      updatePubList(publist.filter((pub) => {
+        console.log("WHAT IS BEING MEASURED: ", searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude)
+        console.log("DISTANCE FROM ZIP: ", measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude))
+        console.log("Zipcode: ", zipCode)
+        console.log("THE REQUEST SENT: ", `https://api.opencagedata.com/geocode/v1/json?key=${process.env.geo_key}&q=${toURI}&pretty=1`)
+        if (measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) < radius) {
+          return true
+        }
       }
-    }
-    ))
+      ))
+    }, 10);
+
   }
   // console.log(searchResult[0], searchResult[1] ,pub.coordinates.latitude,pub.coordinates.longitude )
   // return 
@@ -173,8 +178,8 @@ const PubList = () => {
     axios.get('/api/pub')
       .then(resp => {
         updatePubList(resp.data)
-        console.log(resp.data)
         DistanceCall(resp.data)
+        CopyPubList(resp.data)
       })
     shouldReset(false)
   }, [resetFilter])
@@ -185,15 +190,24 @@ const PubList = () => {
     </>
   }
 
+  function resetSearch() {
+    updatePubList(PubListCopy)
+
+  }
 
   return <>
     <div className="pubs-page">
       <div className="filter">
-        <div className="search" style={{display: 'flex', justifyContent: 'center'}}>
+        <div className="search" style={{ display: 'flex', justifyContent: 'center' }}>
           <form className="ListForm"
             onSubmit={(e) => {
               e.preventDefault()
-              console.log(zipCode)
+              // console.log(zipCode)
+              // resetSearch()
+
+              
+              filterPubByDistance(pubsList)
+              
             }}>
             <input className="input" placeholder="Zip" type="text" onChange={(e) => {
               setZipCode(e.target.value.replace(/\s/g, ''))
@@ -201,20 +215,21 @@ const PubList = () => {
             ></input>
             <label>{radius}km</label>
             <input type='range' className='custom-rangePub' min='1' max='20' defaultValue='10' step='0.05' onChange={(e) => {
-              setRadius(e.target.value) 
-            }}></input>
-            <div style={{display: "flex", flexDirection: "row", justifyContent: 'center'}}>
-            <button className="button" onClick={() => {
-              filterPubByDistance(pubsList)
-            }}>Search</button>
-            <button className="button" onClick={() => {
-              shouldReset(true)
 
-            }}>Clear Filter</button>
+              setRadius(e.target.value)
+            }}></input>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+              <button className="button" onClick={() => {
+                filterPubByDistance(pubsList)
+              }}>Search</button>
+              <button className="button" onClick={() => {
+                shouldReset(true)
+
+              }}>Clear Filter</button>
             </div>
           </form>
         </div>
-        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center',marginTop: '1%' }}>
+        <div className="toggles" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '1%', marginBottom: "2%" }}>
           <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', marginLeft: '7px' }}>
             <Toggle id="take-away-toggle" className="react-toggle" defaultChecked={false} onChange={(event) => updateTakeAwayTog(event.target.checked)} />
             <label htmlFor="take-away-toggle">Take Away</label>
@@ -252,7 +267,7 @@ const PubList = () => {
                     <div className="media-content">
                       <h2 className="title is-5">{pub.name}</h2>
                       <p className="subtitle is-6">{pub.address.address1}, {pub.address.zip_code}</p>
-                      <p className="subtitle is-6">Distance from: {distArray[pubsList.indexOf(pub)]} </p>
+                      <p className="subtitle is-6">Distance to: {Math.round((measure(searchResult.lat, searchResult.lng, pub.coordinates.latitude, pub.coordinates.longitude) + Number.EPSILON) * 100) / 100} Km  </p>
                     </div>
                   </div>
                 </div>

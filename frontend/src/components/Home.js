@@ -73,19 +73,17 @@ const Home = () => {
       <div className="tile is-vertical is-8">
         <div className="tile">
           <div className="tile is-parent is-vertical">
-            <article className="tile is-child notification is-dark">
-              <p className="title">Search...</p>
-              <p className="subtitle">Top tile</p>
+            <article className="tile is-child notification" style={{display: 'flex', justifyContent: "center", alignitems: "center", border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)"}}>
+<h2 style={{display: "flex", alignSelf: 'center', fontSize:'50px', fontWeight: '900', color: 'white'}}>PUB LIST</h2>
             </article>
-            <article className="tile is-child notification is-dark">
-              <p className="title">Hello gal</p>
-              <p className="subtitle">Bottom tile</p>
+            <article className="tile is-child notification is-dark" style={{display: 'flex', justifyContent: "center", alignitems: "center", border: '10px solid white', backgroundColor: "rgba(0,0,0,0.5)"}}>
+              <p style={{display: "flex", alignSelf: 'center', fontSize:'50px', fontWeight: '900', color: 'white'}}>Login</p>
+              {/* <p className="subtitle">Bottom tile</p> */}
             </article>
           </div>
           <div className="tile is-parent">
-            <article className="tile is-child notification is-dark">
-              <p className="title">Map</p>
-              <p className="subtitle">Static Map</p>
+            <article className="tile is-child notification" style={{ border: '10px solid white', backgroundColor: 'rgba(0,0,0,0.5)'}}>
+              <p style={{display: "flex", alignSelf: 'center', fontSize:'50px', fontWeight: '900', color: 'white'}}>Map</p>
               <ReactMapGL
                 ref={mapRef}
                 {...viewport}
