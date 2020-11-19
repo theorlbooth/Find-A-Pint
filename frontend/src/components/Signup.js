@@ -133,11 +133,14 @@ const Signup = (props) => {
   }
 
 
-  function increasePint() {
-    const newProgress = progress + 17
-    updateProgress(newProgress)
+  function increasePint(field) {
+    if (formData[field] !== '') {
+      const newProgress = progress + 17
+      updateProgress(newProgress)
+    } else {
+      return 
+    }
   }
-
 
 
   console.log(progress)
@@ -166,7 +169,7 @@ const Signup = (props) => {
                       className="input is-small"
                       type={field === 'password' || field === 'passwordConfirmation' ? 'password' : 'text'}
                       onChange={handleChange}
-                      onBlur={() => increasePint()}
+                      onBlur={() => increasePint(field)}
                       value={formData[field]}
                       name={field}
                     />
@@ -180,7 +183,7 @@ const Signup = (props) => {
               <div className='field'>
                 <label>
                   Are you a Landlord?
-              </label>
+                </label>
               </div>
               <div className='control'>
                 <div className='select'>
