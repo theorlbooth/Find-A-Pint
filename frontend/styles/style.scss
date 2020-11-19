@@ -209,7 +209,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
   color: white;
   font-weight: bold;
   background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1436076863939-06870fe779c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
@@ -739,7 +739,6 @@ top: 95%;
   }
 
 }
-
 
 .mapboxgl-ctrl-logo {
   display: none !important;

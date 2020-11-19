@@ -182,8 +182,8 @@ const Reply = (props) => {
             <div className="content">
               <div className="current-comment"></div>
               <p>{comment.text}</p>
-              <p className="together">{comment.user.username}</p>
-              <p className="together">({moment(comment.createdAt).fromNow()})</p>
+              <p style={{ textDecoration: 'underline' }} className="together">{comment.user.username}</p>
+              <p style={{ fontWeight: 'normal' }} className="together">({moment(comment.createdAt).fromNow()})</p>
             </div>
             <div className="button-flex-2">
               <Link to={`/pubs/${id}`}><button className="button is-black is-inverted is-outlined" style={{ border: '3px solid white' }}>Back</button></Link>
@@ -210,7 +210,7 @@ const Reply = (props) => {
                       <p className="username">
                         {reply.user.username}
                       </p>
-                      <p>
+                      <p style={{ fontWeight: 'normal' }} >
                         ({moment(reply.createdAt).fromNow()})
                       </p>
                     </div>
