@@ -6,7 +6,7 @@ import { mdiFlagVariant } from '@mdi/js'
 import { Link } from 'react-router-dom'
 
 import Loader from './Loader'
-import { getUserId, isCreator, isUser, isAdmin } from '../lib/auth'
+import { getUserId, isCreator, isUser, isAdmin, isLandlord } from '../lib/auth'
 
 
 
@@ -190,7 +190,7 @@ const Reply = (props) => {
             </div>
           </div>
           <div className="media-right">
-            {isAdmin(user) && <Icon onClick={() => handleCFlag(comment._id)} path={mdiFlagVariant}
+            {isLandlord(user) && <Icon onClick={() => handleCFlag(comment._id)} path={mdiFlagVariant}
               size={1}
               color={comment.flagged === true ? 'red' : 'grey'} />}
             {!comment.user ? false : isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}></button>}
@@ -218,7 +218,7 @@ const Reply = (props) => {
                   </div>
                 </div>
                 <div className="media-right">
-                  {isUser(pub.user, user) && <Icon onClick={() => handleFlag(reply._id)} path={mdiFlagVariant}
+                  {isLandlord(user) && <Icon onClick={() => handleFlag(reply._id)} path={mdiFlagVariant}
                     size={1}
                     color={reply.flagged === true ? 'red' : 'grey'} />}
                   {!comment.user ? false : isCreator(reply.user._id, user) && <button className="delete" onClick={() => handleReplyDelete(reply._id)}></button>}
