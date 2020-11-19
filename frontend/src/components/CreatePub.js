@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Modal from 'react-modal'
 
 // https://api.opencagedata.com/geocode/v1/json?key=9c8531b6642b43319982489fb18739ab&q=37natalroad&pretty=1
 
@@ -52,10 +54,37 @@ export default function CreatePub(props) {
         })
           .then(resp => {
             console.log(resp.data)
-            props.history.push(`/pubs/${resp.data._id}`)
+            openAppModal()
           })
 
       })
+  }
+
+  // ! Modal ------------
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      ['text-align']: 'center',
+      ['font-size']: '22px'
+    },
+    overlay: {
+      zIndex: 1000,
+      background: 'rgba(0, 0, 0, 0.5)'
+    }
+  }
+
+  Modal.setAppElement('#root')
+
+  const [appModalIsOpen, setAppIsOpen] = useState(false)
+
+
+  function openAppModal() {
+    setAppIsOpen(true)
   }
 
   function picInput() {
@@ -64,10 +93,19 @@ export default function CreatePub(props) {
   }
 
   return (<div className="create-page">
+
+    <Modal isOpen={appModalIsOpen} style={customStyles} contentLabel="Ver Modal">
+      <p>New pub pending approval<br/>We will get back to you as soon as possible</p>
+      <div className="modal-buttons">
+        <Link to={'/'}><button className="button is-black" style={{ border: '3px solid white', margin: '20px', minWidth: '100px' }}>ok</button></Link>
+      </div>
+    </Modal>
+
+
     <h1>Enter Pub Details</h1>
     {/* BulmaStart */}
     <form onSubmit={handleSubmit(onSubmit)} style={{ marginLeft: '30%', marginRight: '30%' }}>
-      
+
       <div className="field">
         <label className="label">Alias:</label>
         <div className="control">
@@ -180,7 +218,7 @@ export default function CreatePub(props) {
               value: true,
               message: 'Please enter a description'
             }
-          })} style={{ height: '80px' }}/>
+          })} style={{ height: '80px' }} />
           {errors.description && (
             <div className="error" style={{ color: 'red' }}>{errors.description.message}</div>
           )}

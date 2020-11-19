@@ -116,10 +116,13 @@ const Signup = (props) => {
       right: 'auto',
       bottom: 'auto',
       marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      ['text-align']: 'center',
+      ['font-size']: '22px'
     },
     overlay: {
-      zIndex: 1000
+      zIndex: 1000,
+      background: 'rgba(0, 0, 0, 0.5)'
     }
   }
 
@@ -150,7 +153,7 @@ const Signup = (props) => {
     <Modal isOpen={verModalIsOpen} style={customStyles} contentLabel="Ver Modal">
       <p>Email verification: please check your email to confirm </p>
       <div className="modal-buttons">
-        <Link to={'/'}><button>ok</button></Link>
+        <Link to={'/'}><button className="button is-black" style={{ border: '3px solid white', margin: '20px', minWidth: '100px' }}>ok</button></Link>
       </div>
     </Modal>
 

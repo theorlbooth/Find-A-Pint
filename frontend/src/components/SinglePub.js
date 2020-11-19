@@ -280,11 +280,11 @@ const singlePub = (props) => {
         </div>
         <div className="address-info-times">
           <div className="address">
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.address1}</h3>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.city}</h3>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.address.zip_code}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.address1}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.city}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.address.zip_code}</h3>
             <br></br>
-            <h3 style={{ ['font-weight']: 'bold' }}>{singlePub.phoneNumber}</h3>
+            <h3 style={{ fontWeight: 'bold' }}>{singlePub.phoneNumber}</h3>
           </div>
 
           <ul className="info">
@@ -393,6 +393,7 @@ const singlePub = (props) => {
         </div>
         <div className="comments-section">
           <article className="media">
+            {(!token && singlePub.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">* No Comments *</div>}
             {token && <div className="media-content">
               <div className="field">
                 <p className="control">
@@ -412,7 +413,7 @@ const singlePub = (props) => {
                 <div className="content">
                   <div className="user-time">
                     <p className="username">
-                      {comment.user.username}
+                      {!comment.user ? 'unknown' : comment.user.username}
                     </p>
                     <p style={{ fontWeight: 'normal' }}>
                       ({moment(comment.createdAt).fromNow()})
@@ -431,7 +432,7 @@ const singlePub = (props) => {
                   size={1}
                   color={comment.flagged === true ? 'red' : 'grey'}
                 />}
-                {isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
+                {!comment.user ? false : isCreator(comment.user._id, user) && <button className="delete" onClick={() => handleCommentDelete(comment._id)}>
                 </button>}
               </div>
             </article>

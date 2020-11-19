@@ -93,6 +93,7 @@ mongoose.connect(
                     heating: Boolean(Math.round(Math.random())),
                     liveMusic: Boolean(Math.round(Math.random())),
                     outdoorSeating: Boolean(Math.round(Math.random())),
+                    description: 'This is a lovely pub with delicious beer. Come and see for yourself!',
                     photos: data.photos,
                     price: data.price,
                     reviewed: true,

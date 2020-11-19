@@ -190,7 +190,7 @@ const User = (props) => {
             <h1 className='title has-text-white'>{user.username}</h1>
             <h2 className='subtitle has-text-white'>{user.email}</h2>
             {thisUser ? <button className="button is-white is-outlined" onClick={editTrue}>Edit</button> : null}
-            {!thisUser && !isFriends && !requested ? <button className="button has-text-white is-inverted" onClick={addFriend}>Add Friend</button> : null}
+            {!thisUser && !isFriends && !requested ? <button className="button is-black is-inverted is-outlined" onClick={addFriend}>Add Friend</button> : null}
             {requested ? <button className="button is-primary" disabled>Requested</button> : null}
           </div>
         </div>
