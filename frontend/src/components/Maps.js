@@ -64,7 +64,7 @@ const DisplayMap = (props) => {
     latitude: 51.5721642,
     longitude: -0.0083677,
     width: '100vw',
-    height: '93vh',
+    height: '94vh',
     zoom: 10
   })
 
