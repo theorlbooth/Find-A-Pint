@@ -31,7 +31,7 @@ const singlePub = (props) => {
     longitude: latLong[1],
     width: '500px',
     height: '500px',
-    zoom: 10
+    zoom: 12
   })
   const mapRef = useRef()
 
@@ -41,7 +41,7 @@ const singlePub = (props) => {
       longitude: latLong[1],
       width: '500px',
       height: '500px',
-      zoom: 10
+      zoom: 12
     })
 
   }, [latLong])
@@ -382,7 +382,7 @@ const singlePub = (props) => {
               longitude={latLong[1]}
 
             >
-              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: '25px' }} className='BeerIcon' />
+              <img src='https://img.icons8.com/cotton/2x/beer-glass.png' style={{ height: '45px' }} className='BeerIcon' />
             </Marker>
           </ReactMapGL>
         </div>
