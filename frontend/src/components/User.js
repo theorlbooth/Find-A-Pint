@@ -94,10 +94,6 @@ const User = (props) => {
 
 
 
-
-
-  console.log(distFriends)
-
   //! Check for Image
 
   function checkForImage(pub) {
@@ -186,7 +182,7 @@ const User = (props) => {
       <section className='hero mt-5 mb-2' style={{ border: '5px solid hsl(0, 0%, 96%)', borderRadius: '5px' }}>
         <div className='hero-body'>
           <div className='container'>
-            <h2 className="subtitle is-3 has-text-white has-text-centered">Your Account</h2>
+            {thisUser ? <h2 className="subtitle is-3 has-text-white has-text-centered">Your Account</h2> : <h2 className="subtitle is-3 has-text-white has-text-centered">{user.username}&apos;s Account</h2>}
             <h1 className='title has-text-white'>{user.username}</h1>
             <h2 className='subtitle has-text-white'>{user.email}</h2>
             {thisUser ? <button className="button is-white is-outlined" onClick={editTrue}>Edit</button> : null}
