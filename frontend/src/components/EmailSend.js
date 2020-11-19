@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import Loader from 'react-spinners/CircleLoader'
+import Modal from 'react-modal'
 
 const EmailSend = (props) => {
   const [singlePub, updateSinglePub] = useState([])
@@ -39,6 +39,7 @@ const EmailSend = (props) => {
   }
 
   function sendEmail(event) {
+
     event.preventDefault()
     const token = localStorage.getItem('token')
     subscribers.map((user) => {
@@ -59,8 +60,30 @@ const EmailSend = (props) => {
         })
 
     })
+    updateMessage('')
+    setVerIsOpen(true)
     return
   }
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    },
+    overlay: {
+      zIndex: 1000
+    }
+  }
+
+  Modal.setAppElement('#root')
+
+  const [verModalIsOpen, setVerIsOpen] = useState(false)
+
+
 
   if (!subscribers[0]) {
     return <div className='container has-text-centered'>
@@ -71,6 +94,12 @@ const EmailSend = (props) => {
   return <div className='container has-text-centered mt-5 mb-5'>
     <h1 className='title has-text-white'>New note from - {singlePub.name} </h1>
 
+    <Modal isOpen={verModalIsOpen} style={customStyles} contentLabel="Ver Modal">
+      <p>Note sent to all subscribers!</p>
+      <div className="modal-buttons">
+        <Link to={`/pubs/${singlePub._id}`}><button>ok</button></Link>
+      </div>
+    </Modal>
 
     <form onSubmit={sendEmail}>
       <div className='field'>

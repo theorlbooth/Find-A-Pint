@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { getUserId, isAdmin, isLandlord } from '../lib/auth'
+import { getUserId, isAdmin, isLandlord, isVerified } from '../lib/auth'
 import axios from 'axios'
 
 const Navbar = (props) => {
@@ -30,7 +30,7 @@ const Navbar = (props) => {
               <Link className="button is-black" to="/" style={{border: '2px solid white'}}>Home</Link>
               <Link className="button is-ghost" to="/pubs">Search</Link>
               <Link className="button is-ghost" to='/pubs/maps'>Map</Link>
-              {(token && isLandlord(user)) && <Link className="button is-ghost" to='/pubs/new-pub'>Create Pub</Link>}
+              {(token && isLandlord(user) && isVerified(user)) && <Link className="button is-ghost" to='/pubs/new-pub'>Create Pub</Link>}
               {token && <Link className="button is-ghost" to={`/users/${getUserId()}`}>Account</Link>}
               {!token && <Link className="button is-ghost" to="/login">Login</Link>}
               {isAdmin(user) && <Link className="button is-ghost" to={'/admin'}>Admin</Link>}

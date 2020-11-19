@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { getUserId } from '../lib/auth'
+import { getUserId, isVerified } from '../lib/auth'
 import Loader from './Loader'
 
 
@@ -190,7 +190,7 @@ const User = (props) => {
             <h1 className='title has-text-white'>{user.username}</h1>
             <h2 className='subtitle has-text-white'>{user.email}</h2>
             {thisUser ? <button className="button is-white is-outlined" onClick={editTrue}>Edit</button> : null}
-            {!thisUser && !isFriends && !requested ? <button className="button has-text-white is-inverted" onClick={addFriend}>Add Friend</button> : null}
+            {!thisUser && !isFriends && !requested && isVerified(user) ? <button className="button is-white is-outlined" onClick={addFriend}>Add Friend</button> : null}
             {requested ? <button className="button is-primary" disabled>Requested</button> : null}
           </div>
         </div>
@@ -257,7 +257,7 @@ const User = (props) => {
         </div>
 
 
-        <section className='mb-5'>
+        {user.isLandlord ? <section className='mb-5'>
           <div className='container'>
             <h2 className="subtitle is-3 has-text-white has-text-centered">Owned Pubs</h2>
             <div className="pubs-page">
@@ -284,7 +284,7 @@ const User = (props) => {
               </div>
             </div>
           </div>
-        </section>
+        </section> : null}
 
 
       </div>
