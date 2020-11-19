@@ -20,7 +20,7 @@ const EditPub = (props) => {
     address: '',
     city: '',
     postcode: '',
-    openinghours: '',
+    openingHours: '',
     description: '',
     phoneNumber: '',
     takeAway: false,
@@ -182,7 +182,7 @@ const EditPub = (props) => {
         <div className="field">
           <label className="label">Opening Hours:</label>
           <div className="control">
-            <input className="input is-small" type="text" placeholder="openinghours" name="openinghours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
+            <input className="input is-small" type="text" placeholder="opening hours" name="openingHours" ref={register({ required: true })} value={pub.openingHours} onChange={handleChange} />
           </div>
         </div>
 

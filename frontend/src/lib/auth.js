@@ -18,6 +18,15 @@ export function isCreator(compareId, user) {
   }
 }
 
+export function isCurrentUser(user) {
+  if (getUserId() === user) {
+    return true
+  } else {
+    return false 
+  }
+}
+
+
 export function isAdmin(user) {
 
   if (user === undefined) {
