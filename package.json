@@ -9,7 +9,7 @@
     "frontend": "webpack-dev-server --mode=development --env.NODE_ENV=local",
     "build": "webpack -p --env.NODE_ENV=production",
     "mongod": "mongod --dbpath ~/data/db",
-    "start": "node backend/seed.js"
+    "start": "node backend/server.js"
   },
   "author": "",
   "license": "ISC",
