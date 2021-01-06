@@ -28,18 +28,11 @@ With all the confusion surrounding the lockdown in England and what people were 
 
 ## Screenshots
 
-<img src="./images/P3_SS_1.png" alt="Screenshot 1" width="24.5%">
-<img src="./images/P3_SS_2.png" alt="Screenshot 2" width="24.5%">
-<img src="./images/P3_SS_3.png" alt="Screenshot 3" width="24.5%">
-<img src="./images/P3_SS_4.png" alt="Screenshot 4" width="24.5%">
-<img src="./images/P3_SS_5.png" alt="Screenshot 5" width="24.5%">
-<img src="./images/P3_SS_6.png" alt="Screenshot 6" width="24.5%">
-<img src="./images/P3_SS_7.png" alt="Screenshot 7" width="24.5%">
-<img src="./images/P3_SS_8.png" alt="Screenshot 8" width="24.5%">
-<img src="./images/P3_SS_9.png" alt="Screenshot 9" width="24.5%">
-<img src="./images/P3_SS_10.png" alt="Screenshot 10" width="24.5%">
-<img src="./images/P3_SS_11.png" alt="Screenshot 11" width="24.5%">
-<img src="./images/P3_SS_12.png" alt="Screenshot 12" width="24.5%">
+<img src="./images/P3_SS_1.png" alt="Screenshot 1" width="24.5%"> <img src="./images/P3_SS_2.png" alt="Screenshot 2" width="24.5%"> <img src="./images/P3_SS_3.png" alt="Screenshot 3" width="24.5%"> <img src="./images/P3_SS_4.png" alt="Screenshot 4" width="24.5%">
+
+<img src="./images/P3_SS_5.png" alt="Screenshot 5" width="24.5%"> <img src="./images/P3_SS_6.png" alt="Screenshot 6" width="24.5%"> <img src="./images/P3_SS_7.png" alt="Screenshot 7" width="24.5%"> <img src="./images/P3_SS_8.png" alt="Screenshot 8" width="24.5%">
+
+<img src="./images/P3_SS_9.png" alt="Screenshot 9" width="24.5%"> <img src="./images/P3_SS_10.png" alt="Screenshot 10" width="24.5%"> <img src="./images/P3_SS_11.png" alt="Screenshot 11" width="24.5%"> <img src="./images/P3_SS_12.png" alt="Screenshot 12" width="24.5%">
 
 
 ## Challenges/Victories
