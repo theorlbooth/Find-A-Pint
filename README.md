@@ -45,7 +45,7 @@ With all the confusion surrounding the lockdown in England and what people were 
 ![screenshot](./images/SS_15.png)
 
 
-### Challenges/Victories
+## Challenges/Victories
 
 ### The Map
 
@@ -227,8 +227,9 @@ A feature we wanted to include with the flags was that landlords could also flag
   }
 ```
 
-Friends System 
-Challenges: 
+### Friends System 
+
+#### Challenges: 
 When we started creating the system for adding friends on the website we expected it to be a fairly straightforward feature. 
 
 The feature works by pushing in the potential friend’s ID into the users friend field and vice versa. However pushing this data into the usermodel caused an issue where the password would re-encrypt, meaning after a single friend request no users could log back into the site. 
@@ -249,7 +250,7 @@ schema
  })
 ```
 
-Victories: 
+#### Victories: 
 The friend system once the challenges had been solved was a victory in itself. It allowed us to pull relevant data from two users who were connected. To make the most of this we created a function which took that data and mapped how far away from each other they were. 
 
 To get this to work we had to write a fairly lengthy solution to resolve all the promises the response from the API would give us. 
@@ -314,8 +315,8 @@ By resolving the promises as a loop through an array this allowed us to access t
 
 
 
-##Email Confirmation 
-###Challenges: 
+### Email Confirmation 
+#### Challenges: 
 
 We wanted to build in an email confirmation system as we have features on the site that requires the users email address, if they had entered an incorrect email it would mean that they wouldn’t receive updates and notices. 
 
@@ -323,7 +324,7 @@ The main challenge faced with this feature was one to do with git. On testing we
 
 To rectify this change we had to dive deep into different git commands, learning how to rebase the files and remove any trace of the key. While this challenge could have been easily averted it was a great learning experience to understand how to clear any trace of a file and restructure the commits of 2 other people. 
 
-###Victories: 
+#### Victories: 
 
 We were effectively able to implement the functionality of the email software on both the frontend and the backend. 
 
@@ -431,14 +432,27 @@ Then the frontend approach looks like this.
 
 This function then takes the current pub and the entered information and passes it to the backend function through an axios post request. 
 
+## Future Features
+
+* ***Chat***
+For a future feature we would like to include a chat functionality for friends on the site. Allowing users to send different pubs that they would like to visit/meet at. 
+
+To do this we would use websockets to create a real time chat between two users. We can create a friendship id for each unique pair and then create the chat rooms based on that ID. 
+
+* ***Directions***
+A smaller feature we would look to add is directions. As we already have the users location and the location of the targeted pub it would be fairly easy to implement. 
+
+The challenge of this feature comes from choosing which platform to send directions on. There are quite a few options including: Citymapper, Google maps and mapbox. 
+
+
+## Known Bugs
+* Geolocation icon on the map is currently inactive
+* On account creation, if the wrong email is given, you cannot currently get a new confirmation email
+* Starting pubs were seeded from a Yelp API, and have not been updated since November 2020
 
 ## Pictures
 
-* Homepage background image by [Vishnu R Nair on Unsplash](https://unsplash.com/@vishnurnair)
-
-
-https://unsplash.com/photos/1MqDCpA-2hU
-
-https://unsplash.com/photos/rrvAuudnAfg
-
-https://unsplash.com/photos/UErWoQEoMrc
+* Background image by [Pradnyal Gandhi on Unsplash](https://unsplash.com/@pradnyal)
+* Background image by [Patrick Fore on Unsplash](https://unsplash.com/@patrickian4)
+* Background image by [Will Stewart on Unsplash](https://unsplash.com/@wilstewart3)
+* Background image by [Zachary Kadolph on Unsplash](https://unsplash.com/@zacharykadolph)
