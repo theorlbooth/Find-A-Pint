@@ -20,11 +20,15 @@ With all the confusion surrounding the lockdown in England and what people were 
 ## Overview 
 
 ### Wireframe 
+We started out by creating a googleDoc with the things we wanted to include and to bounce ideas off each other. Once we had the outline of what we wanted we put some rough wireframes of what wach page would look like together and then started splitting up the work.
 
 <img src="./images/P3_WF_1.png" alt="Wireframe 1" width="24.5%"> <img src="./images/P3_WF_2.png" alt="Wireframe 2" width="24.5%"> <img src="./images/P3_WF_3.png" alt="Wireframe 3" width="24.5%"> <img src="./images/P3_WF_4.png" alt="Wireframe 4" width="24.5%">
 
 <img src="./images/P3_WF_5.png" alt="Wireframe 5" width="33%"> <img src="./images/P3_WF_6.png" alt="Wireframe 6" width="33%"> <img src="./images/P3_WF_7.png" alt="Wireframe 7" width="33%">
 <img src="./images/P3_WF_8.png" alt="Wireframe 8" width="33%"> <img src="./images/P3_WF_9.png" alt="Wireframe 9" width="33%"> <img src="./images/P3_WF_10.png" alt="Wireframe 10" width="33%">
+
+## Process 
+We build the backend together while live-share group coding in order to have all our ideas aligned and have a solid base with which to work with. We then made our way through the features we wanted to include seperately and would join up regularly to piece them together and make sure eveything was going smoothly.
 
 ## Screenshots
 
@@ -446,3 +450,4 @@ The challenge of this feature comes from choosing which platform to send directi
 * Background image by [Patrick Fore on Unsplash](https://unsplash.com/@patrickian4)
 * Background image by [Will Stewart on Unsplash](https://unsplash.com/@wilstewart3)
 * Background image by [Zachary Kadolph on Unsplash](https://unsplash.com/@zacharykadolph)
+* Background image by [...](https://images.unsplash.com/photo-1560290881-c6839ff0717e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80)
