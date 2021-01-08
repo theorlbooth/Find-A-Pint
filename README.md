@@ -443,7 +443,7 @@ The challenge of this feature comes from choosing which platform to send directi
 ## Known Bugs
 * Geolocation icon on the map is currently inactive
 * On account creation, if the wrong email is given, you cannot currently get a new confirmation email
-* Starting pubs were seeded from a Yelp API, and have not been updated since November 2020
+* Starting pubs were seeded from a [Yelp API](https://www.yelp.com/developers/documentation/v3/get_started), and have not been updated since November 2020
 
 ## Pictures
 
