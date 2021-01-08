@@ -17,8 +17,11 @@ With all the confusion surrounding the lockdown in England and what people were 
 * **Have a visually impressive design**
 * **Be deployed online** so it's publicly accessible.
 
+## Contributors
+* [Lee Burgess](https://github.com/Budge23)
+* [Adam Osgood](https://github.com/adwam12)
 
-## Overview 
+## Approach 
 
 ### Wireframe 
 We started out by creating a googleDoc with the things we wanted to include and to bounce ideas off each other. Once we had the outline of what we wanted we put some rough wireframes of what wach page would look like together and then started splitting up the work.
