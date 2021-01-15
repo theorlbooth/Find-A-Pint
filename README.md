@@ -3,7 +3,7 @@
 # Project #1: Find-A-Pint
 
 ## Overview 
-With all the confusion surrounding the lockdown in England and what people were or were not allowed to do. Our initial idea was to create a website focused on the Public House industry showing which places were open, which places had outdoor seating, where one could get take-away drinks from etc. This quickly developed into something that could be used both during this current confusion and post lockdown, so we tried to include as much information about the sites as possible. We also wanted to make it a more social website than just being able to look up places to drink. We not only wanted friends to be able to communicate and coordinate places to meet and have a drink but also for Pubs to be able to give out information/offers etc to their 'subscribers'. For this we implemented a friend requesting/adding system that works hand in hand with the map in order to give the best userbility on finding a place. And a subscribing/emailing system for landlords to be able to communicate with their customers and keep them up to date with the lastest news/offers.
+As a result of the confusion surrounding lockdown rules, our initial idea was to create a website focused on the Public House industry showing which places were open, which places had outdoor seating, where one could get take-away drinks from etc. This quickly developed into something that could be used both during this current confusion and post lockdown, so we tried to include as much information about the sites as possible. We also wanted to make it a more social website than just being able to look up places to drink. We not only wanted friends to be able to communicate and coordinate places to meet and have a drink but also for Pubs to be able to give out information/offers etc to their 'subscribers'. For this we implemented (a) a friend requesting/adding system that works hand in hand with the map in order to give the best userbility on finding a place, and (b) a subscribing/emailing system for landlords to be able to communicate with their customers and keep them up to date with the lastest news/offers.
 
 
 ## Brief
@@ -20,7 +20,7 @@ With all the confusion surrounding the lockdown in England and what people were 
 ## Overview 
 
 ### Wireframe 
-We started out by creating a googleDoc with the things we wanted to include and to bounce ideas off each other. Once we had the outline of what we wanted we put some rough wireframes of what wach page would look like together and then started splitting up the work.
+We started out by creating a googleDoc with the things we wanted to include and to bounce ideas off each other. Once we had the outline of what we wanted we put some rough wireframes of what each page would look like together and then started splitting up the work.
 
 <img src="./images/P3_WF_1.png" alt="Wireframe 1" width="24.5%"> <img src="./images/P3_WF_2.png" alt="Wireframe 2" width="24.5%"> <img src="./images/P3_WF_3.png" alt="Wireframe 3" width="24.5%"> <img src="./images/P3_WF_4.png" alt="Wireframe 4" width="24.5%">
 
@@ -28,7 +28,7 @@ We started out by creating a googleDoc with the things we wanted to include and 
 <img src="./images/P3_WF_8.png" alt="Wireframe 8" width="33%"> <img src="./images/P3_WF_9.png" alt="Wireframe 9" width="33%"> <img src="./images/P3_WF_10.png" alt="Wireframe 10" width="33%">
 
 ## Process 
-We build the backend together while live-share group coding in order to have all our ideas aligned and have a solid base with which to work with. We then made our way through the features we wanted to include seperately and would join up regularly to piece them together and make sure eveything was going smoothly.
+We built the backend together while live-share group coding in order to have all our ideas aligned and have a solid base with which to work with. We then made our way through the features we wanted to include seperately and would join up regularly to piece them together and make sure eveything was going smoothly.
 
 ## Screenshots
 
@@ -43,7 +43,7 @@ We build the backend together while live-share group coding in order to have all
 
 ### The Map
 
-Displaying an interactive map was simple using the mapbox library, but we wanted our map to be a little more complex to fit our user's needs. Our final vision for the map was a radius-based filtering system, one where you could select the location of a friend and have a venn diagram display all the pubs you share in a radius of x kilometers. Adding all the different map markers was as simple as fetching their location using our own API and a reverse geocoding library.
+Displaying an interactive map was simple using the mapbox library, but we wanted our map to be a little more complex to fit our users' needs. Our final vision for the map was a radius-based filtering system, one where you could select the location of a friend and have a venn diagram display all the pubs you share in a radius of x kilometers. Adding all the different map markers was as simple as fetching their location using our own API and a reverse geocoding library.
 ```
    {filteredPubList.map((pub, index) => {
       return <Marker latitude={pub.coordinates.latitude} longitude={pub.coordinates.longitude} key={index} offsetLeft={-25} offsetTop={-25}>
@@ -85,7 +85,7 @@ We now had an interactive map that could display all of our pubs, and their resp
 
 #### The Math
 
-The radius filter would be implemented by calculating the distance between the coordinates of the user, and the coordinates of the pub, if the distance is under x kilometers, display the pub marker. This was done by implementing a function that could calculate the distance between two coordinates, and running that function for each pub.
+The radius filter would be implemented by calculating the distance between the coordinates of the user and the coordinates of the pub; if the distance is under x kilometers, it displays the pub marker. This was done by implementing a function that could calculate the distance between two coordinates, and running that function for each pub.
 Measure Function:
 
 ```
@@ -113,7 +113,7 @@ Filtering our pubs using that function:
 
 #### Drawing on the map
 
-This proved to be the biggest challenge as mapbox would not let us draw custom shapes on the map besides the built in markers. After a lot of researching and alternative testing, I came across the library Uber uses to draw routes on the GPS for their drivers. I thought I could repurpose that feature to draw over buildings and create a custom shape by feeding the GPS library multiple different coordinates. This worked wonderfully and found a library that could calculate all the coordinates needed for a circle of x Kilometers. The circle would really be a collection of 150 straight lines, but the effect worked.
+This proved to be the biggest challenge as mapbox would not let us draw custom shapes on the map besides the built in markers. After a lot of researching and alternative testing, we came across the library Uber uses to draw routes on the GPS for their drivers. We thought we could repurpose that feature to draw over buildings and create a custom shape by feeding the GPS library multiple different coordinates. This worked wonderfully and found a library that could calculate all the coordinates needed for a circle of x Kilometers. The circle would really be a collection of 150 straight lines, but the effect worked.
 
 ```
 <Source id='CircleRadius1' type='geojson' data={circ1} />
@@ -137,7 +137,7 @@ Everything worked perfectly, and was responsive to any location, and distance fe
 
 
 ### Comments / Nested Comments & Flags
-We wanted to allow users to add comments on pubs and for pubs/other users to be able to reply to these comments. However endlessly nesting comments seemed like overkill given what we 'expected' the comments to be. In order to do this we passed a 'replySchema' through the 'commentSchema' that would allow for multiple replies on the same comment. And then passed the 'commentSchema' through the pub schema to associate them with a specific place. 
+We wanted to allow users to add comments on pubs and for pubs/other users to be able to reply to these comments. However endlessly nesting comments seemed like overkill given what we 'expected' the comments to be. In order to do this we passed a 'replySchema' through the 'commentSchema' that would allow for multiple replies on the same comment. We then passed the 'commentSchema' through the pub schema to associate them with a specific place. 
 
 ```
 const replySchema = new mongoose.Schema({
@@ -228,10 +228,9 @@ When we started creating the system for adding friends on the website we expecte
 
 The feature works by pushing in the potential friend’s ID into the users friend field and vice versa. However pushing this data into the usermodel caused an issue where the password would re-encrypt, meaning after a single friend request no users could log back into the site. 
 
-
 To solve this issue we had to isolate where the change was occurring which eventually led to us cross comparing the initial encryption compared to the encryption after the friend request was sent. 
 
-Once we had isolated where the problem was coming from it was an easy fix, we had to change the encryption to a on is modified as shown below: 
+Once we had isolated where the problem was coming from it was an easy fix, we had to change the encryption to an is modified as shown below: 
 
 
 ```
@@ -312,7 +311,7 @@ By resolving the promises as a loop through an array this allowed us to access t
 ### Email Confirmation 
 #### Challenges: 
 
-We wanted to build in an email confirmation system as we have features on the site that requires the users email address, if they had entered an incorrect email it would mean that they wouldn’t receive updates and notices. 
+We wanted to build in an email confirmation system as we have features on the site that requires the users email address; if they had entered an incorrect email it would mean that they wouldn’t receive updates and notices. 
 
 The main challenge faced with this feature was one to do with git. On testing we created a small function that allowed us to send test emails to an email address to ensure that the backend was working correctly. The fatal flaw in this test file was it contained the API key for the email software. Without scanning the files before a merge the key was pushed up to github. From here the bots on github flagged the key and suspended our services to the email provider. 
 
@@ -378,7 +377,7 @@ function confirmVer(req, res) {
 
 This both has a function which sends the confirmation email on account creation and also confirms their account and changes the user model on the second function. The second function is called by the user clicking the url in the confirmation email. 
 
-Another victory we had was creating a function that allowed for a message which contents could vary, we used this for landlords sending out notes to their subscribers. 
+Another victory we had was creating a function that allowed for a message which contents could vary; we used this for landlords sending out notes to their subscribers. 
 
 The backend function looked like this, as you can see it gets the message from the request body. 
 ```
@@ -431,7 +430,7 @@ This function then takes the current pub and the entered information and passes 
 * ***Chat***
 For a future feature we would like to include a chat functionality for friends on the site. Allowing users to send different pubs that they would like to visit/meet at. 
 
-To do this we would use websockets to create a real time chat between two users. We can create a friendship id for each unique pair and then create the chat rooms based on that ID. 
+To do this we would use websockets to create a real time chat between two users. We can create a friendship ID for each unique pair and then create the chat rooms based on that ID. 
 
 * ***Directions***
 A smaller feature we would look to add is directions. As we already have the users location and the location of the targeted pub it would be fairly easy to implement. 
