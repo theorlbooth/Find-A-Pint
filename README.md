@@ -1,10 +1,13 @@
 ## ![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) General Assembly, Software Engineering Immersive
 
-# Project #1: Find-A-Pint
+# Project #3: Find-A-Pint
 
 ## Overview 
 As a result of the confusion surrounding lockdown rules, our initial idea was to create a website focused on the Public House industry showing which places were open, which places had outdoor seating, where one could get take-away drinks from etc. This quickly developed into something that could be used both during this current confusion and post lockdown, so we tried to include as much information about the sites as possible. We also wanted to make it a more social website than just being able to look up places to drink. We not only wanted friends to be able to communicate and coordinate places to meet and have a drink but also for Pubs to be able to give out information/offers etc to their 'subscribers'. For this we implemented (a) a friend requesting/adding system that works hand in hand with the map in order to give the best userbility on finding a place, and (b) a subscribing/emailing system for landlords to be able to communicate with their customers and keep them up to date with the lastest news/offers.
 
+We also wanted to make it a more social website than just being able to look up places to drink. We not only wanted friends to be able to communicate and coordinate places to meet and have a drink but also for Pubs to be able to give out information/offers etc to their 'subscribers'. For this we implemented a friend requesting/adding system that works hand in hand with the map in order to give the best userbility on finding a place. And a subscribing/emailing system for landlords to be able to communicate with their customers and keep them up to date with the lastest news/offers.
+
+[You can find the project here.](https://project-3-theo.herokuapp.com/)
 
 ## Brief
 * Work in a team, using **git to code collaboratively**.
@@ -16,8 +19,11 @@ As a result of the confusion surrounding lockdown rules, our initial idea was to
 * **Have a visually impressive design**
 * **Be deployed online** so it's publicly accessible.
 
+## Contributors
+* [Lee Burgess](https://github.com/Budge23)
+* [Adam Osgood](https://github.com/adwam12)
 
-## Overview 
+## Approach 
 
 ### Wireframe 
 We started out by creating a googleDoc with the things we wanted to include and to bounce ideas off each other. Once we had the outline of what we wanted we put some rough wireframes of what each page would look like together and then started splitting up the work.
@@ -441,7 +447,7 @@ The challenge of this feature comes from choosing which platform to send directi
 ## Known Bugs
 * Geolocation icon on the map is currently inactive
 * On account creation, if the wrong email is given, you cannot currently get a new confirmation email
-* Starting pubs were seeded from a Yelp API, and have not been updated since November 2020
+* Starting pubs were seeded from a [Yelp API](https://www.yelp.com/developers/documentation/v3/get_started), and have not been updated since November 2020
 
 ## Pictures
 
